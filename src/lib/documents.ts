@@ -22,7 +22,7 @@ export const DocumentSchema = z.object({
 
 type DocumentDB = z.infer<typeof DocumentSchema>[];
 
-// A simple user "database"
+// A simple document "database"
 export const documents: DocumentDB = [
 	{
 		id: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
