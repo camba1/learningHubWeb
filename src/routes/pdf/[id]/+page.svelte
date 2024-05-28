@@ -5,7 +5,7 @@
 <div class="grid grid-cols-2 gap-4">
 	<iframe title="PDF Viewer" width=100% height="315"
 		srcdoc={`
-			<html>
+			<html lang="en">
 				<head>
 					<title>Embedded PDF</title>
 					<style>
