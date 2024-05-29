@@ -15,9 +15,9 @@ export const load = async ({ url, params }) => {
 	// READ user
 	const doc = documents.find((d) => d.id == params.id);
 
-	if (params.id && !doc) throw error(404, 'User not found.');
+	if (params.id && !doc) throw error(404, 'Document not found.');
 
-	// If user is null, default values for the schema will be returned.
+	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
 	return { form, documents };
 };
