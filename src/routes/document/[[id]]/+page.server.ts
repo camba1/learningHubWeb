@@ -5,7 +5,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { documents } from '$lib/documents';
 import { newId } from '$lib/idGenerator'
 
-// Make the id optional when we are creating a new record
+// Make the [id] optional when we are creating a new record
 const crudDocumentSchema = DocumentSchema.extend({
 	id: DocumentSchema.shape.id.optional()
 });
