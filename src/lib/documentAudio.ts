@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-
 export const DocumentAudioSchema = z.object({
 	id: z.string().uuid(),
 	documentsProcessedId: z.string().uuid(),
@@ -17,7 +16,7 @@ export const DocumentVoices: documentVoicesDB = [
 	{
 		id: '7a7f3dd5-9a61-41ce-853f-2b6345362341',
 		documentsProcessedId: '8a7f3dd5-9a61-41ce-853f-2b6345362341',
-		audioFilePath: '/data/file1.mpp3',
+		audioFilePath: 'output/MonsterDayOut_20.mp3',
 		documentPageNumber: 1,
 		voiceName: 'Jenny',
 		createdAt: new Date(),
@@ -26,7 +25,7 @@ export const DocumentVoices: documentVoicesDB = [
 	{
 		id: '7a7f3dd5-9a61-41ce-853f-2b6345362342',
 		documentsProcessedId: '8a7f3dd5-9a61-41ce-853f-2b6345362341',
-		audioFilePath: '/data/file2.mpp3',
+		audioFilePath: 'output/MonsterDayOut_20.wav',
 		documentPageNumber: 2,
 		voiceName: 'Jenny',
 		createdAt: new Date(),
@@ -35,7 +34,7 @@ export const DocumentVoices: documentVoicesDB = [
 	{
 		id: "7a7f3dd5-9a61-41ce-853f-2b6345362343",
 		documentsProcessedId: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
-		audioFilePath: '/data/file3.mpp3',
+		audioFilePath: 'output/MonsterDayOut_22.flac',
 		documentPageNumber: 1,
 		voiceName: 'Jenny',
 		createdAt: new Date(),
