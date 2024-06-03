@@ -5,6 +5,7 @@ import { DocumentsProcessedSchema } from '$lib/documentsProcessed';
 import { documentsProcessed } from '$lib/documentsProcessed';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import { DocumentVoices } from '$lib/documentAudio';
 
 
 
@@ -24,12 +25,19 @@ export async function load({ params }) {
 	const form = await superValidate(docDetails, zod(DocumentsProcessedSchema));
 	const filename = docDetails?.filename;
 	const base64EncodedPDF = filename ? await getPdf(filename) : undefined
+	const docVoices = docDetails ? getAudio(docDetails?.documentId) : undefined;
 	return {
 		form,
-		// docDetails,
 		pdfData: base64EncodedPDF,
+		docVoices,
 	};
 
+}
+
+function getAudio(id: string){
+	const docVoices = DocumentVoices.filter((d) => d.documentsProcessedId == id);
+
+	return docVoices
 }
 
 async function getPdf(filename: string) {
