@@ -11,8 +11,8 @@ const crudDocumentSchema = DocumentSchema.extend({
 });
 
 
-export const load = async ({ url, params }) => {
-	// READ user
+export const load = async ({ params }) => {
+	// READ document
 	const doc = documents.find((d) => d.id == params.id);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
@@ -36,12 +36,12 @@ export const actions = {
 			return message(form, 'Document created');
 
 		} else {
-			// UPDATE user
+			// UPDATE document
 			const index = documents.findIndex((d) => d.id == form.data.id);
 			if (index == -1) throw error(404, 'Document not found.');
 
 			if (formData.has('delete')) {
-				// DELETE user
+				// DELETE document
 				documents.splice(index, 1);
 				throw redirect(303, '/documents');
 			} else {
@@ -50,6 +50,5 @@ export const actions = {
 			}
 		}
 
-		// return { form };
 	}
 };
