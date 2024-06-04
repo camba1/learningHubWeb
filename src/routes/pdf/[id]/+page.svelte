@@ -4,6 +4,7 @@
 	import { superForm } from 'sveltekit-superforms';
 	// import  SuperDebug  from 'sveltekit-superforms';
 	import AudioPlayer from '$lib/audioPlayer/AudioPlayer.svelte';
+	import { CircleArrowLeft } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -98,6 +99,7 @@
 									on:click={(e) => !confirm('Are you sure?') && e.preventDefault()}
 									class="btn btn-neutral">Delete</button>
 							{/if}
+							<a href="/document/{$form.documentId}" role="button" class="btn btn-sm"><CircleArrowLeft class="w-4 h-4"/>Back</a>
 						</div>
 
 					</form>
