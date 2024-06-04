@@ -4,12 +4,13 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { documents } from '$lib/documents';
 import { newId } from '$lib/idGenerator'
+import { documentsProcessed, type DocumentsProcessedLookupdDB } from '$lib/documentsProcessed';
+
 
 // Make the [id] optional when we are creating a new record
 const crudDocumentSchema = DocumentSchema.extend({
 	id: DocumentSchema.shape.id.optional()
 });
-
 
 export const load = async ({ params }) => {
 	// READ document
@@ -19,8 +20,21 @@ export const load = async ({ params }) => {
 
 	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
-	return { form, documents };
+	const docProcessedLookups = getProcessedDocuments(params.id)
+
+	return { form, docProcessedLookups };
 };
+
+function getProcessedDocuments(documentId: string | undefined) {
+	const lookups: DocumentsProcessedLookupdDB = [];
+	if (documentId) {
+		const docsProcessed = documentsProcessed.filter((d) => d.documentId == documentId);
+		for (const docP of docsProcessed) {
+			lookups.push({ id: docP.id, language: docP.language });
+		}
+	}
+	return lookups
+}
 
 export const actions = {
 	default: async ({ request }) => {
@@ -30,10 +44,12 @@ export const actions = {
 
 		if (!form.data.id) {
 			// CREATE Document
-			const doc = { ...form.data, id: newId() };
+			const newDocId = newId()
+			const doc = { ...form.data, id: newDocId };
 			documents.push(doc);
 
-			return message(form, 'Document created');
+			// return message(form, 'Document created');
+			throw redirect(303, "/document/".concat(newDocId));
 
 		} else {
 			// UPDATE document
