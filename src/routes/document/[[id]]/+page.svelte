@@ -2,6 +2,7 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
+	import { Save, Trash2, CircleArrowLeft } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -98,18 +99,38 @@
 			{#if $errors.tags}<span class="invalid">{$errors.tags}</span>{/if}
 		</span>
 
-		<div>
-			<button name="submit" id="submit" class="btn">Submit</button> {#if $delayed}Working...{/if}
+		<div class="p-3">
+			<button name="submit" id="submit" class="btn btn-sm"> <Save class="w-4 h-4"/> Submit</button> {#if $delayed}Working...{/if}
 			{#if $form.id}
 				<button
 					name="delete" id="delete"
 					on:click={(e) => !confirm('Are you sure?') && e.preventDefault()}
-					class="btn btn-neutral">Delete</button>
+					class="btn  btn-sm"> <Trash2 class="w-4 h-4"/> Delete</button>
 			{/if}
+			<a href="/documents" role="button" class="btn btn-sm"><CircleArrowLeft class="w-4 h-4"/>Back</a>
 		</div>
 
 	</form>
 </div>
+
+{#if $form.id}
+	<div class="flex justify-center">
+		<div>
+			<label for="docVersions" class="label label-text font-semibold">Document versions: </label>
+		<div>
+			<table id="docVersions" class="table table-xs">
+				<tbody>
+					{#each data.docProcessedLookups as lookup}
+						<tr>
+							<td><a class="link" href="/pdf/{lookup.id}" >{lookup.language}</a></td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+{/if}
 <style>
     .invalid {
         color: red;
