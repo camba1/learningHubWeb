@@ -13,6 +13,12 @@ export const DocumentsProcessedSchema = z.object({
 	updatedAt: z.date().default(() => new Date()).optional(), //  Latest date the doc was processed
 });
 
+export const DocumentsProcessedLookupSchema = DocumentsProcessedSchema.pick({
+	id: true,
+	language: true
+})
+export type DocumentsProcessedLookupdDB = z.infer<typeof DocumentsProcessedLookupSchema>[];
+
 type DocumentsProcessedDB = z.infer<typeof DocumentsProcessedSchema>[];
 
 // A simple user "database"
