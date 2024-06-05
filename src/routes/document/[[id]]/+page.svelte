@@ -2,7 +2,11 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
-	import { Save, Trash2, CircleArrowLeft } from 'lucide-svelte';
+	import TextField from '$lib/form/TextField.svelte';
+	import SelectField from '$lib/form/SelectField.svelte';
+	import TextAreaField from '$lib/form/TextAreaField.svelte';
+	import FieldLabel from '$lib/form/FieldLabel.svelte';
+	import FormButtons from '$lib/form/FormButtons.svelte';
 
 	export let data: PageData;
 
@@ -11,6 +15,11 @@
 			resetForm: false
 		}
 	);
+	const bookTypes: string[] = ['book', 'article', 'other']
+	const ageGroups:string[] = ['toddler','youth','young adult']
+	const searchPageUrl: string = "/documents"
+	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "}
+
 </script>
 
 {#if $message}
@@ -27,89 +36,27 @@
 
 		<input type="hidden" id="id" name="id" bind:value={$form.id} />
 
-		<span>
-			<label for="title" class="label label-text font-semibold">Title: </label>
-			<input
-				name="title"
-				id="title"
-				aria-invalid={$errors.title ? 'true' : undefined}
-				bind:value={$form.title}
-				{...$constraints.title}
-				class="input input-bordered input-sm w-full max-w-xs"
-			/>
-			{#if $errors.title}<span class="invalid">{$errors.title}</span>{/if}
-		</span>
-
-		<span>
-			<label for="type" class="label label-text font-semibold">Type: </label>
-			<select
-				name="type"
-				id="type"
-				aria-invalid={$errors.type ? 'true' : undefined}
-				bind:value={$form.type}
-				{...$constraints.type}
-				class="select select-bordered w-full max-w-xs">
-				<option disabled selected>Types</option>
-				<option>book</option>
-				<option>article</option>
-				<option>other</option>
-			</select>
-			{#if $errors.type}<span class="invalid">{$errors.type}</span>{/if}
-		</span>
-
-		<span>
-			<label for="ageGroup" class="label label-text font-semibold">Age Group: </label>
-			<select
-				name="ageGroup"
-				id="ageGroup"
-				aria-invalid={$errors.ageGroup ? 'true' : undefined}
-				bind:value={$form.ageGroup}
-				{...$constraints.ageGroup}
-				class="select select-bordered w-full max-w-xs">
-				<option disabled selected>Age groups</option>
-				<option>toddler</option>
-				<option>youth</option>
-				<option>young adult</option>
-			</select>
-			{#if $errors.ageGroup}<span class="invalid">{$errors.ageGroup}</span>{/if}
-		</span>
-
-		<span>
-			<label for="summary" class="label label-text font-semibold">Summary: </label>
-			<textarea
-				name="summary"
-				id="summary"
-				aria-invalid={$errors.summary ? 'true' : undefined}
-				bind:value={$form.summary}
-				{...$constraints.summary}
-				class="textarea textarea-bordered"/>
-			{#if $errors.summary}<span class="invalid">{$errors.summary}</span>{/if}
-		</span>
-
-		<span>
-			<label for="tags" class="label label-text font-semibold">Tags: </label>
-			<input
-				name="tags"
-				id="tags"
-				aria-invalid={$errors.tags ? 'true' : undefined}
-				bind:value={$form.tags}
-				{...$constraints.tags}
-				class="input input-bordered input-sm w-full max-w-xs"
-			/>
-			{#if $errors.tags}<span class="invalid">{$errors.tags}</span>{/if}
-		</span>
-
-		<div class="p-3">
-			<button name="submit" id="submit" class="btn btn-sm"> <Save class="w-4 h-4"/> Submit</button> {#if $delayed}Working...{/if}
-			{#if $form.id}
-				<button
-					name="delete" id="delete"
-					on:click={(e) => !confirm('Are you sure?') && e.preventDefault()}
-					class="btn  btn-sm"> <Trash2 class="w-4 h-4"/> Delete</button>
-			{/if}
-			<a href="/documents" role="button" class="btn btn-sm"><CircleArrowLeft class="w-4 h-4"/>Back</a>
-		</div>
-
+		<TextField label="Title" id="title" bind:value={$form.title}
+							 errors={$errors.title} constraints={$constraints.title} />
+		<SelectField label="Type" id="type" bind:value={$form.type}
+								 errors={$errors.type} constraints={$constraints.type}
+								 optionValues={bookTypes} />
+		<SelectField label="Age Group:" id="ageGroup" bind:value={$form.ageGroup}
+								 errors={$errors.ageGroup} constraints={$constraints.ageGroup}
+								 optionValues={ageGroups} />
+		<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
+									 errors={$errors.summary} constraints={$constraints.summary} />
+		<FieldLabel id="tags" label="Tags"/>
+		{#if $form.tags}
+			<!--{$form.tags.length}-->
+			{#each $form.tags as _, i}
+				<TextField id="tags" bind:value={$form.tags[i]}
+								 errors={$errors.tags?.[i]} constraints={$constraints.tags} />
+			{/each}
+		{/if}
+		<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
+								 delayed={$delayed} objectId={$form.id} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
+								 backUrl={searchPageUrl}/>
 	</form>
 </div>
 
