@@ -15,10 +15,10 @@
 			resetForm: false
 		}
 	);
-	const bookTypes: string[] = ['book', 'article', 'other']
-	const ageGroups:string[] = ['toddler','youth','young adult']
-	const searchPageUrl: string = "/documents"
-	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "}
+	const bookTypes: string[] = ['book', 'article', 'other'];
+	const ageGroups:string[] = ['toddler','youth','young adult'];
+	const searchPageUrl: string = "/documents";
+	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
 
 </script>
 
