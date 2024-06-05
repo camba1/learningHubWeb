@@ -5,7 +5,8 @@
 	export let label: string | undefined = undefined;
 	export let errors: string[] | undefined = undefined;
 	export let constraints: InputConstraint | undefined = undefined;
-	export let id: string
+	export let id: string;
+	export let readOnly: boolean = false;
 </script>
 
 <span>
@@ -17,6 +18,7 @@
 		bind:value={value}
 		{...constraints}
 		class="input input-bordered input-sm w-full max-w-xs"
+		readonly={readOnly}
 	/>
 	{#if errors}<span class="invalid">{errors}</span>{/if}
 </span>
