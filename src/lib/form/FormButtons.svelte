@@ -1,40 +1,22 @@
 <script lang="ts">
+	/**
+	 * @param delayed Whether the form is in a delayed state.
+	 * @param objectId The ID of the object being edited.
+	 * @param submitLbl The label for the save button.
+	 * @param deleteLbl The label for the delete button.
+	 * @param confirmationDelMsg The confirmation message for the delete button.
+	 * @param backLbl The label for the back button/link.
+	 * @param backUrl The URL to navigate back to when the back button/link is clicked.
+	 */
+
 	import { CircleArrowLeft, Save, Trash2 } from 'lucide-svelte';
 
-	/**
-	 * A boolean indicating whether there is a delay in the operation (e.g., saving).
-	 * @default false
-	 */
 	export let delayed: boolean;
-
-	/**
-	 * The unique identifier of the object being manipulated. If provided, the delete button will be displayed.
-	 */
 	export let objectId: string | undefined;
-
-	/**
-	 * The label for the save button.
-	 */
 	export let submitLbl: string;
-
-	/**
-	 * The label for the delete button.
-	 */
 	export let deleteLbl: string;
-
-	/**
-	 * A confirmation message displayed when the user attempts to delete the object.
-	 */
 	export let confirmationDelMsg: string;
-
-	/**
-	 * The label for the back button/link.
-	 */
 	export let backLbl: string;
-
-	/**
-	 * The URL to navigate back to when the back button/link is clicked.
-	 */
 	export let backUrl: string;
 
 </script>
