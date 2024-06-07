@@ -27,22 +27,24 @@
 // +page.server.ts
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
-import { z } from 'zod';
+// import { z } from 'zod';
 // import type { Actions, PageServerLoad } from './$types';
 import { zod } from 'sveltekit-superforms/adapters';
+import {type MessageDB, MessageSchema} from '$lib/message';
 
 
+//
+// const schema = z.object({
+// 	messageText: z.string().trim().min(1),
+// 	role: z.enum(['user', 'assistant']),
+// });
+// export type myschema = z.infer<typeof schema>
 
-const schema = z.object({
-	messageText: z.string().trim().min(1),
-	role: z.enum(['user', 'assistant']),
-});
-export type myschema = z.infer<typeof schema>
-
-const messages: myschema[] = [];
+// const messages: myschema[] = [];
+const messages: MessageDB[] = [];
 
 export const load = async () => {
-	const form: myschema = {messageText: '', role: 'assistant'}
+	const form: MessageDB = {messageText: '', role: 'assistant', status: 'delivered', name: 'LearningHub AI', time: '12:45'}
 	return {
 		form,
 		messages
@@ -51,16 +53,16 @@ export const load = async () => {
 
 export const actions = {
 	default: async ({ request }) => {
-		console.log('HERHEHREHE')
+
 		const formData = await request.formData();
-		const form = await superValidate(formData, zod(schema));
-		console.log(form)
+		const form = await superValidate(formData, zod(MessageSchema));
+
 		if (!form.valid) return fail(400, { form });
-		console.log('ASDASDA')
-		messages.push({ 'messageText': form.data.messageText, 'role': 'user' });
+
+		messages.push({ 'messageText': form.data.messageText, 'role': 'user' , status: 'delivered', name: 'LearningHub AI', time: '12:45'});
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		messages.push({ 'messageText': 'This is a response', 'role': 'assistant' });
-		console.log(form.data)
+		messages.push({ 'messageText': 'This is a response', 'role': 'assistant' , status: 'delivered', name: 'LearningHub AI', time: '12:45'});
+
 		return {
 			form,
 			messages
