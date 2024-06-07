@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Author Schema
-const authorSchema = z.object({
+export const authorSchema = z.object({
 	id: z.string().uuid(), // UUID for unique author identification
 	name: z.string()
 		.min(1, "Author name cannot be empty")
