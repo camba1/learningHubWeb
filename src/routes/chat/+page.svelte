@@ -9,6 +9,7 @@
 	const userBubbleColor = "chat-bubble-info";
 	const botBubbleColor = "";
 
+
 	const { form, errors, constraints, enhance, delayed } = superForm(data.form, { resetForm: true,
 		onSubmit: () => {
 			data.messages = [
@@ -43,18 +44,16 @@
 
 	<TextAreaField  id="messageText" bind:value={tempMessage}
 											errors={$errors.messageText} constraints={$constraints.messageText}/>
-<!--	<button name="submit" id="submit" class="btn btn-xs w-full"> <Send class="w-4 h-4"/>Send</button>-->
-<!--	<button name="delete" id="delete" class="btn btn-xs w-full"> <Trash2 class="w-4 h-4"/>Clear</button>-->
 	<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 							 delayed={$delayed} objectId='chat' confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, 'chat', "?")}
 							 backUrl={searchPageUrl}/>
 </form>
 
-<style>
-    .messages-container {
-        max-height: 500px; /* Define a fixed height */
-        overflow-y: auto; /* Add vertical scroll if overflow */
-        border: 1px solid #ccc; /* Optional border styling */
-        padding: 10px; /* Optional padding */
-    }
-</style>
+<!--<style>-->
+<!--    .messages-container {-->
+<!--        max-height: 500px; /* Define a fixed height */-->
+<!--        overflow-y: auto; /* Add vertical scroll if overflow */-->
+<!--        border: 1px solid #ccc; /* Optional border styling */-->
+<!--        padding: 10px; /* Optional padding */-->
+<!--    }-->
+<!--</style>-->
