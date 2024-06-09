@@ -9,7 +9,7 @@
 	const userBubbleColor = "chat-bubble-info";
 	const botBubbleColor = "";
 
-	const { form, errors, constraints, enhance, delayed, message } = superForm(data.form, { resetForm: true,
+	const { form, errors, constraints, enhance, delayed } = superForm(data.form, { resetForm: true,
 		onSubmit: () => {
 			data.messages = [
 				...data.messages,
@@ -30,15 +30,16 @@
 
 </script>
 
+<div class="max-h-96 overflow-y-auto border border-grey-500/100 mx-5 p-2">
+	{#each data.messages as msg}
 
-{#each data.messages as msg}
-	{tempMessage}
-	<ChatBubble username={msg.name} message={msg.messageText} role={msg.role}
-						messageTime={msg.time} messageStatus={msg.status}
-						bubbleColor={msg.role === "user" ? userBubbleColor : botBubbleColor}/>
-{/each}
+		<ChatBubble username={msg.name} message={msg.messageText} role={msg.role}
+							messageTime={msg.time} messageStatus={msg.status}
+							bubbleColor={msg.role === "user" ? userBubbleColor : botBubbleColor}/>
+	{/each}
+</div>
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance class=" mx-5">
 
 	<TextAreaField  id="messageText" bind:value={tempMessage}
 											errors={$errors.messageText} constraints={$constraints.messageText}/>
@@ -48,3 +49,12 @@
 							 delayed={$delayed} objectId='chat' confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, 'chat', "?")}
 							 backUrl={searchPageUrl}/>
 </form>
+
+<style>
+    .messages-container {
+        max-height: 500px; /* Define a fixed height */
+        overflow-y: auto; /* Add vertical scroll if overflow */
+        border: 1px solid #ccc; /* Optional border styling */
+        padding: 10px; /* Optional padding */
+    }
+</style>
