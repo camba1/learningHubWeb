@@ -14,12 +14,13 @@
 	const userBubbleColor = "chat-bubble-info";
 	const botBubbleColor = "";
 	const searchPageUrl: string = "/";
-	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
+	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? "};
 
 
 
 	const { form, errors, constraints, enhance, delayed } = superForm(data.form, { resetForm: true,
 		onSubmit: () => {
+		// console.log(formData.submitter.id);
 			data.messages = [
 				...data.messages,
 				{messageText: tempMessage, role: RoleEnum.enum.user, time: getLocalTime(), status: StatusEnum.enum.sent, name: 'Me'},
@@ -64,6 +65,6 @@
 	<TextAreaField  id="messageText" bind:value={tempMessage}
 											errors={$errors.messageText} constraints={$constraints.messageText}/>
 	<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
-							 delayed={$delayed} objectId='chat' confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, 'chat', "?")}
+							 delayed={$delayed} objectId='chat' confirmationDelMsg={btnLabels.confirmationDelMsg}
 							 backUrl={searchPageUrl}/>
 </form>
