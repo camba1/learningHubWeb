@@ -5,6 +5,8 @@
 	import type { PageData } from './$types.js';
 	import FormButtons from '$lib/form/FormButtons.svelte';
 	import { afterUpdate } from 'svelte';
+	import { RoleEnum, StatusEnum, AssistName } from '$lib/message';
+	import { getLocalTime } from '$lib/utils/timeUtils';
 
 	export let data: PageData;
 
@@ -20,8 +22,8 @@
 		onSubmit: () => {
 			data.messages = [
 				...data.messages,
-				{messageText: tempMessage, role: 'user', time: '12:45', status: 'sent', name: 'me'},
-				{messageText: '...', role: 'assistant', time: '12:46', status: 'sent', name: 'AI'},
+				{messageText: tempMessage, role: RoleEnum.enum.user, time: getLocalTime(), status: StatusEnum.enum.sent, name: 'Me'},
+				{messageText: '...', role: RoleEnum.enum.assistant, time: getLocalTime(), status: StatusEnum.enum.sent, name: AssistName},
 			]
 			// Clear the input field on submit.
 			tempMessage = "";
