@@ -5,9 +5,9 @@
 	import "../app.css";
 </script>
 
-<div class="navbar bg-base-100">
+<div class="navbar bg-base-200 sticky top-0 z-10">
 	<div class="flex-1">
-		<a href="/" class="btn btn-ghost text-xl">LearningHub</a>
+		<a href="/" class="btn btn-ghost text-xl">Bolbeck Learning</a>
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1">
@@ -36,6 +36,7 @@
 					<ul class="p-2 bg-base-100 rounded-t-none">
 						<li><a href="/documents">Books</a></li>
 						<li><a href="/upload">Authors</a></li>
+						<li><a href="/about">About</a></li>
 					</ul>
 				</details>
 			</li>
