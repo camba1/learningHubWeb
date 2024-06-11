@@ -14,7 +14,7 @@
 	const userBubbleColor = "chat-bubble-info";
 	const botBubbleColor = "";
 	const searchPageUrl: string = "/";
-	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Bsack", "confirmationDelMsg": "Clear our chat history? "};
+	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? "};
 
 	const { form, errors, constraints, enhance, delayed } = superForm(data.form, { resetForm: true,
 		onSubmit: () => {
