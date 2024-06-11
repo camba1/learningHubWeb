@@ -2,15 +2,18 @@
 	import { SquarePlus } from 'lucide-svelte';
 	import { FilePlus } from 'lucide-svelte';
 	import LinkButton from '$lib/genericControls/LinkButton.svelte';
+	import { InternalURLs } from '$lib/utils/urls';
+
 	export let data;
+
 </script>
 
 <div class="prose prose-headings pb-3 px-3">
 	<h2>Documents</h2>
 </div>
 <div class="flex justify-end px-3">
-	<LinkButton icon={SquarePlus} label="New" href="/document" />
-	<LinkButton icon={FilePlus} label="New from file" href="/fileUpload" />
+	<LinkButton icon={SquarePlus} label="New" href={InternalURLs.document} />
+	<LinkButton icon={FilePlus} label="New from file" href={InternalURLs.fileUpload} />
 </div>
 <div class="overflow-x-auto p-3">
 	<table class="table table-xs table-pin-rows table-pin-cols">
@@ -24,7 +27,7 @@
 		<tbody>
 		{#each data.documents as doc}
 		<tr>
-			<th><a href="/document/{doc.id}">{doc.title}</a></th>
+			<th><a href="{InternalURLs.document}/{doc.id}">{doc.title}</a></th>
 			<td>{doc.type}</td>
 			<td>{doc.ageGroup}</td>
 		</tr>

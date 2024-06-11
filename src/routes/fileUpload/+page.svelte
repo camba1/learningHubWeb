@@ -5,13 +5,14 @@
 	import FormButtons from '$lib/form/FormButtons.svelte';
 	import { page } from '$app/stores';
 	import FileUpload from '$lib/form/FileUpload.svelte';
+	import { InternalURLs } from '$lib/utils/urls';
 
 	export let data;
 
 	const { form, enhance, errors, delayed, message } = superForm(data.form, {
 		validators: zodClient(FileSchema)
 	})
-	const searchPageUrl: string = "/documents";
+	const searchPageUrl: string = InternalURLs.documents;
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Not Used"};
 
 </script>

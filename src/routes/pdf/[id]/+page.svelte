@@ -8,6 +8,7 @@
 	import TextField from '$lib/form/TextField.svelte';
 	import TextAreaField from '$lib/form/TextAreaField.svelte';
 	import FormButtons from '$lib/form/FormButtons.svelte';
+	import { InternalURLs } from '$lib/utils/urls';
 
 	export let data: PageData;
 
@@ -17,7 +18,7 @@
 		}
 	);
 
-	const searchPageUrl: string = ''.concat("/document/", $form.documentId);
+	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.documentId);
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document version "};
 
 </script>
@@ -60,7 +61,7 @@
 						{#if data.docVoices}
 							{#each data.docVoices  as audio}
 								<ul class="my-2">
-									<AudioPlayer src={"/audio/".concat(audio.id.toString()) } title={"Page: " + audio.documentPageNumber} artist={"Voice: " + audio.voiceName} />
+									<AudioPlayer src={InternalURLs.audio.concat("/",audio.id.toString()) } title={"Page: " + audio.documentPageNumber} artist={"Voice: " + audio.voiceName} />
 								</ul>
 							{/each}
 						{/if}
