@@ -19,7 +19,7 @@ export type MessageDB = z.infer<typeof MessageSchema>
 
 export const messages: MessageDB[] = [
 	{
-		name: "LearningHub AI",
+		name: "Trini AI",
 		messageText: "You were the Chosen One!",
 		role: "assistant",
 		time: "12:45",
