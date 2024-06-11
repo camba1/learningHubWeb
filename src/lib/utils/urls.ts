@@ -1,11 +1,11 @@
 export const InternalURLs = {
-	documents: "/documents",
-	document: "/document",
-	fileUpload: "/fileUpload",
+	documents: "/private/documents",
+	document: "/private/document",
+	fileUpload: "/private/fileUpload",
 	about: "/about",
 	signIn: "/sign-in",
 	signUp: "/sign-up",
 	home: "/",
-	pdf: "/pdf",
-	audio: "/audio"
+	pdf: "/private/pdf",
+	audio: "/private/audio"
 }

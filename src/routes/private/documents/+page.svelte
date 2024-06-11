@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { SquarePlus } from 'lucide-svelte';
 	import { FilePlus } from 'lucide-svelte';
 	import LinkButton from '$lib/genericControls/LinkButton.svelte';

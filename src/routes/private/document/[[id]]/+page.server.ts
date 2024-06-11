@@ -5,6 +5,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { documents } from '$lib/documents';
 import { newId } from '$lib/idGenerator'
 import { documentsProcessed, type DocumentsProcessedLookupdDB } from '$lib/documentsProcessed';
+import { InternalURLs } from '$lib/utils/urls';
 
 
 // Make the [id] optional when we are creating a new record
@@ -49,7 +50,7 @@ export const actions = {
 			documents.push(doc);
 
 			// return message(form, 'Document created');
-			throw redirect(303, "/document/".concat(newDocId));
+			throw redirect(303, InternalURLs.document.concat('/',newDocId));
 
 		} else {
 			// UPDATE document
@@ -59,7 +60,7 @@ export const actions = {
 			if (formData.has('delete')) {
 				// DELETE document
 				documents.splice(index, 1);
-				throw redirect(303, '/documents');
+				throw redirect(303, InternalURLs.documents);
 			} else {
 				documents[index] = { ...form.data, id: form.data.id };
 				return message(form, 'Document updated');

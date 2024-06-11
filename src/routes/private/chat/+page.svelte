@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import ChatBubble from '$lib/chat/ChatBubble.svelte';
 	import TextAreaField from '$lib/form/TextAreaField.svelte';
-	import type { PageData } from './$types.js';
+	import type { PageData } from '../../../../.svelte-kit/types/src/routes';
 	import FormButtons from '$lib/form/FormButtons.svelte';
 	import { afterUpdate } from 'svelte';
 	import { RoleEnum, StatusEnum, AssistName } from '$lib/message';

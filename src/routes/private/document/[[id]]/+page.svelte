@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageData } from './$types.js';
+	import type { PageData } from '../../../../../.svelte-kit/types/src/routes';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
 	import TextField from '$lib/form/TextField.svelte';
