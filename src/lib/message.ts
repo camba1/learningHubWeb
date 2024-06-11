@@ -8,6 +8,7 @@ export const maxNumberOfMessagesKept: number = 20;
 
 export const MessageSchema = z.object({
 	name: z.string(),
+	userId: z.string(),
 	messageText: z.string(),
 	role: RoleEnum,
 	time: z.string(),
@@ -20,6 +21,7 @@ export type MessageDB = z.infer<typeof MessageSchema>
 export const messages: MessageDB[] = [
 	{
 		name: "Clio AI",
+		userId: "123q",
 		messageText: "You were the Chosen One!",
 		role: "assistant",
 		time: "12:45",
@@ -27,6 +29,7 @@ export const messages: MessageDB[] = [
 	},
 	{
 		name: "Anakin Skywalker",
+		userId: "1234w",
 		messageText: "I am your father!",
 		role: "user",
 		time: "12:50",
