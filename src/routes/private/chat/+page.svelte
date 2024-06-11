@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import ChatBubble from '$lib/chat/ChatBubble.svelte';
 	import TextAreaField from '$lib/form/TextAreaField.svelte';
-	import type { PageData } from '../../../../.svelte-kit/types/src/routes';
+	import type { PageData } from './$types.js';
 	import FormButtons from '$lib/form/FormButtons.svelte';
 	import { afterUpdate } from 'svelte';
 	import { RoleEnum, StatusEnum, AssistName } from '$lib/message';
@@ -14,7 +14,7 @@
 	const userBubbleColor = "chat-bubble-info";
 	const botBubbleColor = "";
 	const searchPageUrl: string = "/";
-	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? "};
+	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Bsack", "confirmationDelMsg": "Clear our chat history? "};
 
 	const { form, errors, constraints, enhance, delayed } = superForm(data.form, { resetForm: true,
 		onSubmit: () => {
