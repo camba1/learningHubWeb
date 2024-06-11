@@ -7,6 +7,7 @@
 	import TextAreaField from '$lib/form/TextAreaField.svelte';
 	import FieldLabel from '$lib/form/FieldLabel.svelte';
 	import FormButtons from '$lib/form/FormButtons.svelte';
+	import { InternalURLs } from '$lib/utils/urls';
 
 	export let data: PageData;
 
@@ -17,7 +18,7 @@
 	);
 	const bookTypes: string[] = ['book', 'article', 'other'];
 	const ageGroups:string[] = ['toddler','youth','young adult'];
-	const searchPageUrl: string = "/documents";
+	const searchPageUrl: string = InternalURLs.documents
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
 
 </script>
@@ -69,7 +70,7 @@
 				<tbody>
 					{#each data.docProcessedLookups as lookup}
 						<tr>
-							<td><a class="link" href="/pdf/{lookup.id}" >{lookup.language}</a></td>
+							<td><a class="link" href="{InternalURLs.pdf}/{lookup.id}" >{lookup.language}</a></td>
 						</tr>
 					{/each}
 				</tbody>
