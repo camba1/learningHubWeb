@@ -18,10 +18,14 @@
 </script>
 
 <div class="flex justify-center">
-	<h2 class="text-2xl pb-3"> File Upload </h2>
-	{#if $message}
-		<h3 class:invalid={$page.status >= 400}>{$message}</h3>
-	{/if}
+	<div class="flex flex-col">
+		<h2 class="text-2xl p-3 "> File Upload </h2>
+		<span class="pb-3">
+			{#if $message}
+					<h3 class:invalid={$page.status >= 400} >{$message}</h3>
+			{/if}
+		</span>
+	</div>
 </div>
 
 <div class="flex justify-center">
