@@ -1,10 +1,17 @@
 <script lang="ts">
-	import UserButton from 'clerk-sveltekit/client/UserButton.svelte'
-	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte'
-	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte'
+	import UserButton from 'clerk-sveltekit/client/UserButton.svelte';
+	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte';
+	import SignedOut from 'clerk-sveltekit/client/SignedOut.svelte';
 	import "../app.css";
 	import { InternalURLs } from '$lib/utils/urls';
+	import { writable } from 'svelte/store';
 
+	// let menuDetails: HTMLDetailsElement;
+	let isOpen = writable(false);
+
+	function handleItemClick() {
+		isOpen.set(false);
+	}
 </script>
 
 <div class="navbar bg-base-200 sticky top-0 z-10">
@@ -16,29 +23,26 @@
 			<li><a href={InternalURLs.about}>About</a></li>
 			<SignedOut>
 				<li>
-						<a href={InternalURLs.signIn}>Sign in</a>
-						<!-- You could also use <SignInButton mode="modal" /> and <SignUpButton mode="modal" /> here -->
+					<a href={InternalURLs.signIn}>Sign in</a>
 				</li>
 				<li>
-						<a href={InternalURLs.signUp}>Sign up</a>
-						<!-- You could also use <SignInButton mode="modal" /> and <SignUpButton mode="modal" /> here -->
+					<a href={InternalURLs.signUp}>Sign up</a>
 				</li>
 			</SignedOut>
 			<SignedIn>
-				<li>
-					<details>
+				<li id="menu">
+					<details id="menuDetails" bind:open={$isOpen}>
 						<summary>
 							Menu
 						</summary>
 						<ul class="p-2 bg-base-100 rounded-t-none">
-							<li><a href={InternalURLs.documents}>Books</a></li>
-							<li><a href={InternalURLs.fileUpload}>Upload</a></li>
+							<li><a href={InternalURLs.documents} on:click={handleItemClick}>Books</a></li>
+							<li><a href={InternalURLs.fileUpload} on:click={handleItemClick}>Upload</a></li>
 						</ul>
 					</details>
 				</li>
-
 				<li>
-						<UserButton afterSignOutUrl={InternalURLs.home} />
+					<UserButton afterSignOutUrl={InternalURLs.home} />
 				</li>
 			</SignedIn>
 		</ul>
