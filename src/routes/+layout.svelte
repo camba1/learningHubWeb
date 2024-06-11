@@ -13,35 +13,34 @@
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1">
-			<li>
-				<SignedIn>
-					<UserButton afterSignOutUrl={InternalURLs.home} />
-				</SignedIn>
-			</li>
-			<li>
-				<SignedOut>
-					<a href={InternalURLs.signIn}>Sign in</a>
-					<!-- You could also use <SignInButton mode="modal" /> and <SignUpButton mode="modal" /> here -->
-				</SignedOut>
-			</li>
-			<li>
-				<SignedOut>
-					<a href={InternalURLs.signUp}>Sign up</a>
-					<!-- You could also use <SignInButton mode="modal" /> and <SignUpButton mode="modal" /> here -->
-				</SignedOut>
-			</li>
-			<li>
-				<details>
-					<summary>
-						Menu
-					</summary>
-					<ul class="p-2 bg-base-100 rounded-t-none">
-						<li><a href={InternalURLs.documents}>Books</a></li>
-						<li><a href={InternalURLs.fileUpload}>Upload</a></li>
-						<li><a href={InternalURLs.about}>About</a></li>
-					</ul>
-				</details>
-			</li>
+			<li><a href={InternalURLs.about}>About</a></li>
+			<SignedOut>
+				<li>
+						<a href={InternalURLs.signIn}>Sign in</a>
+						<!-- You could also use <SignInButton mode="modal" /> and <SignUpButton mode="modal" /> here -->
+				</li>
+				<li>
+						<a href={InternalURLs.signUp}>Sign up</a>
+						<!-- You could also use <SignInButton mode="modal" /> and <SignUpButton mode="modal" /> here -->
+				</li>
+			</SignedOut>
+			<SignedIn>
+				<li>
+					<details>
+						<summary>
+							Menu
+						</summary>
+						<ul class="p-2 bg-base-100 rounded-t-none">
+							<li><a href={InternalURLs.documents}>Books</a></li>
+							<li><a href={InternalURLs.fileUpload}>Upload</a></li>
+						</ul>
+					</details>
+				</li>
+
+				<li>
+						<UserButton afterSignOutUrl={InternalURLs.home} />
+				</li>
+			</SignedIn>
 		</ul>
 	</div>
 </div>
