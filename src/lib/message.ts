@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const RoleEnum = z.enum(['assistant', 'user']);
 export const StatusEnum = z.enum(['sent', 'delivered', 'read']);
 
-export const AssistName: string = "LearningHub AI";
+export const AssistName: string = "Clio AI";
 export const maxNumberOfMessagesKept: number = 20;
 
 export const MessageSchema = z.object({
@@ -19,7 +19,7 @@ export type MessageDB = z.infer<typeof MessageSchema>
 
 export const messages: MessageDB[] = [
 	{
-		name: "Trini AI",
+		name: "Clio AI",
 		messageText: "You were the Chosen One!",
 		role: "assistant",
 		time: "12:45",
