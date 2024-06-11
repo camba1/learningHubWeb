@@ -27,7 +27,7 @@
 	<h3 class:invalid={$page.status >= 400}>{$message}</h3>
 {/if}
 
-<div class="flex justify-center">
+<div class="flex justify-center p-3">
 	<h2>{!$form.id ? 'Create' : 'Update'} Document</h2>
 </div>
 

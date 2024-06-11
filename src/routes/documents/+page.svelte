@@ -8,7 +8,7 @@
 
 </script>
 
-<div class="prose prose-headings pb-3 px-3">
+<div class="prose prose-headings p-3 px-3">
 	<h2>Documents</h2>
 </div>
 <div class="flex justify-end px-3">
