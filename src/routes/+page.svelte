@@ -10,8 +10,8 @@
 				<h1 class="text-5xl font-bold mb-4">
 					Enhancing Children's Literacy Worldwide
 				</h1>
-				<p class="text-xl mb-8">
-					Discover the magic of books with Bolbeck Learning, the cutting-edge platform
+				<p class="text-xl mb-8 mr-3">
+					Discover the magic of books with Bolbeck Learning, the cutting-edge <b>AI</b> platform
 					from Bolbeck LLC that simplifies the distribution of children's books.
 				</p>
 				<a href="/sign-up" class="btn btn-primary">Get Started</a>
@@ -39,7 +39,7 @@
 		<div class="flex flex-wrap items-center mt-12">
 			<div class="w-full md:w-1/2">
 				<h3 class="text-2xl font-semibold mb-4">Let's Make Learning Exciting and Accessible</h3>
-				<p class="text-lg mb-8">
+				<p class="text-lg mb-8 mr-3">
 					Bolbeck Learning is a comprehensive platform that not only makes books accessible
 					but also brings them to life through audio, translation, and interactive chat.
 				</p>
