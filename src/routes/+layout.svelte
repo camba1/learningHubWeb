@@ -38,6 +38,7 @@
 						<ul class="p-2 bg-base-100 rounded-t-none">
 							<li><a href={InternalURLs.documents} on:click={handleItemClick}>Books</a></li>
 							<li><a href={InternalURLs.fileUpload} on:click={handleItemClick}>Upload</a></li>
+							<li><a href={InternalURLs.chat} on:click={handleItemClick}>Chat</a></li>
 						</ul>
 					</details>
 				</li>
