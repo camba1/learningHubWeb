@@ -7,5 +7,6 @@ export const InternalURLs = {
 	signUp: "/sign-up",
 	home: "/",
 	pdf: "/private/pdf",
-	audio: "/private/audio"
+	audio: "/private/audio",
+	chat: "/private/chat"
 }
