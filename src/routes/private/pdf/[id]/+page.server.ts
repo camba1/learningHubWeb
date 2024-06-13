@@ -6,6 +6,7 @@ import { documentsProcessed } from '$lib/documentsProcessed';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { DocumentVoices } from '$lib/documentAudio';
+import { outputPath } from '$lib/utils/filePath';
 
 
 
@@ -14,7 +15,7 @@ const updateDocumentProcessedSchema = DocumentsProcessedSchema.extend({
 	id: DocumentsProcessedSchema.shape.id.optional(),
 	documentId: DocumentsProcessedSchema.shape.documentId.optional(),
 	pageCount: DocumentsProcessedSchema.shape.pageCount.optional(),
-	filename: DocumentsProcessedSchema.shape.filename.optional(),
+	filename: DocumentsProcessedSchema.shape.FilePath.optional(),
 });
 
 export async function load({ params }) {
@@ -23,8 +24,8 @@ export async function load({ params }) {
 	if (params.id && !docDetails) throw error(404, 'Document details not found.');
 
 	const form = await superValidate(docDetails, zod(DocumentsProcessedSchema));
-	const filename = docDetails?.filename;
-	const base64EncodedPDF = filename ? await getPdf(filename) : undefined
+	const filePath = docDetails?.FilePath;
+	const base64EncodedPDF = filePath ? await getPdf(filePath) : undefined
 	const docVoices = docDetails ? getAudio(docDetails?.documentId) : undefined;
 	return {
 		form,
@@ -40,8 +41,8 @@ function getAudio(id: string){
 	return docVoices
 }
 
-async function getPdf(filename: string) {
-	const pdfPath = path.join('uploads', `${filename}`);
+async function getPdf(FilePath: string) {
+	const pdfPath = path.join(outputPath, `${FilePath}`);
 	try {
 		const pdfBuffer = await fs.readFile(pdfPath);
 		return pdfBuffer.toString('base64')
@@ -57,7 +58,7 @@ async function getPdf(filename: string) {
 
 export const actions = {
 	default: async ({ request }) => {
-		console.log('HERHEHREHE')
+
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(updateDocumentProcessedSchema));
 
