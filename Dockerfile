@@ -1,5 +1,5 @@
 # ===== Build Stage =====
-FROM node:22-alpine AS build
+FROM node:22-alpine as build
 LABEL authors="jperedo"
 
 # Create and change to the app directory
@@ -14,6 +14,7 @@ COPY . .
 
 # Build the project
 RUN npm run build
+
 
 # ===== Run Stage =====
 FROM node:22-alpine
