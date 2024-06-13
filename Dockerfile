@@ -42,6 +42,8 @@ USER sveltekituser
 # Expose the port that the application runs on
 EXPOSE 3000
 
+HEALTHCHECK CMD wget --no-verbose --tries=1  http://127.0.0.1:3000/healthcheck || exit 1
+
 # Start the application
 #CMD ["node", "build"]
 CMD  BODY_SIZE_LIMIT=20000000 ORIGIN=http://localhost:3000  node build
