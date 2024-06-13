@@ -1,4 +1,4 @@
-run web:
+runWeb:
 	npm run dev
 
 docBuildWeb:
@@ -9,3 +9,11 @@ docRunWeb:
 
 docStopWeb:
 	docker stop bblearnwebcont
+
+docRebuildWeb:
+	make docStopWeb
+	make docBuildWeb
+	make docRunWeb
+
+docExecWeb:
+	docker exec -it bblearnwebcont sh
