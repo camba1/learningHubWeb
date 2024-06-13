@@ -36,3 +36,9 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Running with Docker
+
+The dockerfile command to start the application includes 2 environment variables currently set:
+- BODY_SIZE_LIMIT dictates the max size of the body of an http request (included uploaded files)
+- ORIGIN indicates the address from which the application is run. This is needed if the app is running via HTTP vs HTTPS

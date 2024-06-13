@@ -44,4 +44,4 @@ EXPOSE 3000
 
 # Start the application
 #CMD ["node", "build"]
-CMD  ORIGIN=http://localhost:3000  node build
+CMD  BODY_SIZE_LIMIT=20000000 ORIGIN=http://localhost:3000  node build
