@@ -1,14 +1,16 @@
 import fs from 'fs';
 import { stat } from 'fs/promises';
-import { DocumentVoices } from '$lib/documentAudio'
+import path from 'path';
+import { DocumentVoices } from '$lib/documentAudio';
 import { error } from '@sveltejs/kit';
+import { outputPath } from '$lib/utils/filePath';
 
 export const GET = async ({params}) => {
 	const docVoice = DocumentVoices.find((d) => d.id == params.id);
 	if (!docVoice) throw error(404, 'Document Audio record not found.');
 
-	const filePath = docVoice.audioFilePath  //path.join('output', 'MonsterDayOut_20.mp3');
-	// const filePath = path.resolve('src/media/audio-file.mp3');
+	const filePath = path.join(outputPath, docVoice.audioFilePath) // docVoice.audioFilePath  //path.join('output', 'MonsterDayOut_20.mp3');
+
 	const fileStats = await stat(filePath);
 	const fileSize = fileStats.size;
 
