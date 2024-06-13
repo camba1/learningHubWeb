@@ -21,7 +21,7 @@ LABEL authors="jperedo"
 ENV NODE_ENV=production
 
 # Create a group and user
-#RUN addgroup -S sveltekitgroup && adduser -S sveltekituser -G sveltekitgroup
+RUN addgroup -S sveltekitgroup && adduser -S sveltekituser -G sveltekitgroup
 
 # Create and change to the app directory
 WORKDIR /app
@@ -34,10 +34,10 @@ COPY --from=build /app/package*.json ./
 RUN npm install --production
 
 # Change ownership of the app directory to the non-root user
-#RUN chown -R sveltekituser:sveltekitgroup /app
+RUN chown -R sveltekituser:sveltekitgroup /app
 
 # Switch to the non-root user
-#USER sveltekituser
+USER sveltekituser
 
 # Expose the port that the application runs on
 EXPOSE 3000
