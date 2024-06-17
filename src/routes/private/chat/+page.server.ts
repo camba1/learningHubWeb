@@ -29,7 +29,7 @@ export const actions = {
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(MessageSchema));
 
-		if (!form.valid) return fail(400, { form });
+		if (!form.valid) return fail(400, { form } );
 
 		// @ts-expect-error session is injected by clerk
 		const userId: string = locals.session.userId
@@ -49,7 +49,7 @@ export const actions = {
 			messages.splice(0, 2);
 		}
 
-		const llmReply: string = <string>await getAssistantReply(form.data.messageText, 'secretToken')
+		const llmReply: string = <string>await getAssistantReply(form.data.messageText, 'secret-token')
 		messages.push({ messageText: llmReply, userId:userId, role: RoleEnum.enum.assistant , status: StatusEnum.enum.delivered, name: AssistName, time: getLocalTime()});
 
 		return {
@@ -65,7 +65,7 @@ async function  getAssistantReply(messageText: string, authToken: string) {
 		options: {
 			timeout: 10000,
 			headers: {
-				Authorization: 'Bearer '.concat(authToken),
+				'x-token': authToken,
 			},
 		},
 	});
@@ -84,19 +84,3 @@ async function  getAssistantReply(messageText: string, authToken: string) {
 // }
 
 }
-
-
-
-
-
-// console.log(result);
-//
-// const stream = await remoteChain.stream({
-// 	param1: "param1",
-// 	param2: "param2",
-// });
-
-// for await (const chunk of stream) {
-// 	console.log(chunk);
-// }
-
