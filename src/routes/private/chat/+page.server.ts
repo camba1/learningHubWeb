@@ -1,16 +1,15 @@
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
-import {type MessageDB, MessageSchema, RoleEnum, StatusEnum, AssistName, maxNumberOfMessagesKept} from '$lib/message';
-import {getLocalTime} from '$lib/utils/timeUtils';
+import { AssistName, maxNumberOfMessagesKept, type MessageDB, MessageSchema, RoleEnum, StatusEnum } from '$lib/message';
+import { getLocalTime } from '$lib/utils/timeUtils';
+import { RemoteRunnable } from '@langchain/core/runnables/remote';
+import { ExternalURLs } from '$lib/server/utils/externalUrls';
 
 let messages: MessageDB[] = [];
 
 const userName:string = "Me";
 
-function getAssistantReply() {
-	return 'This is a response';
-}
 
 export const load = async (event) => {
 
@@ -49,8 +48,9 @@ export const actions = {
 		if (messages.length > maxNumberOfMessagesKept) {
 			messages.splice(0, 2);
 		}
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		messages.push({ messageText: getAssistantReply(), userId:userId, role: RoleEnum.enum.assistant , status: StatusEnum.enum.delivered, name: AssistName, time: getLocalTime()});
+
+		const llmReply: string = <string>await getAssistantReply(form.data.messageText)
+		messages.push({ messageText: llmReply, userId:userId, role: RoleEnum.enum.assistant , status: StatusEnum.enum.delivered, name: AssistName, time: getLocalTime()});
 
 		return {
 			form,
@@ -58,3 +58,39 @@ export const actions = {
 		};
 	}
 };
+
+async function  getAssistantReply(messageText: string) {
+	const remoteChain = new RemoteRunnable({
+		url: ExternalURLs.agent,
+	});
+
+	return  remoteChain.invoke({
+		input: messageText
+	})
+
+// const stream = await remoteChain.stream({
+// 	param1: "param1",
+// 	param2: "param2",
+// });
+
+// for await (const chunk of stream) {
+// 	console.log(chunk);
+// }
+
+}
+
+
+
+
+
+// console.log(result);
+//
+// const stream = await remoteChain.stream({
+// 	param1: "param1",
+// 	param2: "param2",
+// });
+
+// for await (const chunk of stream) {
+// 	console.log(chunk);
+// }
+
