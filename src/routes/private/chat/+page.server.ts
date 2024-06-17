@@ -49,7 +49,7 @@ export const actions = {
 			messages.splice(0, 2);
 		}
 
-		const llmReply: string = <string>await getAssistantReply(form.data.messageText)
+		const llmReply: string = <string>await getAssistantReply(form.data.messageText, 'secretToken')
 		messages.push({ messageText: llmReply, userId:userId, role: RoleEnum.enum.assistant , status: StatusEnum.enum.delivered, name: AssistName, time: getLocalTime()});
 
 		return {
@@ -59,9 +59,15 @@ export const actions = {
 	}
 };
 
-async function  getAssistantReply(messageText: string) {
+async function  getAssistantReply(messageText: string, authToken: string) {
 	const remoteChain = new RemoteRunnable({
 		url: ExternalURLs.agent,
+		options: {
+			timeout: 10000,
+			headers: {
+				Authorization: 'Bearer '.concat(authToken),
+			},
+		},
 	});
 
 	return  remoteChain.invoke({
