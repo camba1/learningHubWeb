@@ -4,5 +4,6 @@ const backendUrl:string= env.BACKEND_URL //? env.BACKEND_URL:"http://127.0.0.1:8
 
 export const ExternalURLs = {
 	backendUrl: backendUrl,
-	agent: backendUrl.concat("/agent")
+	agent: backendUrl.concat("/agent"),
+	chat: backendUrl.concat("/chat")
 }
