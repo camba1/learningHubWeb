@@ -48,7 +48,6 @@ export const actions = {
 		if (messages.length > maxNumberOfMessagesKept) {
 			messages.splice(0, 2);
 		}
-
 		const llmReply: string = <string>await getAssistantReply(form.data.messageText, 'secret-token')
 		messages.push({ messageText: llmReply, userId:userId, role: RoleEnum.enum.assistant , status: StatusEnum.enum.delivered, name: AssistName, time: getLocalTime()});
 
@@ -61,7 +60,7 @@ export const actions = {
 
 async function  getAssistantReply(messageText: string, authToken: string) {
 	const remoteChain = new RemoteRunnable({
-		url: ExternalURLs.agent,
+		url: ExternalURLs.chat,
 		options: {
 			timeout: 10000,
 			headers: {
@@ -69,9 +68,8 @@ async function  getAssistantReply(messageText: string, authToken: string) {
 			},
 		},
 	});
-
 	return  remoteChain.invoke({
-		input: messageText
+		question: messageText
 	})
 
 // const stream = await remoteChain.stream({
