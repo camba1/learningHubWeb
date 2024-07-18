@@ -3,6 +3,7 @@ import { ExternalURLs } from '$lib/server/utils/externalUrls';
 import { z } from 'zod';
 import { DocumentSchema } from '$lib/documents';
 const DOCUMENTS_URL = ExternalURLs.documents;
+const DOCUMENT_DETAILS_URL = ExternalURLs.document_details_lookup;
 
 type Document = z.infer<typeof DocumentSchema>[];
 
@@ -56,4 +57,15 @@ export async function deleteDocument(id: string) {
 		throw error(response.status, await response.text());
 	}
 	return response.status;
+}
+
+export async function fetchDocumentDetailsLookup(id: string) {
+	const url = DOCUMENT_DETAILS_URL.replace('{document_key}', id);
+	const response = await fetch(url,
+		{ headers: get_header() }
+	);
+	if (!response.ok) {
+		throw error(response.status, await response.text());
+	}
+	return response.json();
 }
