@@ -27,7 +27,7 @@
 		<tbody>
 		{#each data.documents as doc}
 		<tr>
-			<th><a href="{InternalURLs.document}/{doc.id}">{doc.title}</a></th>
+			<th><a href="{InternalURLs.document}/{doc._key}">{doc.title}</a></th>
 			<td>{doc.type}</td>
 			<td>{doc.ageGroup}</td>
 		</tr>
