@@ -7,7 +7,7 @@ const DocumentAgeGroupEnum = z.enum(['toddler', 'youth', 'young adult'])
 
 // Document Schema
 export const DocumentSchema = z.object({
-	id: z.string().uuid(), // UUID for unique document identification
+	_key: z.string(), // Unique key for the document
 	title: z.string()
 		.min(1, "Title cannot be empty")
 		.max(250, "Title cannot exceed 250 characters"), // Title of the document
@@ -27,7 +27,7 @@ type DocumentDB = z.infer<typeof DocumentSchema>[];
 // A simple document "database"
 export const documents: DocumentDB = [
 	{
-		id: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
+		_key: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
 		title: "My First Document",
 		summary: "This is the summary of the document.",
 		type: "article",
@@ -40,7 +40,7 @@ export const documents: DocumentDB = [
 		usrMain_key_Update: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
 	},
 	{
-		id: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
+		_key: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
 		title: "My Second Document",
 		summary: "This is the summary of the document.",
 		type: "book",
