@@ -5,7 +5,7 @@ import { DocumentSchema } from '$lib/documents';
 const DOCUMENTS_URL = ExternalURLs.documents;
 const DOCUMENT_DETAILS_URL = ExternalURLs.document_details_lookup;
 
-type Document = z.infer<typeof DocumentSchema>[];
+export type Document = z.infer<typeof DocumentSchema>;
 
 function get_header() {
 	const headers = new Headers();
