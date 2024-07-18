@@ -2,6 +2,7 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
+	// import  SuperDebug  from 'sveltekit-superforms';
 	import TextField from '$lib/form/TextField.svelte';
 	import SelectField from '$lib/form/SelectField.svelte';
 	import TextAreaField from '$lib/form/TextAreaField.svelte';
@@ -28,14 +29,14 @@
 {/if}
 
 <div class="flex justify-center p-3">
-	<h2>{!$form.id ? 'Create' : 'Update'} Document</h2>
+	<h2>{!$form._key ? 'Create' : 'Update'} Document</h2>
 </div>
 
 <div class="flex justify-center">
 
 	<form method="POST" use:enhance >
 
-		<input type="hidden" id="id" name="id" bind:value={$form.id} />
+		<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
 
 		<TextField label="Title" id="title" bind:value={$form.title}
 							 errors={$errors.title} constraints={$constraints.title} />
@@ -56,12 +57,12 @@
 			{/each}
 		{/if}
 		<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
-								 delayed={$delayed} objectId={$form.id} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
+								 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
 								 backUrl={searchPageUrl}/>
 	</form>
 </div>
 
-{#if $form.id}
+{#if $form._key}
 	<div class="flex justify-center">
 		<div>
 			<label for="docVersions" class="label label-text font-semibold">Document versions: </label>
@@ -70,7 +71,7 @@
 				<tbody>
 					{#each data.docProcessedLookups as lookup}
 						<tr>
-							<td><a class="link" href="{InternalURLs.pdf}/{lookup.id}" >{lookup.language}</a></td>
+							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}" >{lookup.language}</a></td>
 						</tr>
 					{/each}
 				</tbody>
@@ -79,6 +80,9 @@
 		</div>
 	</div>
 {/if}
+
+<!--<SuperDebug data={$form} />-->
+
 <style>
     .invalid {
         color: red;
