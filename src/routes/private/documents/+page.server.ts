@@ -1,5 +1,11 @@
-import { documents } from '$lib/documents';
+import { DocumentSchema } from '$lib/documents';
+import { fetchDocuments } from '$lib/api/documents';
+import { z } from 'zod';
 
-export const load = async ({ url, params }) => {
-	return { documents };
+type Documents = z.infer<typeof DocumentSchema>[];
+
+export const load = async ({  params }) => {
+	const docs: Documents = await fetchDocuments();
+	return { documents: docs };
+	// return { documents };
 };
