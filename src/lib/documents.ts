@@ -14,10 +14,12 @@ export const DocumentSchema = z.object({
 	summary: z.string().max(500, "The max size of the summary is 500 characters"), // summary of the document
 	type: DocumentTypeEnum,
 	ageGroup: DocumentAgeGroupEnum,
-	authorId: z.string().uuid().optional(), // UUID for the unique author identification
+	authorId: z.string().optional(), // Id for the unique author identification
+	tags: z.array(z.string()).optional(), // Optional list of tags/keywords
 	createdAt: z.date().default(() => new Date()), // Creation date of the document
 	updatedAt: z.date().default(() => new Date()).optional(), //  Updated date for the document
-	tags: z.array(z.string()).optional(), // Optional list of tags/keywords
+	usrMain_key_Create: z.string().optional(),
+	usrMain_key_Update: z.string().optional(),
 });
 
 type DocumentDB = z.infer<typeof DocumentSchema>[];
@@ -34,6 +36,8 @@ export const documents: DocumentDB = [
 		createdAt: new Date(),
 		updatedAt: new Date(),
 		tags: ["example", "tags"],
+		usrMain_key_Create: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
+		usrMain_key_Update: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
 	},
 	{
 		id: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
@@ -45,5 +49,7 @@ export const documents: DocumentDB = [
 		createdAt: new Date(),
 		updatedAt: new Date(),
 		tags: ["example", "tags"],
+		usrMain_key_Create: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
+		usrMain_key_Update: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
 	}
 ];
