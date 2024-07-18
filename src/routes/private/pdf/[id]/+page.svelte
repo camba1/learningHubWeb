@@ -18,7 +18,7 @@
 		}
 	);
 
-	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.documentId);
+	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.docMain_key);
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document version "};
 
 </script>
@@ -37,7 +37,7 @@
 				<div>
 					<form method="POST" use:enhance >
 
-						<input type="hidden" id="id" name="id" bind:value={$form.id} />
+						<input type="hidden" id="id" name="id" bind:value={$form._key} />
 						<TextField label="Language" id="language" bind:value={$form.language}
 											 errors={$errors.language} constraints={$constraints.language}
 												readOnly={true}/>
@@ -48,7 +48,7 @@
 						<TextAreaField label="Document Text:" id="docText" bind:value={$form.docText}
 													 errors={$errors.docText} constraints={$constraints.docText} />
 						<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
-												 delayed={$delayed} objectId={$form.id} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.language.toString(), "?")}
+												 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.language.toString(), "?")}
 												 backUrl={searchPageUrl}/>
 					</form>
 				</div>

@@ -12,21 +12,21 @@ import { outputPath } from '$lib/utils/filePath';
 
 
 const updateDocumentProcessedSchema = DocumentsProcessedSchema.extend({
-	id: DocumentsProcessedSchema.shape.id.optional(),
-	documentId: DocumentsProcessedSchema.shape.documentId.optional(),
+	id: DocumentsProcessedSchema.shape._key.optional(),
+	documentId: DocumentsProcessedSchema.shape.docMain_key.optional(),
 	pageCount: DocumentsProcessedSchema.shape.pageCount.optional(),
 	filename: DocumentsProcessedSchema.shape.FilePath.optional(),
 });
 
 export async function load({ params }) {
-	const docDetails = documentsProcessed.find((d) => d.id == params.id);
+	const docDetails = documentsProcessed.find((d) => d._key == params.id);
 
 	if (params.id && !docDetails) throw error(404, 'Document details not found.');
 
 	const form = await superValidate(docDetails, zod(DocumentsProcessedSchema));
 	const filePath = docDetails?.FilePath;
 	const base64EncodedPDF = filePath ? await getPdf(filePath) : undefined
-	const docVoices = docDetails ? getAudio(docDetails?.documentId) : undefined;
+	const docVoices = docDetails ? getAudio(docDetails?.docMain_key) : undefined;
 	return {
 		form,
 		pdfData: base64EncodedPDF,
@@ -69,12 +69,12 @@ export const actions = {
 
 		} else {
 			// UPDATE user
-			const index = documentsProcessed.findIndex((d) => d.id == form.data.id);
+			const index = documentsProcessed.findIndex((d) => d._key == form.data._key);
 			if (index == -1) throw error(404, 'Document not found.');
 
 			if (formData.has('delete')) {
 				// DELETE user
-				const parentDocumentId = documentsProcessed[index].documentId
+				const parentDocumentId = documentsProcessed[index].docMain_key
 				documentsProcessed.splice(index, 1);
 				throw redirect(303, '/document/'.concat(parentDocumentId));
 
