@@ -4,38 +4,40 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { documents } from '$lib/documents';
 import { newId } from '$lib/idGenerator'
-import { documentsProcessed, type DocumentsProcessedLookupdDB } from '$lib/documentsProcessed';
+import { type DocumentsProcessedLookupdDB } from '$lib/documentsProcessed';
 import { InternalURLs } from '$lib/utils/urls';
+import { fetchDocument, fetchDocumentDetailsLookup } from '$lib/api/documents';
 
 
 // Make the [id] optional when we are creating a new record
 const crudDocumentSchema = DocumentSchema.extend({
-	id: DocumentSchema.shape.id.optional()
+	id: DocumentSchema.shape._key.optional()
 });
 
 export const load = async ({ params }) => {
-	// READ document
-	const doc = documents.find((d) => d.id == params.id);
+	// Fetch document and lookup for associated details
+	let docProcessedLookups: DocumentsProcessedLookupdDB = [];
+	let doc = null
+
+	if (!params.id) {
+		const form = await superValidate(null, zod(crudDocumentSchema));
+		return { form, docProcessedLookups };
+	}
+
+	[doc, docProcessedLookups] = await Promise.all([
+		fetchDocument(params.id),
+		fetchDocumentDetailsLookup(params.id)
+	]);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
 
 	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
-	const docProcessedLookups = getProcessedDocuments(params.id)
+	console.log(form)
 
 	return { form, docProcessedLookups };
 };
 
-function getProcessedDocuments(documentId: string | undefined) {
-	const lookups: DocumentsProcessedLookupdDB = [];
-	if (documentId) {
-		const docsProcessed = documentsProcessed.filter((d) => d.documentId == documentId);
-		for (const docP of docsProcessed) {
-			lookups.push({ id: docP.id, language: docP.language });
-		}
-	}
-	return lookups
-}
 
 export const actions = {
 	default: async ({ request }) => {
@@ -43,10 +45,10 @@ export const actions = {
 		const form = await superValidate(formData, zod(crudDocumentSchema));
 		if (!form.valid) return fail(400, { form });
 
-		if (!form.data.id) {
+		if (!form.data._key) {
 			// CREATE Document
 			const newDocId = newId()
-			const doc = { ...form.data, id: newDocId };
+			const doc = { ...form.data, _key: newDocId };
 			documents.push(doc);
 
 			// return message(form, 'Document created');
@@ -54,7 +56,7 @@ export const actions = {
 
 		} else {
 			// UPDATE document
-			const index = documents.findIndex((d) => d.id == form.data.id);
+			const index = documents.findIndex((d) => d._key == form.data._key);
 			if (index == -1) throw error(404, 'Document not found.');
 
 			if (formData.has('delete')) {
@@ -62,7 +64,7 @@ export const actions = {
 				documents.splice(index, 1);
 				throw redirect(303, InternalURLs.documents);
 			} else {
-				documents[index] = { ...form.data, id: form.data.id };
+				documents[index] = { ...form.data, _key: form.data._key };
 				return message(form, 'Document updated');
 			}
 		}
