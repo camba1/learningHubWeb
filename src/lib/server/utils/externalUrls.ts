@@ -1,9 +1,11 @@
 import { env } from '$env/dynamic/private'
 
-const backendUrl:string= env.BACKEND_URL //? env.BACKEND_URL:"http://127.0.0.1:8000"
+const backendUrl:string= env.BACKEND_URL
 
 export const ExternalURLs = {
 	backendUrl: backendUrl,
-	agent: backendUrl.concat("/agent"),
-	chat: backendUrl.concat("/chat")
+	documents: backendUrl.concat("/documents"),
+	document_details: backendUrl.concat("/document_details"),
+	users: backendUrl.concat("/users"),
+	organizations: backendUrl.concat("/organizations")
 }
