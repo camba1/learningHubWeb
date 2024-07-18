@@ -37,6 +37,7 @@
 	<form method="POST" use:enhance >
 
 		<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
+		<input type="hidden" id="authorId" name="authorId" bind:value={$form.authorId} />
 
 		<TextField label="Title" id="title" bind:value={$form.title}
 							 errors={$errors.title} constraints={$constraints.title} />
