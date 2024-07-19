@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 
-
 const DocumentTypeEnum = z.enum(['book', 'article', 'other'])
 const DocumentAgeGroupEnum = z.enum(['toddler', 'youth', 'young adult'])
 
@@ -16,16 +15,16 @@ export const DocumentSchema = z.object({
 	ageGroup: DocumentAgeGroupEnum,
 	authorId: z.string().optional(), // Id for the unique author identification
 	tags: z.array(z.string()).optional(), // Optional list of tags/keywords
-	createdAt: z.date().default(() => new Date()), // Creation date of the document
+	createdAt: z.date().default(() => new Date()).optional(), // Creation date of the document
 	updatedAt: z.date().default(() => new Date()).optional(), //  Updated date for the document
 	usrMain_key_Create: z.string().optional(),
 	usrMain_key_Update: z.string().optional(),
 });
 
-type DocumentDB = z.infer<typeof DocumentSchema>[];
+export type DocumentSchemaType = z.infer<typeof DocumentSchema>;
 
 // A simple document "database"
-export const documents: DocumentDB = [
+export const documents: DocumentSchemaType[] = [
 	{
 		_key: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
 		title: "My First Document",
