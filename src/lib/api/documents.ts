@@ -1,104 +1,60 @@
-import { error } from '@sveltejs/kit';
-import { ExternalURLs } from '$lib/server/utils/externalUrls';
-import { z } from 'zod';
-import { DocumentSchema } from '$lib/documents';
+import { ExternalURLs, DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
+import { type DocumentSchemaType } from '$lib/documents';
 
-export type Document = z.infer<typeof DocumentSchema>;
+import { APIClient } from './apiClient';
+import { DocumentSchema } from '$lib/documents';
 
 const DOCUMENTS_URL = ExternalURLs.documents;
 const DOCUMENT_DETAILS_URL = ExternalURLs.document_details_lookup;
 
-const DEFAULT_SKIP = 0;
-const DEFAULT_LIMIT = 25;
 
+const documentClient = new APIClient<DocumentSchemaType>(DOCUMENTS_URL, DocumentSchema);
 
-
-function get_header() {
-	const headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('x-token','secret-token');
-	return headers;
-}
 
 export async function fetchDocument(id: string) {
-	const response = await fetch(`${DOCUMENTS_URL}/${id}`,
-		{ headers: get_header() }
-		);
-	if (!response.ok) {
-		throw error(response.status, await response.text());
-	}
-	return response.json();
+
+	return await documentClient.fetchItem(id);
 }
 
-export async function createDocument(data: Document) {
-	const response = await fetch(`${DOCUMENTS_URL}`, {
-		method: 'POST',
-		headers: get_header(),
-		body: JSON.stringify(data)
-	});
-	if (!response.ok) {
-		throw error(response.status, await response.text());
-	}
-	return response.json();
+export async function createDocument(data: DocumentSchemaType) {
+
+	return await documentClient.createItem(data)
 }
 
-export async function updateDocument(id: string, data: Document) {
-	const response = await fetch(`${DOCUMENTS_URL}/${id}`, {
-		method: 'PUT',
-		headers: get_header(),
-		body: JSON.stringify(data)
-	});
-	if (!response.ok) {
-		throw error(response.status, await response.text());
-	}
-	return response.json();
+export async function updateDocument(id: string, data: DocumentSchemaType) {
+
+	return await documentClient.updateItem(id, data);
 }
 
 export async function deleteDocument(id: string) {
-	const response = await fetch(`${DOCUMENTS_URL}/${id}`, {
-		method: 'DELETE',
-		headers: get_header()
-	});
-	if (!response.ok) {
-		throw error(response.status, await response.text());
-	}
-	return response.status;
+
+	return await documentClient.deleteItem(id);
 }
 
-export async function fetchDocumentDetailsLookup(id: string) {
-	const url = DOCUMENT_DETAILS_URL.replace('{document_key}', id);
-	const response = await fetch(url,
-		{ headers: get_header() }
-	);
-	if (!response.ok) {
-		throw error(response.status, await response.text());
-	}
-	return response.json();
+export async function fetchDocumentDetailsLookup(id: string, skip = DEFAULT_SKIP,
+																								 limit = DEFAULT_LIMIT,
+																								 sort_by: string = '', sort_order = 'asc',) {
+
+	const options: { [key: string]: string } = {}
+	if (sort_by) options['sort_by']= sort_by;
+	if (sort_order) options['sort_order'] = sort_order;
+	return await documentClient.fetchDetailLookup(id, DOCUMENT_DETAILS_URL, skip, limit, options);
 }
 
 export async function fetchDocuments( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 																			 sort_by: string = '', sort_order = 'asc',
 																			 title: string = '', age_group: string = '', type: string = '',
 																			 created_by: string = '', updated_by: string = '' ) {
-	const params = new URLSearchParams();
 
-	params.append('skip', skip.toString());
-	params.append('limit', limit.toString());
-	if (sort_by) params.append('sort_by', sort_by);
-	if (sort_order) params.append('sort_order', sort_order);
-	if (title) params.append('title', title);
-	if (age_group) params.append('age_group', age_group);
-	if (type) params.append('type', type);
-	if (created_by) params.append('created_by', created_by);
-	if (updated_by) params.append('updated_by', updated_by);
+	const options: { [key: string]: string } = {}
+	if (sort_by) options['sort_by']= sort_by;
+	if (sort_order) options['sort_order'] = sort_order;
+	if (title) options['title'] = title;
+	if (age_group) options['age_group'] = age_group;
+	if (type) options['type'] = type;
+	if (created_by) options['created_by'] = created_by;
+	if (updated_by) options['updated_by'] = updated_by;
 
-	const response = await fetch(`${DOCUMENTS_URL}?${params.toString()}`,
-		{ headers: get_header() }
-	);
+	return await documentClient.fetchItems(skip, limit, options);
 
-	if (!response.ok) {
-		throw error(response.status, await response.text());
-	}
-
-	return response.json();
 }
