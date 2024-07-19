@@ -43,7 +43,6 @@ export const actions = {
 		const form = await superValidate(formData, zod(crudDocumentSchema));
 		if (!form.valid) return fail(400, { form });
 
-		console.log(form.data);
 		if (!form.data._key) {
 			// CREATE Document
 
