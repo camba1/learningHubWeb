@@ -2,7 +2,7 @@ import { DocumentSchema } from '$lib/documents';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
-import { type DocumentsProcessedLookupdDB } from '$lib/documentsProcessed';
+import { type DocumentDetailLookupSchemaType } from '$lib/documentDetails';
 import { InternalURLs } from '$lib/utils/urls';
 import { fetchDocument, fetchDocumentDetailsLookup, createDocument, updateDocument, deleteDocument } from '$lib/api/documents';
 import { z } from 'zod';
@@ -16,7 +16,7 @@ const crudDocumentSchema = DocumentSchema.extend({
 
 export const load = async ({ params }) => {
 	// Fetch document and lookup for associated details
-	let docProcessedLookups: DocumentsProcessedLookupdDB = [];
+	let docProcessedLookups: DocumentDetailLookupSchemaType = [];
 	let doc = null
 
 	if (!params.id) {

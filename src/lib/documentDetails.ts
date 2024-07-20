@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-const LanguagesEnum = z.enum(["en", "es"]);
+const LanguagesEnum = z.enum(["en", "es", "fr", "de", "it", "zh", "ja", "ko", "ar"]);
 
-export const DocumentsProcessedSchema = z.object({
+export const DocumentDetailSchema = z.object({
 	_key: z.string(), // Unique key for the document
 	docMain_key: z.string().uuid(), // UUID for unique document identification
 	language: LanguagesEnum,
@@ -13,16 +13,16 @@ export const DocumentsProcessedSchema = z.object({
 	updatedAt: z.date().default(() => new Date()).optional(), //  Latest date the doc was processed
 });
 
-export const DocumentsProcessedLookupSchema = DocumentsProcessedSchema.pick({
+export const DocumentDetailLookupSchema = DocumentDetailSchema.pick({
 	_key: true,
 	language: true
 })
-export type DocumentsProcessedLookupdDB = z.infer<typeof DocumentsProcessedLookupSchema>[];
+export type DocumentDetailLookupSchemaType = z.infer<typeof DocumentDetailLookupSchema>;
 
-type DocumentsProcessedDB = z.infer<typeof DocumentsProcessedSchema>[];
+export type DocumentDetailSchemaType = z.infer<typeof DocumentDetailSchema>;
 
 // A simple user "database"
-export const documentsProcessed: DocumentsProcessedDB = [
+export const documentDetails: DocumentDetailSchemaType[] = [
 	{
 		_key: "7a7f3dd5-9a61-41ce-853f-2b6345362341",
 		docMain_key: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
