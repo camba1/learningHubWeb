@@ -37,13 +37,18 @@
 				<div>
 					<form method="POST" use:enhance >
 
-						<input type="hidden" id="id" name="id" bind:value={$form._key} />
+						<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
+						<input type="hidden" id="filePath" name="filePath" bind:value={$form.filePath} />
+						<input type="hidden" id="docMain_key" name="docMain_key" bind:value={$form.docMain_key} />
+
 						<TextField label="Language" id="language" bind:value={$form.language}
 											 errors={$errors.language} constraints={$constraints.language}
 												readOnly={true}/>
-
 						<TextField label="No. of pages" id="pageCount" bind:value={$form.pageCount}
 											 errors={$errors.pageCount} constraints={$constraints.pageCount}
+											 readOnly={true}/>
+						<TextField label="Filename" id="filename" bind:value={$form.filename}
+											 errors={$errors.filename} constraints={$constraints.filename}
 											 readOnly={true}/>
 						<TextAreaField label="Document Text:" id="docText" bind:value={$form.docText}
 													 errors={$errors.docText} constraints={$constraints.docText} />
