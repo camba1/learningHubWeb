@@ -11,7 +11,7 @@ const documentDetailClient = new APIClient<DocumentDetailSchemaType>(DOCUMENT_DE
 
 export async function fetchDocumentDetail(id: string) {
 
-	return await documentDetailClient.fetchItem(id);;
+	return await documentDetailClient.fetchItem(id);
 }
 
 export async function createDocumentDetail(data: DocumentSchemaType) {
