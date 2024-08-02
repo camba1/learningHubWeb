@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const MAX_FILE_SIZE = 10000000;
-const allowedFileTypes = [ "pdf", "docx", "md", "markdown"];
+const allowedFileTypes = [ "pdf", "docx"];
 
 function checkFileType(file: File) {
 	if (file?.name) {
