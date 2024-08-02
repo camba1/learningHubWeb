@@ -60,17 +60,26 @@ export const actions = {
 
 async function  getAssistantReply(messageText: string, authToken: string) {
 	const remoteChain = new RemoteRunnable({
-		url: ExternalURLs.chat,
+		url: ExternalURLs.agent,
 		options: {
-			timeout: 10000,
+			timeout: 300000, // 5 minutes
 			headers: {
 				'x-token': authToken,
 			},
 		},
 	});
-	return  remoteChain.invoke({
-		question: messageText
+
+	const response = await remoteChain.invoke({
+		// question: messageText
+		messages: [messageText]
 	})
+	// console.log(response["ChatPromptValue"])
+	// console.log(response["messages"])
+	const AIResponse = response["messages"]?.pop()?.content
+	if (!AIResponse) {
+		throw new Error(`Failed to get response from ${AssistName}`);
+	}
+	return  AIResponse
 
 // const stream = await remoteChain.stream({
 // 	param1: "param1",
