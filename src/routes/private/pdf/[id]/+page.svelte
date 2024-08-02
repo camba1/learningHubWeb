@@ -44,8 +44,6 @@
 						<TextField label="Language" id="language" bind:value={$form.language}
 											 errors={$errors.language} constraints={$constraints.language}
 												readOnly={true}/>
-						<TextField label="No. of pages" id="pageCount" bind:value={$form.pageCount}
-											 errors={$errors.pageCount} constraints={$constraints.pageCount}
 											 readOnly={true}/>
 						<TextField label="Filename" id="filename" bind:value={$form.filename}
 											 errors={$errors.filename} constraints={$constraints.filename}

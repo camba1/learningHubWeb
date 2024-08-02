@@ -14,7 +14,6 @@ import { fetchDocumentDetail, updateDocumentDetail, deleteDocumentDetail} from "
 const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	id: DocumentDetailSchema.shape._key.optional(),
 	documentId: DocumentDetailSchema.shape.docMain_key.optional(),
-	pageCount: DocumentDetailSchema.shape.pageCount.optional(),
 	filename: DocumentDetailSchema.shape.filePath.optional(),
 });
 
