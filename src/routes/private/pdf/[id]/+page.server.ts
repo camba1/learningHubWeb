@@ -7,7 +7,7 @@ import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { DocumentVoices } from '$lib/documentAudio';
 import { outputPath } from '$lib/utils/filePath';
-import { fetchDocumentDetail, updateDocumentDetail, deleteDocumentDetail} from "$lib/api/documentDetails";
+import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetails";
 
 
 
