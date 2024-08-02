@@ -18,7 +18,7 @@
 		}
 	);
 	const bookTypes: string[] = ['book', 'article', 'other'];
-	const ageGroups:string[] = ['toddler','youth','young adult'];
+	const ageGroups:string[] = ['Toddler', 'Early Reader', 'Young Reader', 'Young Adult'];
 	const searchPageUrl: string = InternalURLs.documents
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
 
@@ -38,17 +38,31 @@
 
 		<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
 		<input type="hidden" id="authorId" name="authorId" bind:value={$form.authorId} />
+		<input type="hidden" id="filePath" name="filePath" bind:value={$form.filePath} />
 
 		<TextField label="Title" id="title" bind:value={$form.title}
 							 errors={$errors.title} constraints={$constraints.title} />
+		<TextField label="Author" id="authorName" bind:value={$form.authorName}
+							 errors={$errors.authorName} constraints={$constraints.authorName} />
 		<SelectField label="Type" id="type" bind:value={$form.type}
 								 errors={$errors.type} constraints={$constraints.type}
 								 optionValues={bookTypes} />
 		<SelectField label="Age Group:" id="ageGroup" bind:value={$form.ageGroup}
 								 errors={$errors.ageGroup} constraints={$constraints.ageGroup}
 								 optionValues={ageGroups} />
+		<TextField label="Filename" id="filename" bind:value={$form.filename}
+							 errors={$errors.filename} constraints={$constraints.filename}
+							 readOnly={true}/>
 		<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
 									 errors={$errors.summary} constraints={$constraints.summary} />
+		<FieldLabel id="characters" label="Main characters"/>
+		{#if $form.characters}
+			<!--{$form.tags.length}-->
+			{#each $form.characters as _, i}
+				<TextField id="tags" bind:value={$form.characters[i]}
+									 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />
+			{/each}
+		{/if}
 		<FieldLabel id="tags" label="Tags"/>
 		{#if $form.tags}
 			<!--{$form.tags.length}-->

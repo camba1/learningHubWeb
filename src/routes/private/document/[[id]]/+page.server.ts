@@ -11,7 +11,9 @@ type Document = z.infer<typeof DocumentSchema>;
 
 // Make the [id] optional when we are creating a new record
 const crudDocumentSchema = DocumentSchema.extend({
-	id: DocumentSchema.shape._key.optional()
+	id: DocumentSchema.shape._key.optional(),
+	filePath: DocumentSchema.shape.filePath.optional(),
+	fileName: DocumentSchema.shape.filename.optional()
 });
 
 export const load = async ({ params }) => {
