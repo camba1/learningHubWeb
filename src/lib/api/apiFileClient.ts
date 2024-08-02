@@ -1,5 +1,4 @@
 import { error } from '@sveltejs/kit';
-import { ExternalURLs } from '$lib/server/utils/externalUrls';
 
 export class APIFileClient {
 	baseURL: string;
