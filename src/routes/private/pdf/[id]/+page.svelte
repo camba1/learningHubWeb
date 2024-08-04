@@ -2,13 +2,12 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
-	// import  SuperDebug  from 'sveltekit-superforms';
 	import AudioPlayer from '$lib/audioPlayer/AudioPlayer.svelte';
-	import PdfViewer from '$lib/docViewer/PdfViewer.svelte';
 	import TextField from '$lib/form/TextField.svelte';
 	import TextAreaField from '$lib/form/TextAreaField.svelte';
 	import FormButtons from '$lib/form/FormButtons.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
+	import PdfViewer from '$lib/docViewer/PdfViewer.svelte';
 
 	export let data: PageData;
 
@@ -28,7 +27,7 @@
 {/if}
 
 <div class="grid grid-cols-2 gap-4 p-4 content-center h-full">
-	<PdfViewer pdfData={data.pdfData}/>
+	<PdfViewer encodedFilename={data.filename}/>
 
 	<div>
 		<div id="docTabs" role="tablist" class="tabs tabs-lifted">
@@ -44,11 +43,10 @@
 						<TextField label="Language" id="language" bind:value={$form.language}
 											 errors={$errors.language} constraints={$constraints.language}
 												readOnly={true}/>
-											 readOnly={true}/>
 						<TextField label="Filename" id="filename" bind:value={$form.filename}
 											 errors={$errors.filename} constraints={$constraints.filename}
 											 readOnly={true}/>
-						<TextAreaField label="Document Text:" id="docText" bind:value={$form.docText}
+						<TextAreaField label="Document Summary:" id="docText" bind:value={$form.docText}
 													 errors={$errors.docText} constraints={$constraints.docText} />
 						<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 												 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.language.toString(), "?")}
@@ -70,6 +68,10 @@
 						{/if}
 					</ul>
 				</div>
+			</div>
+
+			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Image"  />
+			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 			</div>
 	</div>
 </div>
