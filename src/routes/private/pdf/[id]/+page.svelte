@@ -73,6 +73,9 @@
 			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Image"  />
 			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 			</div>
+			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Extracted Text"  />
+			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+			</div>
 	</div>
 </div>
 </div>
