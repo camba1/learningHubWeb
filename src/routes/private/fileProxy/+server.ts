@@ -1,4 +1,4 @@
-import { error, json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { ExternalURLs } from '$lib/server/utils/externalUrls';
 import { APIFileClient } from '$lib/api/apiFileClient';
 
