@@ -86,7 +86,7 @@
 				<tbody>
 					{#each data.docProcessedLookups as lookup}
 						<tr>
-							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}" >{lookup.language}</a></td>
+							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}?filename={$form.filename}" >{lookup.language}</a></td>
 						</tr>
 					{/each}
 				</tbody>
