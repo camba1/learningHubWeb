@@ -3,6 +3,10 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { FileSchema } from '$lib/fileUpload'
 import { APIFileClient} from '$lib/api/apiFileClient';
 import { ExternalURLs } from '$lib/server/utils/externalUrls';
+import { redirect } from '@sveltejs/kit';
+import { InternalURLs } from '$lib/utils/urls';
+
+
 
 
 export const load = async () => {
@@ -27,7 +31,10 @@ export const actions = {
 		const api_client = new APIFileClient(ExternalURLs.upload_file);
 
 		const response = await api_client.upload_file(formData);
-		console.log(response)
+		console.log(response._key)
+		if (response._key) {
+			redirect(307, InternalURLs.document + '/' + response._key);
+		}
 
 		return message(form, 'Upload complete');
 	}
