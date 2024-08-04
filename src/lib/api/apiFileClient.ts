@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 
 export class APIFileClient {
 	baseURL: string;
@@ -30,24 +30,32 @@ export class APIFileClient {
 
 	async download_file( filename: string) {
 
-		const full_url = `${this.baseURL}/${filename}`; // url/_
-		const response = await fetch(full_url, {
-			method: 'GET',
-			headers: this.getHeaders(),
-		});
+		try {
+			const headers = this.getHeader();
+			headers.append('accept',  'application/json')
 
-		if (!response.ok) {
-			throw error(response.status, await response.text());
-		}
+			const response = await fetch(`${this.baseURL}/${filename}`, {
+				headers: headers
+			});
 
-		const blob = await response.blob(); // Get the file as a Blob
-		const dataUrl = URL.createObjectURL(blob); // Create a URL for the blob
-
-		return new Response(JSON.stringify({ dataUrl }), {
-			headers: {
-				'Content-Type': 'application/json'
+			if (!response.ok) {
+				// throw new Error(`Error fetching PDF: ${response.status}`);
+				console.error('Error proxying PDF:', await response.text());
+				return json({ error: 'Error fetching PDF' }, { status: response.status });
 			}
-		})
+
+			const pdfBlob = await response.blob();
+
+			return new Response(pdfBlob.stream(), {
+				headers: {
+					'Content-Type': 'application/pdf',
+					'Content-Disposition': `inline; filename="${filename}"`
+				}
+			});
+		} catch (error) {
+			console.error('Error proxying PDF:', error);
+			return json({ error: 'Failed to load PDF.' }, { status: 500 });
+		}
 	}
 
 }
