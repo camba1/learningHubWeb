@@ -8,13 +8,14 @@
 	 */
 
 	import type { InputConstraint } from 'sveltekit-superforms';
-	import FieldLabel from '$lib/form/FieldLabel.svelte';
+	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
 
 	export let value: string;
 	export let label: string | undefined = undefined;
 	export let errors: string[] | undefined = undefined;
 	export let constraints: InputConstraint | undefined = undefined;
 	export let id: string
+	export let readOnly: boolean = false;
 </script>
 
 <!--
@@ -31,6 +32,7 @@ A SvelteKit component representing a textarea field for a form.
 			bind:value={value}
 			{...constraints}
 			class="textarea textarea-bordered resize w-full"
+			readonly={readOnly}
 		/>
 	{#if errors}<span class="invalid">{errors}</span>{/if}
 </span>
