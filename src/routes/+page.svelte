@@ -1,6 +1,6 @@
 <script lang="ts">
-	import MainFooter from '$lib/genericControls/MainFooter.svelte';
-	import BasicCard from '$lib/genericControls/BasicCard.svelte';
+	import MainFooter from '$lib/components/genericControls/MainFooter.svelte';
+	import BasicCard from '$lib/components/genericControls/BasicCard.svelte';
 </script>
 <div>
 <main>

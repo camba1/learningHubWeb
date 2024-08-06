@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { stat } from 'fs/promises';
 import path from 'path';
-import { DocumentVoices } from '$lib/documentAudio';
+import { DocumentVoices } from '$lib/schemas/documentAudio';
 import { error } from '@sveltejs/kit';
 import { outputPath } from '$lib/utils/filePath';
 

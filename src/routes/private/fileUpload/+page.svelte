@@ -2,9 +2,9 @@
 	import { superForm } from 'sveltekit-superforms'
 	import { zodClient } from 'sveltekit-superforms/adapters'
 	import { FileSchema } from '$lib/fileUpload'
-	import FormButtons from '$lib/form/FormButtons.svelte';
+	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import { page } from '$app/stores';
-	import FileUpload from '$lib/form/FileUpload.svelte';
+	import FileUpload from '$lib/components/form/FileUpload.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
 
 	export let data;

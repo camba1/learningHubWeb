@@ -1,4 +1,4 @@
-import { DocumentSchema } from '$lib/documents';
+import { DocumentSchema } from '$lib/schemas/documents';
 import { fetchDocuments } from '$lib/api/documents';
 import { z } from 'zod';
 

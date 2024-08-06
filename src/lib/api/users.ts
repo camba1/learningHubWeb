@@ -1,8 +1,8 @@
 import { ExternalURLs, DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
 import { APIClient } from './apiClient';
 
-import { type UserSchemaType } from '$lib/users';
-import { UserSchema } from '$lib/users';
+import { type UserSchemaType } from '$lib/schemas/users';
+import { UserSchema } from '$lib/schemas/users';
 
 const USERS_URL = ExternalURLs.users;
 

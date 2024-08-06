@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { SquarePlus } from 'lucide-svelte';
 	import { FilePlus } from 'lucide-svelte';
-	import LinkButton from '$lib/genericControls/LinkButton.svelte';
+	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
 
 	export let data;

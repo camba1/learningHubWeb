@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MainFooter from '$lib/genericControls/MainFooter.svelte';
+	import MainFooter from '$lib/components/genericControls/MainFooter.svelte';
 </script>
 
 <main>
