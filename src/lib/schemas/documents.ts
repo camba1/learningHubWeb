@@ -14,10 +14,10 @@ export const DocumentSchema = z.object({
 	type: DocumentTypeEnum,
 	ageGroup: DocumentAgeGroupEnum,
 	authorId: z.string().optional(), // Id for the unique author identification
-	authorName: z.string().default(""),
+	authorName: z.string().default("").optional(),
 	filePath: z.string().min(5, 'File path must be at least 5 characters, including file extension'), // path relative to output folder
 	filename: z.string().min(5, 'Filename must be at least 5 characters, including file extension'),
-	pageCount: z.number().int().gt(0).default(1),
+	pageCount: z.number().int().gt(0).default(1).optional(),
 	characters: z.array(z.string()).optional(), //	Optional list of main document characters
 	tags: z.array(z.string()).optional(), // Optional list of tags/keywords
 	createdAt: z.date().default(() => new Date()).optional(), // Creation date of the document

@@ -1,8 +1,8 @@
 import { ExternalURLs, DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
-import { type DocumentSchemaType } from '$lib/documents';
+import { type DocumentSchemaType } from '$lib/schemas/documents';
 
 import { APIClient } from './apiClient';
-import { DocumentSchema } from '$lib/documents';
+import { DocumentSchema } from '$lib/schemas/documents';
 
 const DOCUMENTS_URL = ExternalURLs.documents;
 const DOCUMENT_DETAILS_URL = ExternalURLs.document_details_lookup;
