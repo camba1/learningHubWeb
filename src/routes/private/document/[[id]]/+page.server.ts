@@ -1,8 +1,7 @@
-import { DocumentSchema } from '$lib/documents';
+import { DocumentSchema } from '$lib/schemas/documents';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
-import { type DocumentDetailLookupSchemaType } from '$lib/documentDetails';
 import { InternalURLs } from '$lib/utils/urls';
 import { fetchDocument, fetchDocumentDetailsLookup, createDocument, updateDocument, deleteDocument } from '$lib/api/documents';
 import { z } from 'zod';
@@ -18,7 +17,7 @@ const crudDocumentSchema = DocumentSchema.extend({
 
 export const load = async ({ params }) => {
 	// Fetch document and lookup for associated details
-	let docProcessedLookups: DocumentDetailLookupSchemaType = [];
+	let docProcessedLookups = null;
 	let doc = null
 
 	if (!params.id) {
@@ -35,7 +34,8 @@ export const load = async ({ params }) => {
 
 	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
-	return { form, docProcessedLookups };
+	const image_filename = changeFileExtension(doc?.filename || '')
+	return { form, docProcessedLookups, image_filename };
 };
 
 
@@ -66,7 +66,6 @@ export const actions = {
 
 				// UPDATE document
 				const doc2: Document = { ...form.data} as Document;
-				console.log(doc2);
 				await updateDocument(form.data._key, doc2);
 				return message(form, 'Document updated');
 			}
@@ -74,3 +73,14 @@ export const actions = {
 
 	}
 };
+
+function changeFileExtension(filename: string, new_extension: string = "png"): string {
+	if (filename === undefined || filename === null || filename === '') {
+		return "";
+	}
+	const lastDotIndex = filename.lastIndexOf('.');
+	if (lastDotIndex === -1) {
+		return filename + '.' + new_extension;
+	}
+	return filename.substring(0, lastDotIndex) + '.' + new_extension;
+}

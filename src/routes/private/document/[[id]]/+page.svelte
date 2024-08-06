@@ -2,13 +2,14 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
-	// import  SuperDebug  from 'sveltekit-superforms';
-	import TextField from '$lib/form/TextField.svelte';
-	import SelectField from '$lib/form/SelectField.svelte';
-	import TextAreaField from '$lib/form/TextAreaField.svelte';
-	import FieldLabel from '$lib/form/FieldLabel.svelte';
-	import FormButtons from '$lib/form/FormButtons.svelte';
+	import TextField from '$lib/components/form/TextField.svelte';
+	import SelectField from '$lib/components/form/SelectField.svelte';
+	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
+	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
+	import FormButtons from '$lib/components/form/FormButtons.svelte';
+	import NumberField from '$lib/components/form/NumberField.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
+	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 
 	export let data: PageData;
 
@@ -53,6 +54,9 @@
 		<TextField label="Filename" id="filename" bind:value={$form.filename}
 							 errors={$errors.filename} constraints={$constraints.filename}
 							 readOnly={true}/>
+		<NumberField label="Page Count" id="pageCount" bind:value={$form.pageCount}
+							 errors={$errors.pageCount} constraints={$constraints.pageCount}
+							 readOnly={true}/>
 		<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
 									 errors={$errors.summary} constraints={$constraints.summary} />
 		<FieldLabel id="characters" label="Main characters"/>
@@ -77,6 +81,11 @@
 	</form>
 </div>
 
+{#if data.image_filename}
+	<FieldLabel id="docImage" label="Generated image"/>
+	<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document"/>
+{/if}
+
 {#if $form._key}
 	<div class="flex justify-center">
 		<div>
@@ -86,7 +95,7 @@
 				<tbody>
 					{#each data.docProcessedLookups as lookup}
 						<tr>
-							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}?filename={$form.filename}" >{lookup.language}</a></td>
+							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}?filename={$form.filename}&pageCount={$form.pageCount}" >{lookup.language}</a></td>
 						</tr>
 					{/each}
 				</tbody>
