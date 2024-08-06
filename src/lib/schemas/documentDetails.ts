@@ -6,8 +6,8 @@ export const DocumentDetailSchema = z.object({
 	_key: z.string(), // Unique key for the document
 	docMain_key: z.string(), // Unique  identification for parent document
 	language: LanguagesEnum,
-	filePath: z.string().min(5, 'File path must be at least 5 characters, including file extension'), // path relative to output folder
-	filename: z.string().min(5, 'Filename must be at least 5 characters, including file extension'),
+	filePath: z.string().min(5, 'File path must be at least 5 characters, including file extension').optional(), // path relative to output folder
+	filename: z.string().min(5, 'Filename must be at least 5 characters, including file extension').optional(),
 	docText: z.string(),
 	createdAt: z.date().default(() => new Date()).optional(), // Date doc was first processed
 	updatedAt: z.date().default(() => new Date()).optional(), //  Latest date the doc was processed
