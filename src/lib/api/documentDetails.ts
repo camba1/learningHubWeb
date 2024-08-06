@@ -1,8 +1,8 @@
 import { ExternalURLs, DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
 import { APIClient } from './apiClient';
 
-import { type DocumentDetailSchemaType } from '$lib/documentDetails';
-import { DocumentDetailSchema } from '$lib/documentDetails';
+import { type DocumentDetailSchemaType } from '$lib/schemas/documentDetails';
+import { DocumentDetailSchema } from '$lib/schemas/documentDetails';
 
 const DOCUMENT_DETAILS_URL = ExternalURLs.document_details;
 
@@ -14,12 +14,12 @@ export async function fetchDocumentDetail(id: string) {
 	return await documentDetailClient.fetchItem(id);
 }
 
-export async function createDocumentDetail(data: DocumentSchemaType) {
+export async function createDocumentDetail(data: DocumentDetailSchemaType) {
 
 	return await documentDetailClient.createItem(data)
 }
 
-export async function updateDocumentDetail(id: string, data: DocumentSchemaType) {
+export async function updateDocumentDetail(id: string, data: DocumentDetailSchemaType) {
 
 	return await documentDetailClient.updateItem(id, data);
 }
