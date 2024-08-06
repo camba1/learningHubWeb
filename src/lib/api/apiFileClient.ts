@@ -40,21 +40,22 @@ export class APIFileClient {
 
 			if (!response.ok) {
 				// throw new Error(`Error fetching PDF: ${response.status}`);
-				console.error('Error proxying PDF:', await response.text());
-				return json({ error: 'Error fetching PDF' }, { status: response.status });
+				console.error('Error proxying file:', await response.text());
+				return json({ error: 'Error fetching file' }, { status: response.status });
 			}
 
+			const contentType = response.headers.get('content-type') || 'application/octet-stream';
 			const pdfBlob = await response.blob();
 
 			return new Response(pdfBlob.stream(), {
 				headers: {
-					'Content-Type': 'application/pdf',
+					'Content-Type': contentType,
 					'Content-Disposition': `inline; filename="${filename}"`
 				}
 			});
 		} catch (error) {
-			console.error('Error proxying PDF:', error);
-			return json({ error: 'Failed to load PDF.' }, { status: 500 });
+			console.error('Error proxying file:', error);
+			return json({ error: 'Failed to load file.' }, { status: 500 });
 		}
 	}
 
