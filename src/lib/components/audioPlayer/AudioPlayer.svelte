@@ -9,6 +9,17 @@
 	export let audioType: string = "audio/mpeg"
 
 	let paused: boolean  = true;
+	let srcUrl = '';
+	let player;
+
+	$: srcUrl = `/private/fileProxy?filename=${encodeURIComponent(src)}`;
+	$: reload(srcUrl)
+
+	const reload = () => {
+		if(!player) return
+		player.load()
+		// if(play) player.play()
+	}
 
 </script>
 
@@ -20,7 +31,7 @@
 		<strong>{title}</strong> /
 		<span>{artist}</span>
 </div>
-		<audio controls class="mt-2 w-full"
+		<audio bind:this={player} controls class="mt-2 w-full"
 					 bind:paused
 					 on:play={(e) => {
 						const audio = e.currentTarget;
@@ -31,6 +42,6 @@
 						}
 					}}
 		>
-			<source src={src} type={audioType}/>
+			<source src={srcUrl} type={audioType}/>
 			Your browser does not support the audio element.
 		</audio>
