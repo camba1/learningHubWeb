@@ -20,7 +20,6 @@ export const users: UserSchemaType[] = [
 		emailAddress: "mytest@test.com",
 		createdAt: new Date(),
 		updatedAt: new Date(),
-		tags: ["example", "tags"],
 		usrMain_key_Create: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
 		usrMain_key_Update: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
 	},
