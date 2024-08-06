@@ -17,6 +17,7 @@ export const DocumentSchema = z.object({
 	authorName: z.string().default(""),
 	filePath: z.string().min(5, 'File path must be at least 5 characters, including file extension'), // path relative to output folder
 	filename: z.string().min(5, 'Filename must be at least 5 characters, including file extension'),
+	pageCount: z.number().int().gt(0).default(1),
 	characters: z.array(z.string()).optional(), //	Optional list of main document characters
 	tags: z.array(z.string()).optional(), // Optional list of tags/keywords
 	createdAt: z.date().default(() => new Date()).optional(), // Creation date of the document
@@ -30,29 +31,37 @@ export type DocumentSchemaType = z.infer<typeof DocumentSchema>;
 // A simple document "database"
 export const documents: DocumentSchemaType[] = [
 	{
-		_key: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
-		title: "My First Document",
-		summary: "This is the summary of the document.",
-		type: "article",
-		ageGroup: "Toddler",
-		authorId: "8a7f3dd5-9a61-41ce-853f-2b6345362346",
+		_key: '8a7f3dd5-9a61-41ce-853f-2b6345362341',
+		title: 'My First Document',
+		summary: 'This is the summary of the document.',
+		type: 'article',
+		ageGroup: 'Toddler',
+		authorId: '8a7f3dd5-9a61-41ce-853f-2b6345362346',
 		createdAt: new Date(),
 		updatedAt: new Date(),
-		tags: ["example", "tags"],
-		usrMain_key_Create: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
-		usrMain_key_Update: "8a7f3dd5-9a61-41ce-853f-2b6345362341",
+		tags: ['example', 'tags'],
+		usrMain_key_Create: '8a7f3dd5-9a61-41ce-853f-2b6345362341',
+		usrMain_key_Update: '8a7f3dd5-9a61-41ce-853f-2b6345362341',
+		authorName: '',
+		filePath: '',
+		filename: '',
+		pageCount: 12
 	},
 	{
-		_key: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
-		title: "My Second Document",
-		summary: "This is the summary of the document.",
-		type: "book",
-		ageGroup: "youth",
-		authorId: "8a7f3dd5-9a61-41ce-853f-2b6345362346",
+		_key: '8a7f3dd5-9a61-41ce-853f-2b6345362342',
+		title: 'My Second Document',
+		summary: 'This is the summary of the document.',
+		type: 'book',
+		ageGroup: 'Early Reader',
+		authorId: '8a7f3dd5-9a61-41ce-853f-2b6345362346',
 		createdAt: new Date(),
 		updatedAt: new Date(),
-		tags: ["example", "tags"],
-		usrMain_key_Create: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
-		usrMain_key_Update: "8a7f3dd5-9a61-41ce-853f-2b6345362342",
+		tags: ['example', 'tags'],
+		usrMain_key_Create: '8a7f3dd5-9a61-41ce-853f-2b6345362342',
+		usrMain_key_Update: '8a7f3dd5-9a61-41ce-853f-2b6345362342',
+		authorName: '',
+		filePath: '',
+		filename: '',
+		pageCount: 5
 	}
 ];
