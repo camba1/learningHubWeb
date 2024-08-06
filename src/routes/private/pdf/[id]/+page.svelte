@@ -2,14 +2,17 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
-	import AudioPlayer from '$lib/audioPlayer/AudioPlayer.svelte';
-	import TextField from '$lib/form/TextField.svelte';
-	import TextAreaField from '$lib/form/TextAreaField.svelte';
-	import FormButtons from '$lib/form/FormButtons.svelte';
+	import AudioPlayer from '$lib/components/audioPlayer/AudioPlayer.svelte';
+	import TextField from '$lib/components/form/TextField.svelte';
+	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
+	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
-	import PdfViewer from '$lib/docViewer/PdfViewer.svelte';
+	import PdfViewer from '$lib/components/docViewer/PdfViewer.svelte';
+	import  TextViewer from '$lib/components/docViewer/TextViewer.svelte';
 
 	export let data: PageData;
+
+	let pageUrl = "Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_1.txt";
 
 	const { form, errors, constraints, enhance, delayed, message } = superForm(
 		data.form, {
@@ -19,6 +22,11 @@
 
 	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.docMain_key);
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document version "};
+
+	const handlePageUrlChange = () => {
+		pageUrl = "Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_19.txt";
+		alert(pageUrl)
+	};
 
 </script>
 
@@ -46,7 +54,7 @@
 						<TextField label="Filename" id="filename" bind:value={$form.filename}
 											 errors={$errors.filename} constraints={$constraints.filename}
 											 readOnly={true}/>
-						<TextAreaField label="Document Summary:" id="docText" bind:value={$form.docText}
+						<TextAreaField label="Summary:" id="docText" bind:value={$form.docText}
 													 errors={$errors.docText} constraints={$constraints.docText} />
 						<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 												 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.language.toString(), "?")}
@@ -70,11 +78,22 @@
 				</div>
 			</div>
 
-			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Image"  />
+<!--			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Image"  />-->
+<!--			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">-->
+<!--				{#if $form.imageUrl}-->
+<!--					<img src={$form.imageUrl} alt="Generated Image for {$form.filename}" />-->
+<!--				{:else}-->
+<!--					<p>No Image has been generated for this file </p>-->
+<!--				{/if}-->
+<!--			</div>-->
+			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Text"  />
 			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-			</div>
-			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Extracted Text"  />
-			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+				<label for="page">Page: </label>
+				<input type="number" id="page" name="Page:" min="0" max="16" value="0" class="input input-bordered input-sm w-full max-w-xs" >
+				<button on:click={handlePageUrlChange} class="btn btn-primary btn-sm">Get page</button>
+				<TextViewer encodedFilename={pageUrl} label="Page 1" id="page1" readOnly={true} />
+<!--				<TextViewer encodedFilename="Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_2.txt" label="Page 2" id="page2" readOnly={true} />-->
+<!--				<TextViewer encodedFilename="Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_3.txt" label="Page 3" id="page3" readOnly={true} />-->
 			</div>
 	</div>
 </div>

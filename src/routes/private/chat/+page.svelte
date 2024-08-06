@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
-	import ChatBubble from '$lib/chat/ChatBubble.svelte';
-	import TextAreaField from '$lib/form/TextAreaField.svelte';
+	import ChatBubble from '$lib/components/chat/ChatBubble.svelte';
+	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import type { PageData } from './$types.js';
-	import FormButtons from '$lib/form/FormButtons.svelte';
+	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import { afterUpdate } from 'svelte';
-	import { RoleEnum, StatusEnum, AssistName } from '$lib/message';
+	import { RoleEnum, StatusEnum, AssistName } from '$lib/schemas/message';
 	import { getLocalTime } from '$lib/utils/timeUtils';
 
 	export let data: PageData;

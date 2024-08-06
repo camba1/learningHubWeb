@@ -1,7 +1,7 @@
 import { superValidate } from 'sveltekit-superforms';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
-import { AssistName, maxNumberOfMessagesKept, type MessageDB, MessageSchema, RoleEnum, StatusEnum } from '$lib/message';
+import { AssistName, maxNumberOfMessagesKept, type MessageDB, MessageSchema, RoleEnum, StatusEnum } from '$lib/schemas/message';
 import { getLocalTime } from '$lib/utils/timeUtils';
 import { RemoteRunnable } from '@langchain/core/runnables/remote';
 import { ExternalURLs } from '$lib/server/utils/externalUrls';

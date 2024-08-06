@@ -1,9 +1,9 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { DocumentDetailSchema } from '$lib/documentDetails';
-import { documentDetails } from '$lib/documentDetails';
+import { DocumentDetailSchema } from '$lib/schemas/documentDetails';
+import { documentDetails } from '$lib/schemas/documentDetails';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { DocumentVoices } from '$lib/documentAudio';
+import { DocumentVoices } from '$lib/schemas/documentAudio';
 import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetails";
 
 
@@ -49,12 +49,10 @@ export const actions = {
 
 		if (!form.valid) return fail(400, { form });
 
-		console.log("HERE")
 		if (!form.data._key) {
 			throw error(405, 'New records cannot be created in this form as they are created automatically');
 
 		} else {
-			console.log("MOD")
 			// Modify docDetails
 			const index = documentDetails.findIndex((d) => d._key == form.data._key);
 			// if (index == -1) throw error(404, 'Document not found.');
