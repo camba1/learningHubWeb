@@ -10,6 +10,8 @@
 	import NumberField from '$lib/components/form/NumberField.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
+	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
+	import { SquarePlus } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -90,6 +92,8 @@
 	<div class="flex justify-center">
 		<div>
 			<label for="docVersions" class="label label-text font-semibold">Document versions: </label>
+			<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/${$form.filename}`)}/>
+		</div>
 		<div>
 			<table id="docVersions" class="table table-xs">
 				<tbody>
@@ -101,8 +105,9 @@
 				</tbody>
 			</table>
 		</div>
-		</div>
 	</div>
+	<br>
+	<br>
 {/if}
 
 <!--<SuperDebug data={$form} />-->
