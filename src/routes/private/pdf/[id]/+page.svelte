@@ -2,17 +2,15 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
-	import AudioPlayer from '$lib/components/audioPlayer/AudioPlayer.svelte';
 	import TextField from '$lib/components/form/TextField.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
 	import PdfViewer from '$lib/components/docViewer/PdfViewer.svelte';
-	import  TextViewer from '$lib/components/docViewer/TextViewer.svelte';
+	import MarkdownViewer from '$lib/components/docViewer/MarkdownViewer.svelte';
+	import AudioFilesViewer from '$lib/components/docViewer/AudioFilesViewer.svelte';
 
 	export let data: PageData;
-
-	let pageUrl = "Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_1.txt";
 
 	const { form, errors, constraints, enhance, delayed, message } = superForm(
 		data.form, {
@@ -22,11 +20,6 @@
 
 	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.docMain_key);
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document version "};
-
-	const handlePageUrlChange = () => {
-		pageUrl = "Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_19.txt";
-		alert(pageUrl)
-	};
 
 </script>
 
@@ -66,34 +59,20 @@
 			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Audio"  />
 			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 				<div class="p-4">
-					<ul class="list-disc pl-5">
-						{#if data.docVoices}
-							{#each data.docVoices  as audio}
-								<ul class="my-2">
-									<AudioPlayer src={InternalURLs.audio.concat("/",audio.id.toString()) } title={"Page: " + audio.documentPageNumber} artist={"Voice: " + audio.voiceName} />
-								</ul>
-							{/each}
+						{#if data.availableFiles}
+							<AudioFilesViewer availableFiles={data.availableFiles} label="Select a Page:" />
 						{/if}
-					</ul>
 				</div>
 			</div>
 
-<!--			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Image"  />-->
-<!--			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">-->
-<!--				{#if $form.imageUrl}-->
-<!--					<img src={$form.imageUrl} alt="Generated Image for {$form.filename}" />-->
-<!--				{:else}-->
-<!--					<p>No Image has been generated for this file </p>-->
-<!--				{/if}-->
-<!--			</div>-->
+
 			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Text"  />
 			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-				<label for="page">Page: </label>
-				<input type="number" id="page" name="Page:" min="0" max="16" value="0" class="input input-bordered input-sm w-full max-w-xs" >
-				<button on:click={handlePageUrlChange} class="btn btn-primary btn-sm">Get page</button>
-				<TextViewer encodedFilename={pageUrl} label="Page 1" id="page1" readOnly={true} />
-<!--				<TextViewer encodedFilename="Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_2.txt" label="Page 2" id="page2" readOnly={true} />-->
-<!--				<TextViewer encodedFilename="Three%20Billy%20Goats%20Gruff%20%E2%80%93%20CKF_3.txt" label="Page 3" id="page3" readOnly={true} />-->
+				<div class="p-4">
+					{#if $form.filename}
+						<MarkdownViewer encodedFilename={$form.filename} />
+					{/if}
+				</div>
 			</div>
 	</div>
 </div>

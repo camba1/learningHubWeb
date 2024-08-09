@@ -6,7 +6,13 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { DocumentVoices } from '$lib/schemas/documentAudio';
 import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetails";
 
-
+const availableFiles = [
+	{ friendlyName: 'Page 1', filename: 'Three Billy Goats Gruff – CKF_0.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Thalia' },
+	{ friendlyName: 'Page 2', filename: 'Three Billy Goats Gruff – CKF_1.txt', audioFilename: 'Three Billy Goats Gruff – CKF_18.flac', speaker: 'Jane' },
+	{ friendlyName: 'Page 3', filename: 'Three Billy Goats Gruff – CKF_2.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Maria' },
+	{ friendlyName: 'Page 4', filename: 'Three Billy Goats Gruff – CKF_3.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Thalia' },
+	{ friendlyName: 'Page 5', filename: 'Three Billy Goats Gruff – CKF_4.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Thalia' }
+];
 
 const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	id: DocumentDetailSchema.shape._key.optional(),
@@ -31,6 +37,7 @@ export async function load({ params, url }) {
 		form,
 		filename: filename,
 		docVoices,
+		availableFiles
 	};
 
 }
