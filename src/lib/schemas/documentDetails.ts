@@ -19,7 +19,16 @@ export const DocumentDetailLookupSchema = DocumentDetailSchema.pick({
 	_key: true,
 	language: true
 })
+
+export const DocumentDetailsFromDocSchema = z.object({
+	filename: z.string().min(5, 'Filename must be at least 5 characters, including file extension'),
+	target_language: LanguagesEnum,
+	document_key: z.string()
+})
+
 export type DocumentDetailLookupSchemaType = z.infer<typeof DocumentDetailLookupSchema>;
+
+export type DocumentDetailsFromDocSchemaType = z.infer<typeof DocumentDetailsFromDocSchema>;
 
 export type DocumentDetailSchemaType = z.infer<typeof DocumentDetailSchema>;
 
