@@ -12,10 +12,10 @@
 	import { CircleArrowLeft, Save, Trash2 } from 'lucide-svelte';
 
 	export let delayed: boolean;
-	export let objectId: string | undefined;
+	export let objectId: string | undefined = undefined;
 	export let submitLbl: string;
-	export let deleteLbl: string;
-	export let confirmationDelMsg: string;
+	export let deleteLbl: string = "";
+	export let confirmationDelMsg: string = "";
 	export let backLbl: string;
 	export let backUrl: string;
 
