@@ -10,6 +10,7 @@ export const ExternalURLs = {
 	documents: backendUrl.concat("/documents"),
 	document_details_lookup: backendUrl.concat("/documents/{key}/document_details_lookup"),
 	document_details: backendUrl.concat("/document_details"),
+	document_details_from_doc: backendUrl.concat("/documents/{key}/document_details_from_doc"),
 	users: backendUrl.concat("/users"),
 	organizations: backendUrl.concat("/organizations"),
 	agent: backendUrl.concat("/agent"),
