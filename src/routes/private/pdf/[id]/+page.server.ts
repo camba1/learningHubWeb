@@ -3,16 +3,9 @@ import { DocumentDetailSchema } from '$lib/schemas/documentDetails';
 import { documentDetails } from '$lib/schemas/documentDetails';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { DocumentVoices } from '$lib/schemas/documentAudio';
 import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetails";
-
-const availableFiles = [
-	{ friendlyName: 'Page 1', filename: 'Three Billy Goats Gruff – CKF_0.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Thalia' },
-	{ friendlyName: 'Page 2', filename: 'Three Billy Goats Gruff – CKF_1.txt', audioFilename: 'Three Billy Goats Gruff – CKF_18.flac', speaker: 'Jane' },
-	{ friendlyName: 'Page 3', filename: 'Three Billy Goats Gruff – CKF_2.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Maria' },
-	{ friendlyName: 'Page 4', filename: 'Three Billy Goats Gruff – CKF_3.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Thalia' },
-	{ friendlyName: 'Page 5', filename: 'Three Billy Goats Gruff – CKF_4.txt', audioFilename: 'Three Billy Goats Gruff – CKF_17.flac', speaker: 'Thalia' }
-];
+import { fetchDocumentDetailPages } from '$lib/api/documentDetailPages';
+import type { PageSchemaType } from '$lib/schemas/documentDetailPages';
 
 const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	id: DocumentDetailSchema.shape._key.optional(),
@@ -21,32 +14,39 @@ const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 });
 
 export async function load({ params, url }) {
-	// const docDetails = documentDetails.find((d) => d._key == params.id);
+
 	if (!url.searchParams.has("filename")) throw error(404, 'Filename not found.');
 
-	const docDetails = await fetchDocumentDetail(params.id);
+	let docDetailPages = null;
+	let docDetails = null;
+
+	[docDetails, docDetailPages] = await Promise.all([
+		fetchDocumentDetail(params.id),
+		 fetchDocumentDetailPages(0, 10, "created_at", "desc", params.id),
+	]);
+
 	if (params.id && !docDetails) throw error(404, 'Document details not found.');
+	if (docDetailPages && docDetailPages.length > 1) throw error(404, 'Found more than one pages detail record');
+
+	let availableFiles: PageSchemaType[] = [];
+	if (docDetails && docDetailPages.length == 1) {
+		availableFiles = docDetailPages[0].pages
+	}
+	console.log(availableFiles)
 
 	const form = await superValidate(docDetails, zod(DocumentDetailSchema));
-
-	const docVoices = docDetails ? getAudio(docDetails?.docMain_key) : undefined;
 
 	const filename = url.searchParams.get("filename") || "";
 
 	return {
 		form,
 		filename: filename,
-		docVoices,
-		availableFiles
+		availableFiles: availableFiles
 	};
 
 }
 
-function getAudio(id: string){
-	const docVoices = DocumentVoices.filter((d) => d.documentsProcessedId == id);
 
-	return docVoices
-}
 
 export const actions = {
 	default: async ({ request }) => {
