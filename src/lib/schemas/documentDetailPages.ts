@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 
-const PageSchema = z.object({
+export const PageSchema = z.object({
 	friendlyName: z.string().readonly(),
 	number: z.number().readonly(),
 	filename: z.string().readonly(),
@@ -20,3 +20,4 @@ export const DocumentDetailPagesSchema = z.object({
 });
 
 export type DocumentDetailPagesSchemaType = z.infer<typeof DocumentDetailPagesSchema>;
+export type PageSchemaType = z.infer<typeof PageSchema>;
