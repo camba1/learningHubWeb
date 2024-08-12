@@ -64,16 +64,16 @@
 		<FieldLabel id="characters" label="Main characters"/>
 		{#if $form.characters}
 			<!--{$form.tags.length}-->
-			{#each $form.characters as _, i}
-				<TextField id="tags" bind:value={$form.characters[i]}
+			{#each $form.characters as character, i}
+				<TextField id="tags" bind:value={character}
 									 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />
 			{/each}
 		{/if}
 		<FieldLabel id="tags" label="Tags"/>
 		{#if $form.tags}
 			<!--{$form.tags.length}-->
-			{#each $form.tags as _, i}
-				<TextField id="tags" bind:value={$form.tags[i]}
+			{#each $form.tags as tag, i}
+				<TextField id="tags" bind:value={tag}
 								 errors={$errors.tags?.[i]} constraints={$constraints.tags} />
 			{/each}
 		{/if}
