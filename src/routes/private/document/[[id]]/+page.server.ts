@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 type Document = z.infer<typeof DocumentSchema>;
 
-// Make the [id] optional when we are creating a new record
+// Make the [[id]] optional when we are creating a new record
 const crudDocumentSchema = DocumentSchema.extend({
 	id: DocumentSchema.shape._key.optional(),
 	filePath: DocumentSchema.shape.filePath.optional(),
