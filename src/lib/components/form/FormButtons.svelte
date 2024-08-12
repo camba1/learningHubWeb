@@ -30,7 +30,7 @@ It includes icons and labels for user interaction and provides visual feedback f
 
 
 <div class="p-3">
-	<button name="submit" id="submit" class="btn btn-xs"> <Save class="w-4 h-4"/> {submitLbl}</button> {#if delayed}Working...{/if}
+	<button name="submit" id="submit" class="btn btn-xs"> <Save class="w-4 h-4"/> {submitLbl}</button>
 	{#if objectId}
 		<button
 			name="delete" id="delete"
@@ -38,4 +38,7 @@ It includes icons and labels for user interaction and provides visual feedback f
 			class="btn  btn-xs"> <Trash2 class="w-4 h-4"/> {deleteLbl}</button>
 	{/if}
 	<a href={backUrl} role="button" class="btn btn-xs"><CircleArrowLeft class="w-4 h-4"/>{backLbl}</a>
+	{#if delayed}
+		<span class="loading loading-spinner text-neutral"></span>
+	{/if}
 </div>
