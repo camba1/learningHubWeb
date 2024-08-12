@@ -7,6 +7,7 @@ import { type DocumentDetailsFromDocSchemaType } from '$lib/schemas/documentDeta
 import { DocumentDetailsFromDocSchema } from '$lib/schemas/documentDetails';
 import { z } from 'zod';
 import { zod } from 'sveltekit-superforms/adapters';
+import { getMainHeader } from "$lib/server/utils/headers";
 
 type DocumentDetailsFromDoc = z.infer<typeof DocumentDetailsFromDocSchema>;
 
@@ -47,31 +48,20 @@ export const actions: Actions = {
 		post_data.filename = post_data.filename.replace('.pdf', '.md')
 
 		const url =  encodeURI(ExternalURLs.document_details_from_doc.replace('{key}', post_data.document_key));  //detailsURL.replace('{key}', id);
-		// const api_client = new APIClient<DocumentDetailsFromDocSchemaType>(url, DocumentDetailsFromDocSchema);
 
-		// const new_detail_info = await api_client.createItem(post_data);
 		const new_detail_info = await post_version(url, post_data);
 
-		// const encoded_filename = encodeURIComponent(post_data.filename.replace('.md', '.pdf'));
-		const newUrl = `${InternalURLs.pdf}/${new_detail_info._key}?filename=${encodeURIComponent(params.filename)}`;
-		console.log(newUrl)
+		const newUrl = `${InternalURLs.document}/${params.id}/document_detail/${encodeURIComponent(params.filename)}/${new_detail_info._key}`;
 		throw redirect(303, newUrl);
 	},
 };
 
 
-function getHeader() {
-	const headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('x-token', 'secret-token');
-	return headers;
-}
-
-
 async function post_version(url: string, body: DocumentDetailsFromDocSchemaType){
 	const options: RequestInit = {
 		method: 'POST',
-		headers: getHeader(),
+		// headers: getHeader(),
+		headers: getMainHeader('application/json'),
 		body: JSON.stringify(body)
 	};
 	const response = await fetch(url, options);
