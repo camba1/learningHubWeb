@@ -16,6 +16,7 @@
 	export let constraints: InputConstraint | undefined = undefined;
 	export let id: string
 	export let readOnly: boolean = false;
+	export let rows: number = 5;
 </script>
 
 <!--
@@ -32,6 +33,7 @@ A SvelteKit component representing a textarea field for a form.
 			bind:value={value}
 			{...constraints}
 			class="textarea textarea-bordered resize w-full"
+			rows={rows}
 			readonly={readOnly}
 		/>
 	{#if errors}<span class="invalid">{errors}</span>{/if}
