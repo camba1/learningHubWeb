@@ -1,4 +1,5 @@
 import { error, json } from '@sveltejs/kit';
+import { getMainHeader } from '$lib/server/utils/headers';
 
 export class APIFileClient {
 	baseURL: string;
@@ -8,9 +9,7 @@ export class APIFileClient {
 	}
 
 	private getHeader() {
-		const headers = new Headers();
-		headers.append('x-token', 'secret-token');
-		return headers;
+		return getMainHeader();
 	}
 
 	async upload_file( form_data:  FormData ) {

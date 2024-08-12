@@ -1,9 +1,7 @@
 import type { ZodSchema } from 'zod';
 import { error } from '@sveltejs/kit';
 import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
-
-// const DEFAULT_SKIP = 0;
-// const DEFAULT_LIMIT = 25;
+import { getMainHeader } from '$lib/server/utils/headers';
 
 export class APIClient<T> {
 	baseURL: string;
@@ -15,10 +13,7 @@ export class APIClient<T> {
 	}
 
 	private getHeader() {
-		const headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-		headers.append('x-token', 'secret-token');
-		return headers;
+		return getMainHeader('application/json');
 	}
 
 	private async fetchResource(url: string, method: string = 'GET', body:  T | null = null) {
