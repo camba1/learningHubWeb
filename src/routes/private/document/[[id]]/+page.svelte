@@ -92,14 +92,15 @@
 	<div class="flex justify-center">
 		<div>
 			<label for="docVersions" class="label label-text font-semibold">Document versions: </label>
-			<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/${$form.filename}`)}/>
+			<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
 		</div>
 		<div>
 			<table id="docVersions" class="table table-xs">
 				<tbody>
 					{#each data.docProcessedLookups as lookup}
 						<tr>
-							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}?filename={$form.filename}&pageCount={$form.pageCount}" >{lookup.language}</a></td>
+<!--							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}?filename={$form.filename}" >{lookup.language}</a></td>-->
+							<td><a class="link" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} >{lookup.language}</a></td>
 						</tr>
 					{/each}
 				</tbody>
