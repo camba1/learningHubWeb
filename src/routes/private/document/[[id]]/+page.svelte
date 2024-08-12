@@ -31,11 +31,11 @@
 	<h3 class:invalid={$page.status >= 400}>{$message}</h3>
 {/if}
 
-<div class="flex justify-center p-3">
+<div class="flex justify-center p-5">
 	<h2>{!$form._key ? 'Create' : 'Update'} Document</h2>
 </div>
 
-<div class="flex justify-center">
+<div class="flex justify-center p-5">
 
 	<form method="POST" use:enhance >
 
