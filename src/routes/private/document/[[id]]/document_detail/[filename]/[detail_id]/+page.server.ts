@@ -13,19 +13,17 @@ const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	filename: DocumentDetailSchema.shape.filePath.optional(),
 });
 
-export async function load({ params, url }) {
-
-	if (!url.searchParams.has("filename")) throw error(404, 'Filename not found.');
+export async function load({ params }) {
 
 	let docDetailPages = null;
 	let docDetails = null;
 
 	[docDetails, docDetailPages] = await Promise.all([
-		fetchDocumentDetail(params.id),
-		 fetchDocumentDetailPages(0, 10, "created_at", "desc", params.id),
+		fetchDocumentDetail(params.detail_id),
+		 fetchDocumentDetailPages(0, 10, "created_at", "desc", params.detail_id),
 	]);
 
-	if (params.id && !docDetails) throw error(404, 'Document details not found.');
+	if (params.detail_id && !docDetails) throw error(404, 'Document details not found.');
 	if (docDetailPages && docDetailPages.length > 1) throw error(404, 'Found more than one pages detail record');
 
 	let availableFiles: PageSchemaType[] = [];
@@ -36,16 +34,13 @@ export async function load({ params, url }) {
 
 	const form = await superValidate(docDetails, zod(DocumentDetailSchema));
 
-	const filename = url.searchParams.get("filename") || "";
-
 	return {
 		form,
-		filename: filename,
+		filename: params.filename,
 		availableFiles: availableFiles
 	};
 
 }
-
 
 
 export const actions = {
@@ -62,19 +57,15 @@ export const actions = {
 		} else {
 			// Modify docDetails
 			const index = documentDetails.findIndex((d) => d._key == form.data._key);
-			// if (index == -1) throw error(404, 'Document not found.');
 
 			if (formData.has('delete')) {
-				console.log("DELETE")
-				// DELETE docDetail
 				const parentDocumentId = documentDetails[index].docMain_key
 				documentDetails.splice(index, 1);
 				throw redirect(303, '/document/'.concat(parentDocumentId));
 
 			} else {
 
-				console.log("UPDATE")
-				console.log(form.data);
+
 				const docDetail = await updateDocumentDetail(form.data._key, form.data);
 				const updatedForm = await superValidate(docDetail, zod(DocumentDetailSchema));
 
@@ -82,7 +73,5 @@ export const actions = {
 				return message(updatedForm, 'Document updated');
 			}
 		}
-
-		// return { form };
 	}
 };

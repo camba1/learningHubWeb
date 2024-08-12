@@ -43,7 +43,7 @@
 
 						<TextField label="Language" id="language" bind:value={$form.language}
 											 errors={$errors.language} constraints={$constraints.language}
-												readOnly={true}/>
+											 readOnly={true}/>
 						<TextField label="Filename" id="filename" bind:value={$form.filename}
 											 errors={$errors.filename} constraints={$constraints.filename}
 											 readOnly={true}/>
@@ -59,9 +59,9 @@
 			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Audio"  />
 			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 				<div class="p-4">
-						{#if data.availableFiles}
-							<AudioFilesViewer availableFiles={data.availableFiles} label="Select a Page:" />
-						{/if}
+					{#if data.availableFiles}
+						<AudioFilesViewer availableFiles={data.availableFiles} label="Select a Page:" />
+					{/if}
 				</div>
 			</div>
 
@@ -74,8 +74,8 @@
 					{/if}
 				</div>
 			</div>
+		</div>
 	</div>
-</div>
 </div>
 
 <!--<SuperDebug data={$form} />-->
