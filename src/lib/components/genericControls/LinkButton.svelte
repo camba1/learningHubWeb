@@ -2,10 +2,12 @@
 	/**
 	 * @param icon The Lucide icon component
 	 * @param label The button label
-	 * @param href The link to navigate to
+	 * @param href The link to navigate to when the button is clicked
+	 * @param btn_class The button class. Default: "btn btn-xs mx-0.5"
 	 */
 
-	export let icon = null; // This prop will accept any Lucide icon component
+	import type { ComponentType } from 'svelte';
+	export let icon: ComponentType | null = null;
 	export let label: string;
 	export let href: string;
 	export let btn_class: string = "btn btn-xs mx-0.5";
