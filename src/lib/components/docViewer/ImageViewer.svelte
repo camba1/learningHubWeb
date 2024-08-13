@@ -25,5 +25,5 @@
 {:then objUrl}
 	<img src="{String(objUrl)}" alt={alt} class={img_class}/>
 {:catch error}
-	<p >Image has not yet been created for this document</p>
+	<span>No Image<br>available</span>
 {/await}
