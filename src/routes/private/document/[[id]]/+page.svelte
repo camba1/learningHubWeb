@@ -7,11 +7,11 @@
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
-	import NumberField from '$lib/components/form/NumberField.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
 	import { SquarePlus } from 'lucide-svelte';
+	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 
 	export let data: PageData;
 
@@ -31,90 +31,79 @@
 	<h3 class:invalid={$page.status >= 400}>{$message}</h3>
 {/if}
 
-<div class="flex justify-center p-5">
-	<h2>{!$form._key ? 'Create' : 'Update'} Document</h2>
-</div>
-
-<div class="flex justify-center p-5">
-
+<div class="container mx-auto p-6">
 	<form method="POST" use:enhance >
+		<div class="flex justify-between items-center">
+			<div>
+				<h1 class="text-2xl font-bold">{$form.title}</h1>
+				<p class="text-gray-500 mt-1">File: {$form.filename} - {$form.pageCount} pages</p>
+				<div class="mt-3 flex flex-wrap">
+					{#each data.docProcessedLookups as lookup}
+						<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_class="btn btn-outline btn-primary btn-xs mx-0.5`" />
+					{/each}
+					<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
+				</div>
+			</div>
+			{#if data.image_filename}
+				<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document" img_class="w-28 h-28 object-cover"/>
+			{/if}
+		</div>
 
-		<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
-		<input type="hidden" id="authorId" name="authorId" bind:value={$form.authorId} />
-		<input type="hidden" id="filePath" name="filePath" bind:value={$form.filePath} />
 
-		<TextField label="Title" id="title" bind:value={$form.title}
-							 errors={$errors.title} constraints={$constraints.title} />
-		<TextField label="Author" id="authorName" bind:value={$form.authorName}
-							 errors={$errors.authorName} constraints={$constraints.authorName} />
-		<SelectField label="Type" id="type" bind:value={$form.type}
-								 errors={$errors.type} constraints={$constraints.type}
-								 optionValues={bookTypes} />
-		<SelectField label="Age Group:" id="ageGroup" bind:value={$form.ageGroup}
-								 errors={$errors.ageGroup} constraints={$constraints.ageGroup}
-								 optionValues={ageGroups} />
-		<TextField label="Filename" id="filename" bind:value={$form.filename}
-							 errors={$errors.filename} constraints={$constraints.filename}
-							 readOnly={true}/>
-		<NumberField label="Page Count" id="pageCount" bind:value={$form.pageCount}
-							 errors={$errors.pageCount} constraints={$constraints.pageCount}
-							 readOnly={true}/>
-		<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
-									 errors={$errors.summary} constraints={$constraints.summary} />
-		<FieldLabel id="characters" label="Main characters"/>
-		{#if $form.characters}
-			<!--{$form.tags.length}-->
-			{#each $form.characters as character, i}
-				<TextField id="tags" bind:value={character}
-									 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />
-			{/each}
-		{/if}
-		<FieldLabel id="tags" label="Tags"/>
-		{#if $form.tags}
-			<!--{$form.tags.length}-->
-			{#each $form.tags as tag, i}
-				<TextField id="tags" bind:value={tag}
-								 errors={$errors.tags?.[i]} constraints={$constraints.tags} />
-			{/each}
-		{/if}
-		<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
-								 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
-								 backUrl={searchPageUrl}/>
+		<PageSection label="Information">
+			<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
+			<input type="hidden" id="authorId" name="authorId" bind:value={$form.authorId} />
+			<input type="hidden" id="filePath" name="filePath" bind:value={$form.filePath} />
+			<input type="hidden" id="filename" name="filename" bind:value={$form.filename} />
+			<input type="hidden" id="pageCount" name="pageCount" bind:value={$form.pageCount} />
+
+			<TextField label="Title" id="title" bind:value={$form.title}
+								 errors={$errors.title} constraints={$constraints.title} />
+			<TextField label="Author" id="authorName" bind:value={$form.authorName}
+								 errors={$errors.authorName} constraints={$constraints.authorName} />
+		</PageSection>
+
+		<PageSection label="Classification">
+			<SelectField label="Type" id="type" bind:value={$form.type}
+									 errors={$errors.type} constraints={$constraints.type}
+									 optionValues={bookTypes} />
+			<SelectField label="Age Group:" id="ageGroup" bind:value={$form.ageGroup}
+									 errors={$errors.ageGroup} constraints={$constraints.ageGroup}
+									 optionValues={ageGroups} />
+		</PageSection>
+
+
+		<PageSection label="Details">
+			<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
+										 errors={$errors.summary} constraints={$constraints.summary} />
+			<FieldLabel id="characters" label="Main characters"/>
+			{#if $form.characters}
+				{#each $form.characters as character, i}
+					<TextField id="characters" bind:value={character}
+										 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />
+				{/each}
+			{/if}
+			<FieldLabel id="tags" label="Tags"/>
+			{#if $form.tags}
+				{#each $form.tags as tag, i}
+					<TextField id="tags" bind:value={tag}
+										 errors={$errors.tags?.[i]} constraints={$constraints.tags} />
+				{/each}
+			{/if}
+		</PageSection>
+
+
+		<div class="flex justify-end space-x-2 mt-4">
+
+			<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
+									 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
+									 backUrl={searchPageUrl}/>
+		</div>
 	</form>
 </div>
 
-{#if data.image_filename}
-	<FieldLabel id="docImage" label="Generated image"/>
-	<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document"/>
-{/if}
-
-{#if $form._key}
-	<div class="flex justify-center">
-		<div>
-			<label for="docVersions" class="label label-text font-semibold">Document versions: </label>
-			<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
-		</div>
-		<div>
-			<table id="docVersions" class="table table-xs">
-				<tbody>
-					{#each data.docProcessedLookups as lookup}
-						<tr>
-<!--							<td><a class="link" href="{InternalURLs.pdf}/{lookup._key}?filename={$form.filename}" >{lookup.language}</a></td>-->
-							<td><a class="link" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} >{lookup.language}</a></td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<br>
-	<br>
-{/if}
-
-<!--<SuperDebug data={$form} />-->
-
 <style>
-    .invalid {
-        color: red;
+    .container {
+        max-width: 900px;
     }
 </style>
