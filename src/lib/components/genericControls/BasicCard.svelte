@@ -1,6 +1,6 @@
-<script>
-	export let title;
-	export let description;
+<script lang="ts">
+	export let title: string;
+	export let description: string;
 </script>
 
 <div class="card bg-base-100 shadow-xl">
