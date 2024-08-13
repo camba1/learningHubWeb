@@ -5,12 +5,15 @@
 	 * @param href The link to navigate to
 	 */
 
-	export let icon; // This prop will accept any Lucide icon component
+	export let icon = null; // This prop will accept any Lucide icon component
 	export let label: string;
 	export let href: string;
+	export let btn_class: string = "btn btn-xs mx-0.5";
 </script>
 
-	<button class={`btn btn-xs mx-0.5`}>
+	<button class={btn_class}>
+		{#if icon}
 			<svelte:component this={icon} class="w-4 h-4" />
-			<a href={href}>{label}</a>
+		{/if}
+		<a href={href}>{label}</a>
 	</button>
