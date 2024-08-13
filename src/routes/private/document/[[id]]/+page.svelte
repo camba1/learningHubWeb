@@ -12,6 +12,7 @@
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
 	import { SquarePlus } from 'lucide-svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
+	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 
 	export let data: PageData;
 
@@ -24,6 +25,18 @@
 	const ageGroups:string[] = ['Toddler', 'Early Reader', 'Young Reader', 'Young Adult'];
 	const searchPageUrl: string = InternalURLs.documents
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
+
+	function removeTagOnce(value:string) {
+		if ($form.tags) {
+			$form.tags = $form.tags.filter( (item) => item !== value);
+		}
+	}
+
+	function removeCharacterOnce(value:string) {
+		if ($form.characters) {
+			$form.characters = $form.characters.filter( (item) => item !== value);
+		}
+	}
 
 </script>
 
@@ -79,15 +92,21 @@
 			<FieldLabel id="characters" label="Main characters"/>
 			{#if $form.characters}
 				{#each $form.characters as character, i}
-					<TextField id="characters" bind:value={character}
-										 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />
+<!--					<TextField id="characters" bind:value={character}-->
+<!--										 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />-->
+					<TextFieldWithDelete id="characters" bind:value={character}
+															 errors={$errors.characters?.[i]} constraints={$constraints?.characters}
+															 on:removeItemOnce={() => removeCharacterOnce(character)}/>
 				{/each}
 			{/if}
 			<FieldLabel id="tags" label="Tags"/>
 			{#if $form.tags}
 				{#each $form.tags as tag, i}
-					<TextField id="tags" bind:value={tag}
-										 errors={$errors.tags?.[i]} constraints={$constraints.tags} />
+<!--					<TextField id="tags" bind:value={tag}-->
+<!--										 errors={$errors.tags?.[i]} constraints={$constraints.tags} />-->
+					<TextFieldWithDelete id="tags" bind:value={tag}
+															 errors={$errors.tags?.[i]} constraints={$constraints?.tags}
+															 on:removeItemOnce={() => removeTagOnce(tag)}/>
 				{/each}
 			{/if}
 		</PageSection>
