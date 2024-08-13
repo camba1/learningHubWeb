@@ -43,6 +43,7 @@ export const actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(crudDocumentSchema));
+
 		if (!form.valid) return fail(400, { form });
 
 		if (!form.data._key) {
