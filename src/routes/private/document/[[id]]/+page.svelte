@@ -45,23 +45,24 @@
 {/if}
 
 <div class="container mx-auto p-6">
-	<form method="POST" use:enhance >
-		<div class="flex justify-between items-center">
-			<div>
-				<h1 class="text-2xl font-bold">{$form.title}</h1>
-				<p class="text-gray-500 mt-1">File: {$form.filename} - {$form.pageCount} pages</p>
-				<div class="mt-3 flex flex-wrap">
-					{#each data.docProcessedLookups as lookup}
-						<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_class="btn btn-outline btn-primary btn-xs mx-0.5`" />
-					{/each}
-					<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
-				</div>
-			</div>
-			{#if data.image_filename}
-				<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document" img_class="w-28 h-28 object-cover"/>
-			{/if}
-		</div>
 
+	<div class="flex justify-between items-center">
+		<div>
+			<h1 class="text-2xl font-bold">{$form.title}</h1>
+			<p class="text-gray-500 mt-1">File: {$form.filename} - {$form.pageCount} pages</p>
+			<div class="mt-3 flex flex-wrap">
+				{#each data.docProcessedLookups as lookup}
+					<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_class="btn btn-outline btn-primary btn-xs mx-0.5`" />
+				{/each}
+				<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
+			</div>
+		</div>
+		{#if data.image_filename}
+			<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document" img_class="w-28 h-28 object-cover"/>
+		{/if}
+	</div>
+
+	<form method="POST" use:enhance >
 
 		<PageSection label="Information">
 			<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
@@ -85,25 +86,22 @@
 									 optionValues={ageGroups} />
 		</PageSection>
 
-
 		<PageSection label="Details">
 			<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
 										 errors={$errors.summary} constraints={$constraints.summary} />
+
 			<FieldLabel id="characters" label="Main characters"/>
 			{#if $form.characters}
 				{#each $form.characters as character, i}
-<!--					<TextField id="characters" bind:value={character}-->
-<!--										 errors={$errors.characters?.[i]} constraints={$constraints?.characters} />-->
 					<TextFieldWithDelete id="characters" bind:value={character}
 															 errors={$errors.characters?.[i]} constraints={$constraints?.characters}
 															 on:removeItemOnce={() => removeCharacterOnce(character)}/>
 				{/each}
 			{/if}
+
 			<FieldLabel id="tags" label="Tags"/>
 			{#if $form.tags}
 				{#each $form.tags as tag, i}
-<!--					<TextField id="tags" bind:value={tag}-->
-<!--										 errors={$errors.tags?.[i]} constraints={$constraints.tags} />-->
 					<TextFieldWithDelete id="tags" bind:value={tag}
 															 errors={$errors.tags?.[i]} constraints={$constraints?.tags}
 															 on:removeItemOnce={() => removeTagOnce(tag)}/>
@@ -118,6 +116,7 @@
 									 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
 									 backUrl={searchPageUrl}/>
 		</div>
+
 	</form>
 </div>
 
