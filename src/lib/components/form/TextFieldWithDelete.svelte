@@ -37,6 +37,5 @@ A SvelteKit component representing an input field with an embedded button for a 
 			readonly={readOnly}
 		/>
 		{#if errors}<span class="invalid">{errors}</span>{/if}
-<!--		<button class="btn btn-xs btn-circle " on:click={() => dispatch('removeItemOnce', value)  }>x</button>-->
 		<button class="btn btn-xs btn-circle" on:click={() => dispatch('removeItemOnce', value)  }> <X  class="w-3 h-3" /> </button>
 	</label>
