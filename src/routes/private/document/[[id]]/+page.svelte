@@ -14,6 +14,7 @@
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
+	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 
 	export let data: PageData;
 
@@ -55,27 +56,9 @@
 		}
 	}
 
-	$: if ($message) {
-		setTimeout(() => {
-			$message = null;
-		}, 3000);
-	}
-
 </script>
 
-{#if $message}
-	<div class="toast">
-		{#if ($page.status >= 400)}
-			<div class="alert alert-error">
-				<CircleX class="w-5 h-5"/> {$message}
-			</div>
-		{:else}
-			<div class="alert alert-success">
-				<SquareCheck class="w-5 h-5"/> {$message}
-			</div>
-		{/if}
-	</div>
-{/if}
+<SubmitToast message={$message} page_status={$page.status}/>
 
 <div class="container mx-auto p-6">
 

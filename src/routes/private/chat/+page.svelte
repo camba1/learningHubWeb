@@ -7,6 +7,8 @@
 	import { afterUpdate } from 'svelte';
 	import { RoleEnum, StatusEnum, AssistName } from '$lib/schemas/message';
 	import { getLocalTime } from '$lib/utils/timeUtils';
+	import { page } from '$app/stores';
+	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 
 	export let data: PageData;
 
@@ -16,12 +18,12 @@
 	const searchPageUrl: string = "/";
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? "};
 
-	const { form, errors, constraints, enhance, delayed } = superForm(data.form, { resetForm: true,
+	const { form, errors, constraints, enhance, delayed, message } = superForm(data.form, { resetForm: true,
 		onSubmit: () => {
 			data.messages = [
 				...data.messages,
-				{messageText: tempMessage, role: RoleEnum.enum.user, time: getLocalTime(), status: StatusEnum.enum.sent, name: 'Me'},
-				{messageText: '...', role: RoleEnum.enum.assistant, time: getLocalTime(), status: StatusEnum.enum.sent, name: AssistName},
+				{messageText: tempMessage, role: RoleEnum.enum.user, time: getLocalTime(), status: StatusEnum.enum.sent, name: 'Me', userId:'123'},
+				{messageText: '...', role: RoleEnum.enum.assistant, time: getLocalTime(), status: StatusEnum.enum.sent, name: AssistName, userId:'456'},
 			];
 			// Clear the input field on submit.
 			tempMessage = "";
@@ -45,6 +47,8 @@
 		scrollToBottom(element);
 	}
 </script>
+
+<SubmitToast message={$message} page_status={$page.status}/>
 
 <div class="flex flex-col chat-wrapper">
 	<div bind:this={element} id="chatHistory" class="flex-1 overflow-y-auto  m-5 p-2 ">

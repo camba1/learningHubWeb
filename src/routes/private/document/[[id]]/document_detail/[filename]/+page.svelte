@@ -6,6 +6,7 @@
 	import SelectField from '$lib/components/form/SelectField.svelte';
 	import FormButtons from "$lib/components/form/FormButtons.svelte";
 	import TextField from '$lib/components/form/TextField.svelte';
+	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 
 
 	export let data: PageData;
@@ -18,10 +19,7 @@
 	const btnLabels = {"submitLbl": "Submit", "backLbl": "Back"};
 </script>
 
-{#if $message}
-	<h3 class:invalid={$page.status >= 400}>{$message}</h3>
-{/if}
-
+<SubmitToast message={$message} page_status={$page.status}/>
 
 <div class="flex justify-center items-center h-screen">
 	<div class="card bg-base-100 shadow-xl">
