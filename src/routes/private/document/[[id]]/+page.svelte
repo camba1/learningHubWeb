@@ -13,6 +13,7 @@
 	import { SquarePlus } from 'lucide-svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
+	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 
 	export let data: PageData;
 
@@ -38,6 +39,22 @@
 		}
 	}
 
+	function addCharacter(value:string) {
+		if ($form.characters) {
+			$form.characters = [...$form.characters, value];
+		} else {
+			$form.characters = [value];
+		}
+	}
+
+	function addTag(value:string) {
+		if ($form.tags) {
+			$form.tags = [...$form.tags, value];
+		} else {
+			$form.tags = [value];
+		}
+	}
+
 </script>
 
 {#if $message}
@@ -52,7 +69,7 @@
 			<p class="text-gray-500 mt-1">File: {$form.filename} - {$form.pageCount} pages</p>
 			<div class="mt-3 flex flex-wrap">
 				{#each data.docProcessedLookups as lookup}
-					<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_class="btn btn-outline btn-primary btn-xs mx-0.5`" />
+					<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_additional_class="btn-outline btn-primary" />
 				{/each}
 				<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
 			</div>
@@ -90,23 +107,33 @@
 			<TextAreaField label="Summary" id="summary" bind:value={$form.summary}
 										 errors={$errors.summary} constraints={$constraints.summary} />
 
-			<FieldLabel id="characters" label="Main characters"/>
-			{#if $form.characters}
-				{#each $form.characters as character, i}
-					<TextFieldWithDelete id="characters" bind:value={character}
-															 errors={$errors.characters?.[i]} constraints={$constraints?.characters}
-															 on:removeItemOnce={() => removeCharacterOnce(character)}/>
-				{/each}
-			{/if}
+			<span class="inline-flex items-center py-0.5">
+				<FieldLabel id="characters" label="Main characters"/>
+				<DispatchButton icon={SquarePlus} label="Add"  on:buttonClick={() => addCharacter("Add Character")}/>
+			</span>
+			<div>
+				{#if $form.characters}
+					{#each $form.characters as character, i}
+						<TextFieldWithDelete id="characters" bind:value={character}
+																 errors={$errors.characters?.[i]} constraints={$constraints?.characters}
+																 on:removeItemOnce={() => removeCharacterOnce(character)}/>
+					{/each}
+				{/if}
+			</div>
 
-			<FieldLabel id="tags" label="Tags"/>
-			{#if $form.tags}
-				{#each $form.tags as tag, i}
-					<TextFieldWithDelete id="tags" bind:value={tag}
-															 errors={$errors.tags?.[i]} constraints={$constraints?.tags}
-															 on:removeItemOnce={() => removeTagOnce(tag)}/>
-				{/each}
-			{/if}
+			<span class="inline-flex items-center py-0.5">
+				<FieldLabel id="tags" label="Tags"/>
+				<DispatchButton icon={SquarePlus} label="Add"  on:buttonClick={() => addTag("Add Tag")}/>
+			</span>
+			<div>
+				{#if $form.tags}
+					{#each $form.tags as tag, i}
+						<TextFieldWithDelete id="tags" bind:value={tag}
+																 errors={$errors.tags?.[i]} constraints={$constraints?.tags}
+																 on:removeItemOnce={() => removeTagOnce(tag)}/>
+					{/each}
+				{/if}
+			</div>
 		</PageSection>
 
 
