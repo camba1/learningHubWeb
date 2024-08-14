@@ -68,7 +68,7 @@ export const actions = {
 				// UPDATE document
 				const doc2: Document = { ...form.data} as Document;
 				await updateDocument(form.data._key, doc2);
-				return message(form, 'Document updated');
+				return message(form, 'Saved');
 			}
 		}
 
