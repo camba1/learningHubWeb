@@ -9,6 +9,7 @@
 	import PdfViewer from '$lib/components/docViewer/PdfViewer.svelte';
 	import MarkdownViewer from '$lib/components/docViewer/MarkdownViewer.svelte';
 	import AudioFilesViewer from '$lib/components/docViewer/AudioFilesViewer.svelte';
+	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 
 	export let data: PageData;
 
@@ -23,9 +24,7 @@
 
 </script>
 
-{#if $message}
-	<h3 class:invalid={$page.status >= 400}>{$message}</h3>
-{/if}
+<SubmitToast message={$message} page_status={$page.status}/>
 
 <div class="grid grid-cols-2 gap-4 p-4 content-center h-full">
 	<PdfViewer encodedFilename={data.filename}/>
@@ -79,9 +78,3 @@
 </div>
 
 <!--<SuperDebug data={$form} />-->
-
-<style>
-    .invalid {
-        color: red;
-    }
-</style>

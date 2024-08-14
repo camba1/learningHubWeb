@@ -30,7 +30,6 @@ export async function load({ params }) {
 	if (docDetails && docDetailPages.length == 1) {
 		availableFiles = docDetailPages[0].pages
 	}
-	console.log(availableFiles)
 
 	const form = await superValidate(docDetails, zod(DocumentDetailSchema));
 
@@ -65,12 +64,10 @@ export const actions = {
 
 			} else {
 
-
 				const docDetail = await updateDocumentDetail(form.data._key, form.data);
 				const updatedForm = await superValidate(docDetail, zod(DocumentDetailSchema));
-
 				if (!updatedForm.valid) return fail(400, { updatedForm });
-				return message(updatedForm, 'Document updated');
+				return message(updatedForm, 'Saved');
 			}
 		}
 	}
