@@ -11,6 +11,8 @@ export const authorSchema = z.object({
 		.optional(), // Optional biography of the author
 	email: z.string()
 		.email("Invalid email address"), // Email of the author
-	createdAt: z.date().default(() => new Date()), // Creation date of the author record
-	updatedAt: z.date().optional(), // Optional updated date for the author record
+	createdAt: z.coerce.date().default(() => new Date()), // Creation date of the author record
+	updatedAt: z.coerce.date().optional(), // Optional updated date for the author record
+	usrMain_key_Create: z.string().optional(),
+	usrMain_key_Update: z.string().optional(),
 });

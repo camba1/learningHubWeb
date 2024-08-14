@@ -9,8 +9,8 @@ export const DocumentDetailSchema = z.object({
 	filePath: z.string().min(5, 'File path must be at least 5 characters, including file extension').optional(), // path relative to output folder
 	filename: z.string().min(5, 'Filename must be at least 5 characters, including file extension').optional(),
 	docText: z.string(),
-	createdAt: z.date().default(() => new Date()).optional(), // Date doc was first processed
-	updatedAt: z.date().default(() => new Date()).optional(), //  Latest date the doc was processed
+	createdAt: z.coerce.date().default(() => new Date()).optional(), // Date doc was first processed
+	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Latest date the doc was processed
 	usrMain_key_Create: z.string().optional(),
 	usrMain_key_Update: z.string().optional(),
 });

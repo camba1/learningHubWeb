@@ -20,8 +20,8 @@ export const DocumentSchema = z.object({
 	pageCount: z.number().int().gt(0).default(1).optional(),
 	characters: z.array(z.string()).optional(), //	Optional list of main document characters
 	tags: z.array(z.string()).optional(), // Optional list of tags/keywords
-	createdAt: z.date().default(() => new Date()).optional(), // Creation date of the document
-	updatedAt: z.date().default(() => new Date()).optional(), //  Updated date for the document
+	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date of the document
+	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Updated date for the document
 	usrMain_key_Create: z.string().optional(),
 	usrMain_key_Update: z.string().optional(),
 });

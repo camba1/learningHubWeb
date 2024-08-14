@@ -5,8 +5,8 @@ import { z } from 'zod';
 export const UserSchema = z.object({
 	_key: z.string(), // Unique key for the user
 	emailAddress: z.string().email(),
-	createdAt: z.date().default(() => new Date()).optional(), // Creation date of the user
-	updatedAt: z.date().default(() => new Date()).optional(), //  Updated date for the user
+	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date of the user
+	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Updated date for the user
 	usrMain_key_Create: z.string().optional(),
 	usrMain_key_Update: z.string().optional(),
 });

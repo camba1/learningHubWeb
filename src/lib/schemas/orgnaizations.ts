@@ -8,8 +8,8 @@ const OrgAddressSchema = z.object({
 	state: z.string().optional(),
 	postalCode: z.string().optional(),
 	country: z.string(),
-	createdAt: z.date().default(() => new Date()).optional(), // Creation date of the Organization
-	updatedAt: z.date().default(() => new Date()).optional(), //  Updated date for the Organization
+	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date of the Organization
+	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Updated date for the Organization
 	usrMain_key_Create: z.string().optional(),
 	usrMain_key_Update: z.string().optional(),
 });
