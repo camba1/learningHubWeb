@@ -10,10 +10,10 @@
 	export let icon: ComponentType | null = null;
 	export let label: string;
 	export let href: string;
-	export let btn_class: string = "btn btn-xs mx-0.5";
+	export let btn_additional_class: string = "";
 </script>
 
-	<button class={btn_class}>
+	<button class="btn btn-xs mx-0.5 {btn_additional_class}">
 		{#if icon}
 			<svelte:component this={icon} class="w-4 h-4" />
 		{/if}
