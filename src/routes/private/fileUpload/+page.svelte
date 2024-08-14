@@ -6,6 +6,7 @@
 	import { page } from '$app/stores';
 	import FileUpload from '$lib/components/form/FileUpload.svelte';
 	import { InternalURLs } from '$lib/utils/urls';
+	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 
 	export let data;
 
@@ -21,9 +22,7 @@
 	<div class="flex flex-col">
 		<h2 class="text-2xl p-3 "> File Upload </h2>
 		<span class="pb-3">
-			{#if $message}
-					<h3 class:invalid={$page.status >= 400} >{$message}</h3>
-			{/if}
+			<SubmitToast message={$message} page_status={$page.status}/>
 		</span>
 	</div>
 </div>

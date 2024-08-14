@@ -36,6 +36,6 @@ export const actions = {
 			redirect(307, InternalURLs.document + '/' + response._key);
 		}
 
-		return message(form, 'Upload complete');
+		return message(form, 'Uploaded');
 	}
 };
