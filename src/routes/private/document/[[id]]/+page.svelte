@@ -10,7 +10,7 @@
 	import { InternalURLs } from '$lib/utils/urls';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
-	import { SquarePlus } from 'lucide-svelte';
+	import { SquarePlus, SquareCheck, CircleX } from 'lucide-svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
@@ -55,10 +55,26 @@
 		}
 	}
 
+	$: if ($message) {
+		setTimeout(() => {
+			$message = null;
+		}, 3000);
+	}
+
 </script>
 
 {#if $message}
-	<h3 class:invalid={$page.status >= 400}>{$message}</h3>
+	<div class="toast">
+		{#if ($page.status >= 400)}
+			<div class="alert alert-error">
+				<CircleX class="w-5 h-5"/> {$message}
+			</div>
+		{:else}
+			<div class="alert alert-success">
+				<SquareCheck class="w-5 h-5"/> {$message}
+			</div>
+		{/if}
+	</div>
 {/if}
 
 <div class="container mx-auto p-6">
@@ -137,7 +153,7 @@
 		</PageSection>
 
 
-		<div class="flex justify-end space-x-2 mt-4">
+		<div class="flex justify-center space-x-2 mt-4">
 
 			<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 									 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.title.toString(), "?")}
