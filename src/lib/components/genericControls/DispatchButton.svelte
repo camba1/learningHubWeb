@@ -17,7 +17,7 @@
 
 </script>
 
-	<button class="btn btn-xs mx-0.5 {btn_additional_class}" on:click={() => dispatch('buttonClick')}>
+	<button class="btn btn-xs mx-0.5 {btn_additional_class}" type="button" on:click={() => dispatch('dispatchButtonClick')}>
 		{#if icon}
 			<svelte:component this={icon} class="w-4 h-4" />
 		{/if}

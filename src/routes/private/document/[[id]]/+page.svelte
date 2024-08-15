@@ -108,7 +108,7 @@
 
 			<span class="inline-flex items-center py-0.5">
 				<FieldLabel id="characters" label="Main characters"/>
-				<DispatchButton icon={SquarePlus} label="Add"  on:buttonClick={() => addCharacter("Add Character")}/>
+				<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addCharacter("Add Character")}/>
 			</span>
 			<div>
 				{#if $form.characters}
@@ -122,7 +122,7 @@
 
 			<span class="inline-flex items-center py-0.5">
 				<FieldLabel id="tags" label="Tags"/>
-				<DispatchButton icon={SquarePlus} label="Add"  on:buttonClick={() => addTag("Add Tag")}/>
+				<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addTag("Add Tag")}/>
 			</span>
 			<div>
 				{#if $form.tags}
