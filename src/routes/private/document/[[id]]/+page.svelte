@@ -10,7 +10,7 @@
 	import { InternalURLs } from '$lib/utils/urls';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
-	import { SquarePlus, SquareCheck, CircleX } from 'lucide-svelte';
+	import { SquarePlus } from 'lucide-svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
