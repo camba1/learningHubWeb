@@ -39,7 +39,7 @@ export const actions: Actions = {
 
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(DocumentDetailsFromDocSchema));
-		console.log(params)
+
 
 		if (!form.valid) {
 			return fail(400, { form });
