@@ -34,7 +34,7 @@ A SvelteKit component representing a select field for a form.
 			bind:value={value}
 			{...constraints}
 			class="select select-bordered w-full max-w-xs select-sm">
-			<option disabled selected>Types</option>
+			<option disabled selected></option>
 			{#each optionValues as optionValue}
 				<option>{optionValue}</option>
 			{/each}
