@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 
-const DocumentTypeEnum = z.enum(['book', 'article', 'other'])
-const DocumentAgeGroupEnum = z.enum(['Toddler', 'Early Reader', 'Young Reader', 'Young Adult'])
+export const DocumentTypeEnum = z.enum(['book', 'article', 'other'])
+export const DocumentAgeGroupEnum = z.enum(['Toddler', 'Early Reader', 'Young Reader', 'Young Adult'])
 
 // Document Schema
 export const DocumentSchema = z.object({
