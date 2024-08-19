@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { createGenericSearchParams } from '$lib/schemas/genericSearchParams';
 
 
 export const DocumentTypeEnum = z.enum(['book', 'article', 'other'])
@@ -27,6 +28,20 @@ export const DocumentSchema = z.object({
 });
 
 export type DocumentSchemaType = z.infer<typeof DocumentSchema>;
+
+// Document search schema for selection screens
+
+export const DocumentSortByEnum = z.enum(['title', 'type', 'ageGroup']);
+const genericSearchParams = createGenericSearchParams(DocumentSortByEnum);
+
+export const DocumentSearchSchema = DocumentSchema.pick({
+	title: true,
+	type: true,
+	ageGroup: true,
+}).merge(genericSearchParams).partial();
+
+export type DocumentSearchSchemaType = z.infer<typeof DocumentSearchSchema>;
+
 
 // A simple document "database"
 export const documents: DocumentSchemaType[] = [
