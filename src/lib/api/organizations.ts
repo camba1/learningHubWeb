@@ -1,8 +1,9 @@
-import { ExternalURLs, DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
+import { ExternalURLs } from '$lib/server/utils/externalUrls';
+import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/utils/urls';
 import { APIClient } from './apiClient';
 
-import { type OrganizationSchemaType } from '$lib/organizations';
-import { OrganizationSchema } from '$lib/organizations';
+import { type OrganizationSchemaType } from '$lib/schemas/orgnaizations';
+import { OrganizationSchema } from '$lib/schemas/orgnaizations';
 
 const ORGANIZATION_URL = ExternalURLs.organizations;
 
@@ -38,7 +39,7 @@ export async function fetchOrganizations( skip = DEFAULT_SKIP, limit = DEFAULT_L
 	const options: { [key: string]: string } = {}
 	if (sort_by) options['sort_by']= sort_by;
 	if (sort_order) options['sort_order'] = sort_order;
-	if (name) options['name'] = emailAddress;
+	if (name) options['name'] = name;
 	if (created_by) options['created_by'] = created_by;
 	if (updated_by) options['updated_by'] = updated_by;
 
