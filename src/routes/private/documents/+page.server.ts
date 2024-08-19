@@ -1,24 +1,13 @@
 import type { DocumentSchemaType } from '$lib/schemas/documents';
-import {DocumentSchema} from '$lib/schemas/documents';
+import {DocumentSortByEnum, DocumentSearchSchema} from '$lib/schemas/documents';
 import { fetchDocuments } from '$lib/api/documents';
-import { z } from 'zod';
-import { createGenericSearchParams } from '$lib/schemas/genericSearchParams';
 import { type Actions, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 
 
-const sortByEnum = z.enum(['title', 'type', 'ageGroup']);
-const genericSearchParams = createGenericSearchParams(sortByEnum);
-
-const searchSchema = DocumentSchema.pick({
-	title: true,
-	type: true,
-	ageGroup: true,
-}).merge(genericSearchParams).partial();
-
-function getSearchParams(searchParams: URLSearchParams, paramName: string, altValue:string="") {
-	if (altValue != "") {
+function getSearchParams(searchParams: URLSearchParams, paramName: string, altValue:string | number | undefined = undefined) {
+	if (altValue !== undefined) {
 		return searchParams.get(paramName) || altValue;
 	}
 	return searchParams.get(paramName) || undefined;
@@ -32,16 +21,18 @@ export const load = async (params) => {
 	const searchParams = params.url.searchParams;
 
 	const obj = {
-		skip: getSearchParams(searchParams,"skip"),
-		limit: getSearchParams(searchParams,"limit") ,
+		skip: getSearchParams(searchParams,"skip", 0),
+		limit: getSearchParams(searchParams,"limit", 25) ,
 		sort_by: getSearchParams(searchParams,"sort_by", "title") ,
 		sort_order: getSearchParams(searchParams,"sort_order", "asc") ,
 		title: getSearchParams(searchParams,"title") ,
 		type: getSearchParams(searchParams,"type") ,
-		ageGroup: getSearchParams(searchParams,"ageGroup") ,
+		ageGroup: getSearchParams(searchParams,"ageGroup")
 	}
 
-	const form = await superValidate(searchSchema.parse(obj), zod(searchSchema));
+	const form = await superValidate(DocumentSearchSchema.parse(obj), zod(DocumentSearchSchema));
+
+	if (!form.valid) return fail(400, { form });
 
 	console.log(form.data, form.valid)
 	const docs: DocumentSchemaType[] = await fetchDocuments(form.data.skip, form.data.limit,
@@ -52,7 +43,7 @@ export const load = async (params) => {
 	return {
 		form: form,
 		documents: docs,
-		sortByEnum: sortByEnum.options};
+		sortByEnum: DocumentSortByEnum.options};
 };
 
 
@@ -60,7 +51,7 @@ export const actions: Actions = {
 	default: async ({ request }) => {
 
 		const formData = await request.formData();
-		const form = await superValidate(formData, zod(searchSchema));
+		const form = await superValidate(formData, zod(DocumentSearchSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
