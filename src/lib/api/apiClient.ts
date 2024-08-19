@@ -1,6 +1,6 @@
 import type { ZodSchema } from 'zod';
 import { error } from '@sveltejs/kit';
-import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
+import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/utils/urls';
 import { getMainHeader } from '$lib/server/utils/headers';
 
 export class APIClient<T> {

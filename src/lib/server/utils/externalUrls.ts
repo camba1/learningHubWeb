@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/private'
 
-export const DEFAULT_SKIP = 0;
-export const DEFAULT_LIMIT = 25;
+// export const DEFAULT_SKIP = 0;
+// export const DEFAULT_LIMIT = 25;
 
 const backendUrl:string= env.BACKEND_URL
 

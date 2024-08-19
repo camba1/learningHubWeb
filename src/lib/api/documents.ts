@@ -1,4 +1,5 @@
-import { ExternalURLs, DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/server/utils/externalUrls';
+import { ExternalURLs } from '$lib/server/utils/externalUrls';
+import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/utils/urls';
 import { type DocumentSchemaType } from '$lib/schemas/documents';
 
 import { APIClient } from './apiClient';
