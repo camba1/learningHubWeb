@@ -17,9 +17,13 @@ const searchSchema = DocumentSchema.pick({
 	ageGroup: true,
 }).merge(genericSearchParams).partial();
 
-function getSearchParams(searchParams: URLSearchParams, paramName: string) {
+function getSearchParams(searchParams: URLSearchParams, paramName: string, altValue:string="") {
+	if (altValue != "") {
+		return searchParams.get(paramName) || altValue;
+	}
 	return searchParams.get(paramName) || undefined;
 }
+
 
 export const load = async (params) => {
 	console.log("RELOAD")
@@ -30,13 +34,13 @@ export const load = async (params) => {
 	const obj = {
 		skip: getSearchParams(searchParams,"skip"),
 		limit: getSearchParams(searchParams,"limit") ,
-		sort_by: getSearchParams(searchParams,"sort_by") ,
-		sort_order: getSearchParams(searchParams,"sort_order") ,
+		sort_by: getSearchParams(searchParams,"sort_by", "title") ,
+		sort_order: getSearchParams(searchParams,"sort_order", "asc") ,
 		title: getSearchParams(searchParams,"title") ,
 		type: getSearchParams(searchParams,"type") ,
 		ageGroup: getSearchParams(searchParams,"ageGroup") ,
-
 	}
+
 	const form = await superValidate(searchSchema.parse(obj), zod(searchSchema));
 
 	console.log(form.data, form.valid)
