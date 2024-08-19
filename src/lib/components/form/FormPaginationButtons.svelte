@@ -20,12 +20,12 @@ This component is intended to be used within a form that provides search functio
 It includes icons and labels for user interaction and provides visual feedback for ongoing operations.
 -->
 
-<div class="join flex justify-end px-3 mt-4">
-	<div class="join grid grid-cols-2">
+<!--<div class="join flex justify-end px-3 mt-4">-->
+	<div class="join flex justify-end px-3 mt-4">
 		<button name="submit" id="submit" class="join-item btn  btn-xs"> <SquareChevronLeftIcon class="w-4 h-4"/> {previousLbl}</button>
 		<button name="submit2" id="submit2" class="join-item btn  btn-xs">{nextLbl}  <SquareChevronRightIcon class="w-4 h-4"/></button>
 	</div>
 	{#if delayed}
 		<span class="loading loading-spinner text-neutral"></span>
 	{/if}
-</div>
+<!--</div>-->
