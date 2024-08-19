@@ -1,26 +1,32 @@
 <script lang="ts">
 
-	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms/client';
-
+	import type { SuperValidated } from 'sveltekit-superforms/server';
+	import type { DocumentSchemaType, DocumentSearchSchemaType } from '$lib/schemas/documents';
+	import { DocumentTypeEnum, DocumentAgeGroupEnum } from '$lib/schemas/documents';
+	import { sortOrderEnum } from '$lib/schemas/genericSearchParams';
+	import { InternalURLs } from '$lib/utils/urls';
 
 	import { SquarePlus } from 'lucide-svelte';
 	import { FilePlus } from 'lucide-svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
-	import { InternalURLs } from '$lib/utils/urls';
-	import { DocumentTypeEnum, DocumentAgeGroupEnum } from '$lib/schemas/documents';
 	import FormSearchButtons from '$lib/components/form/FormSearchButtons.svelte';
 	import TextField from '$lib/components/form/TextField.svelte';
 	import SelectField from '$lib/components/form/SelectField.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 	import FormPaginationButtons from '$lib/components/form/FormPaginationButtons.svelte';
 	import FormToggleButtonDispatch from '$lib/components/form/FormToggleButtonDispatch.svelte';
-	import { sortOrderEnum } from '$lib/schemas/genericSearchParams';
+
+	interface PageData {
+		form: SuperValidated<DocumentSearchSchemaType, never>;
+		documents: DocumentSchemaType[];
+		sortByEnum: string[];
+}
 
 	export let data: PageData;
 
-	const { form, errors, constraints, delayed, message } = superForm(data.form, {
+	const { form, errors, constraints, delayed, message } = superForm<DocumentSearchSchemaType, never>(data.form, {
 		resetForm: false
 	});
 
@@ -82,13 +88,15 @@
 				</tr>
 				</thead>
 				<tbody>
-				{#each data.documents as doc}
-					<tr>
-						<th><a href="{InternalURLs.document}/{doc._key}">{doc.title}</a></th>
-						<td>{doc.type}</td>
-						<td>{doc.ageGroup}</td>
-					</tr>
-				{/each}
+				{#if data.documents}
+					{#each data.documents as doc}
+						<tr>
+							<th><a href="{InternalURLs.document}/{doc._key}">{doc.title}</a></th>
+							<td>{doc.type}</td>
+							<td>{doc.ageGroup}</td>
+						</tr>
+					{/each}
+					{/if}
 			</table>
 		</div>
 		<div class="flex justify-between  mb-4">
