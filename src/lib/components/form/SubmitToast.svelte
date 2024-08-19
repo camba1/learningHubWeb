@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { CircleX, SquareCheck } from 'lucide-svelte';
 
-	export let message:string | null;
+	export let message:string | null | undefined;
 	export let page_status:number;
 
 	$: if (message) {
