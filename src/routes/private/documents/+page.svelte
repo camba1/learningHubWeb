@@ -1,6 +1,7 @@
 <script lang="ts">
 
 	import { page } from '$app/stores';
+	import { tick } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import type { SuperValidated } from 'sveltekit-superforms/server';
 	import type { DocumentSchemaType, DocumentSearchSchemaType } from '$lib/schemas/documents';
@@ -31,11 +32,37 @@
 	});
 
 	let isSidebarVisible: boolean = true;
+	let pageNo = 1;
+	let searchFormButton: HTMLButtonElement;
+
+	$: pageNo = $form.skip / $form.limit + 1;
+
 
 	// Function to toggle sidebar visibility
 	function toggleSidebar() {
 		isSidebarVisible = !isSidebarVisible;
 	}
+
+	async function previousPage() {
+		if ($form.skip - $form.limit < 0) {
+			$form.skip = 0;
+		} else {
+			$form.skip = $form.skip - $form.limit;
+		}
+
+		await tick(); // Wait for Svelte reactivity to update the DOM
+		searchFormButton.click();
+	}
+
+	async function nextPage() {
+		if (data.documents.length < $form.limit) {
+			return ;
+		}
+		$form.skip = $form.skip + $form.limit;
+		await tick(); // Wait for Svelte reactivity to update the DOM
+		searchFormButton.click();
+	}
+
 
 </script>
 
@@ -64,7 +91,7 @@
 				<SelectField label="Sort order" id="sort_order" bind:value={$form.sort_order}
 										 errors={$errors.sort_order} constraints={$constraints.sort_order}
 										 optionValues={sortOrderEnum.options} />
-				<FormSearchButtons submitLbl="Search" clearLbl="Clear" delayed={$delayed} reloadHref={InternalURLs.documents} />
+				<FormSearchButtons submitLbl="Search" clearLbl="Clear" delayed={$delayed} reloadHref={InternalURLs.documents} bind:formSearchButton={searchFormButton} />
 
 			</form>
 		</div>
@@ -101,10 +128,15 @@
 		</div>
 		<div class="flex justify-between  mb-4">
 			<!-- Toggle Sidebar Button -->
-			<FormToggleButtonDispatch isInitialValueVisible={isSidebarVisible} on:toggleValue={toggleSidebar} initialLbl="Hide filters" alternateLbl="Show filters"/>
+			<FormToggleButtonDispatch isInitialValueVisible={isSidebarVisible}
+																on:toggleValue={toggleSidebar}
+																initialLbl="Hide filters" alternateLbl="Show filters"/>
 
 			<!-- Pagination -->
-			<FormPaginationButtons previousLbl="Previous" nextLbl="Next" delayed={$delayed} />
+			<FormPaginationButtons previousLbl="Previous" nextLbl="Next"
+														 pageNo={pageNo} delayed={$delayed}
+														 on:previousPage={previousPage} on:nextPage={nextPage}
+														 recordsInGrid={data.documents.length} maxRecords={$form.limit}/>
 		</div>
 	</div>
 
