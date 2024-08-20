@@ -4,6 +4,8 @@ import { fetchDocuments } from '$lib/api/documents';
 import { type Actions, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
+import { DEFAULT_LIMIT, DEFAULT_SKIP } from '$lib/utils/urls';
+
 
 
 function getSearchParams(searchParams: URLSearchParams, paramName: string, altValue:string | number | undefined = undefined) {
@@ -21,8 +23,8 @@ export const load = async (params) => {
 	const searchParams = params.url.searchParams;
 
 	const obj = {
-		skip: getSearchParams(searchParams,"skip", 0),
-		limit: getSearchParams(searchParams,"limit", 25) ,
+		skip: getSearchParams(searchParams,"skip", DEFAULT_SKIP),
+		limit: getSearchParams(searchParams,"limit", DEFAULT_LIMIT) ,
 		sort_by: getSearchParams(searchParams,"sort_by", "title") ,
 		sort_order: getSearchParams(searchParams,"sort_order", "asc") ,
 		title: getSearchParams(searchParams,"title") ,
