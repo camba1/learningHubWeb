@@ -31,6 +31,7 @@
 		resetForm: false
 	});
 
+
 	let isSidebarVisible: boolean = true;
 	let pageNo = 1;
 	let searchFormButton: HTMLButtonElement;
@@ -49,7 +50,6 @@
 		} else {
 			$form.skip = $form.skip - $form.limit;
 		}
-
 		await tick(); // Wait for Svelte reactivity to update the DOM
 		searchFormButton.click();
 	}
@@ -67,7 +67,6 @@
 </script>
 
 <SubmitToast message={$message} page_status={$page.status}/>
-
 
 <div class="flex h-screen overflow-hidden">
 	<!-- Sidebar -->
@@ -139,5 +138,4 @@
 														 recordsInGrid={data.documents.length} maxRecords={$form.limit}/>
 		</div>
 	</div>
-
 </div>
