@@ -3,6 +3,9 @@
 	 * @param delayed Whether the form is in a delayed state.
 	 * @param submitLbl The label for the save button.
 	 * @param clearLbl The label for the clear button.
+	 * @param reloadHref The URL to reload the page when the clear button is clicked.
+	 * @param formSearchButton Reference to the button that triggers the search. This is used to
+	 * 												 trigger the form submit event on the parent during pagination.
 	 */
 
 	import { FileSearch, Eraser  } from 'lucide-svelte';
@@ -12,6 +15,7 @@
 	export let submitLbl: string;
 	export let clearLbl: string;
 	export let reloadHref: string;
+	export let formSearchButton : HTMLButtonElement;
 
 </script>
 
@@ -24,7 +28,7 @@ It includes icons and labels for user interaction and provides visual feedback f
 
 
 <div class="p-3">
-	<button name="submit" id="submit" class="btn btn-xs"> <FileSearch class="w-4 h-4"/> {submitLbl}</button>
+	<button name="submit" id="submit" class="btn btn-xs" bind:this={formSearchButton}> <FileSearch class="w-4 h-4"/> {submitLbl}</button>
 	<LinkButton icon={Eraser} label={clearLbl} href={reloadHref} />
 	{#if delayed}
 		<span class="loading loading-spinner text-neutral"></span>
