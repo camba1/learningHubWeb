@@ -10,8 +10,8 @@ export const createGenericSearchParams = <T extends [string, ...string[]]>(sortB
 	return z.object({
 		sort_by: sortByEnum.optional(),
 		sort_order: sortOrderEnum.optional(),
-		skip: z.coerce.number().int().min(DEFAULT_SKIP).optional(),
-		limit: z.coerce.number().int().min(DEFAULT_LIMIT).optional()
+		skip: z.coerce.number().int().min(DEFAULT_SKIP),
+		limit: z.coerce.number().int().min(DEFAULT_LIMIT)
 	});
 };
 

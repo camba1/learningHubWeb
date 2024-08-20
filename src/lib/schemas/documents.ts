@@ -38,7 +38,7 @@ export const DocumentSearchSchema = DocumentSchema.pick({
 	title: true,
 	type: true,
 	ageGroup: true,
-}).merge(genericSearchParams).partial();
+}).partial().merge(genericSearchParams);
 
 export type DocumentSearchSchemaType = z.infer<typeof DocumentSearchSchema>;
 
