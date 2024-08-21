@@ -26,7 +26,7 @@
 
 <SubmitToast message={$message} page_status={$page.status}/>
 
-<div class="grid grid-cols-2 gap-4 p-4 content-center h-full">
+<div class="grid grid-cols-2 gap-4 p-4 h-full">
 	<PdfViewer encodedFilename={data.filename}/>
 
 	<div>
