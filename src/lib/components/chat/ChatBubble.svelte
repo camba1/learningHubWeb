@@ -25,7 +25,11 @@ export let bubbleColor: string = "";
 		{username}
 		<time class="text-xs opacity-50">{messageTime}</time>
 	</div>
-	<div class="chat-bubble {bubbleColor}">{message}</div>
+	{#if (role !== "user" && message === "...")}
+		<div class="chat-bubble {bubbleColor}"><span class="loading loading-dots loading-xs"></span></div>
+	{:else}
+		<div class="chat-bubble {bubbleColor}">{message}</div>
+	{/if}
 	<div class="chat-footer opacity-50">
 		{messageStatus}
 	</div>
