@@ -2,10 +2,13 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
+
+	import { InternalURLs } from '$lib/utils/urls';
+	import curFilename from '$lib/stores/curFilename';
+
 	import TextField from '$lib/components/form/TextField.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
-	import { InternalURLs } from '$lib/utils/urls';
 	import PdfViewer from '$lib/components/docViewer/PdfViewer.svelte';
 	import MarkdownViewer from '$lib/components/docViewer/MarkdownViewer.svelte';
 	import AudioFilesViewer from '$lib/components/docViewer/AudioFilesViewer.svelte';
@@ -18,6 +21,8 @@
 			resetForm: false
 		}
 	);
+
+	$curFilename = $form.filename || ""
 
 	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.docMain_key);
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document version "};
