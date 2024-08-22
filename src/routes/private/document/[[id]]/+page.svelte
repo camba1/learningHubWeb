@@ -2,19 +2,22 @@
 	import type { PageData } from './$types.js';
 	import { page } from '$app/stores';
 	import { superForm } from 'sveltekit-superforms';
+
+	import { InternalURLs } from '$lib/utils/urls';
+	import curFilename from '$lib/stores/curFilename';
+
 	import TextField from '$lib/components/form/TextField.svelte';
 	import SelectField from '$lib/components/form/SelectField.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
-	import { InternalURLs } from '$lib/utils/urls';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
-	import { SquarePlus } from 'lucide-svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
+	import { SquarePlus } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -23,6 +26,9 @@
 			resetForm: false
 		}
 	);
+
+	$curFilename = $form.filename
+
 	const bookTypes: string[] = ['book', 'article', 'other'];
 	const ageGroups:string[] = ['Toddler', 'Early Reader', 'Young Reader', 'Young Adult'];
 	const searchPageUrl: string = InternalURLs.documents
