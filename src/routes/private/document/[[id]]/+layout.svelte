@@ -1,8 +1,9 @@
 <script lang="ts">
 	// import type { PageData } from './$types.js';
 	import ChatUI from '$lib/components/chat/ChatUI.svelte';
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
 	// export let data: PageData;
+	import curFilename from '$lib/stores/curFilename';
 
 	const searchPageUrl: string = "/";
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? "};
@@ -23,7 +24,7 @@
 
 		<div class="w-1/5 bg-base-200">
 		<!-- Chat Interface -->
-			<ChatUI {searchPageUrl} {btnLabels} />
+			<ChatUI {searchPageUrl} {btnLabels} additionalLLMContext={$curFilename}/>
 		</div>
 
 	</div>
