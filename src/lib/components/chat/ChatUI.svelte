@@ -14,6 +14,7 @@
 	// export let data;
 	export let searchPageUrl = "/";
 	export let btnLabels = { "submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? " };
+	export let additionalLLMContext = "";
 
 	let element: HTMLDivElement;
 	const userBubbleColor = "chat-bubble-info";
@@ -32,7 +33,7 @@ let chatMessages: MessageSchemaType[] = [];
 
 
 	const { form, errors, constraints, enhance, delayed, message } = superForm(initial_data, {
-		onSubmit: () => {
+		onSubmit: ({ formData }) => {
 			if (!chatMessages){chatMessages = []}
 			chatMessages = [
 				...chatMessages,
@@ -40,6 +41,7 @@ let chatMessages: MessageSchemaType[] = [];
 				{ messageText: '...', role: RoleEnum.enum.assistant, time: getLocalTime(), status: StatusEnum.enum.sent, name: AssistName, userId: '456' },
 			];
 			tempMessage = "";
+			formData.set('additionalLLMContext', additionalLLMContext);
 		},
 		// onResult: ({ result }) => {
 		// 	if (result.type === 'success') {
@@ -120,6 +122,7 @@ let chatMessages: MessageSchemaType[] = [];
 		/>
 	</form>
 </div>
+
 <style>
     .chat-wrapper {
         height: 90vh; /* Make the wrapper take the full height of the viewport */
