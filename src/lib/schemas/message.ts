@@ -15,10 +15,10 @@ export const MessageSchema = z.object({
 	status: StatusEnum,
 });
 
-export type MessageDB = z.infer<typeof MessageSchema>
+export type MessageSchemaType = z.infer<typeof MessageSchema>
 
 
-export const messages: MessageDB[] = [
+export const messages: MessageSchemaType[] = [
 	{
 		name: "Clio AI",
 		userId: "123q",
