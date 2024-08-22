@@ -26,6 +26,7 @@ export const actions = {
 
 		if (!form.valid) return fail(400, { form } );
 
+
 		// @ts-expect-error session is injected by clerk
 		const userId: string = locals.session.userId
 
@@ -38,7 +39,8 @@ export const actions = {
 			};
 		}
 
-		const llmReply: string = <string>await getAssistantReply(form.data.messageText, 'secret-token')
+		const msgForLLM = getMessageTextForLLM(form.data.messageText, formData)
+		const llmReply: string = <string>await getAssistantReply(msgForLLM, 'secret-token')
 
 		const llmMessage: MessageSchemaType = {
 			messageText: llmReply,
@@ -55,6 +57,18 @@ export const actions = {
 		};
 	}
 };
+
+
+function getMessageTextForLLM(formMsgText: string, formData: FormData) {
+	if (!formData.has('additionalLLMContext')) {
+		return formMsgText
+	}
+	const additionalLLMContext: string = <string>formData.get('additionalLLMContext')
+	if (!additionalLLMContext) {
+		return formMsgText
+	}
+	return formMsgText + "\n Additional context to be used only if calling a function: The Filename is " + additionalLLMContext
+}
 
 async function  getAssistantReply(messageText: string, authToken: string) {
 	const remoteChain = new RemoteRunnable({
