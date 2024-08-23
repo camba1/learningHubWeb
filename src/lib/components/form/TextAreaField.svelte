@@ -5,6 +5,8 @@
 	 * @param label The text to be displayed as the label for the textarea field. If provided, a label element will be rendered.
 	 * @param errors An array of error messages to be displayed below the textarea field. If errors are present, an invalid state will be indicated and the errors will be shown.
 	 * @param constraints An object representing the validation constraints for the textarea field.
+	 * @param readOnly Whether the textarea field should be read-only.
+	 * @param rows The number of rows in the textarea field.
 	 */
 
 	import type { InputConstraint } from 'sveltekit-superforms';
