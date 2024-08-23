@@ -1,8 +1,5 @@
 <script lang="ts">
-	// import type { PageData } from './$types.js';
 	import ChatUI from '$lib/components/chat/ChatUI.svelte';
-	// import { page } from '$app/stores';
-	// export let data: PageData;
 	import curFilename from '$lib/stores/curFilename';
 	import { InternalURLs } from '$lib/utils/urls';
 
