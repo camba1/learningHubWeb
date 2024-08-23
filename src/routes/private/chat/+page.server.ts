@@ -56,6 +56,7 @@ export const actions = {
 		}
 
 		const msgForLLM = getMessageTextForLLM(form.data.messageText, formData)
+		// console.log(msgForLLM)
 		const llmReply: string = <string>await getAssistantReply(msgForLLM, 'secret-token')
 
 		const llmMessage: MessageSchemaType = {
@@ -76,14 +77,28 @@ export const actions = {
 
 
 function getMessageTextForLLM(formMsgText: string, formData: FormData) {
-	if (!formData.has('additionalLLMContext')) {
+	let tmpMsg = ""
+
+	tmpMsg = get_additional_LLM_context_message(formData, 'filename', 'filename')
+	tmpMsg += get_additional_LLM_context_message(formData, 'docDetail_key', 'document detail key')
+	if (tmpMsg === "") {
 		return formMsgText
 	}
-	const additionalLLMContext: string = <string>formData.get('additionalLLMContext')
-	if (!additionalLLMContext) {
-		return formMsgText
+	return formMsgText + "\n Additional context to be used only if calling a function: " + tmpMsg
+}
+
+function get_additional_LLM_context_message(formData: FormData, formData_varName:string, varLabel:string ) {
+
+	if (!formData.has(formData_varName)) {
+		return ""
 	}
-	return formMsgText + "\n Additional context to be used only if calling a function: The Filename is " + additionalLLMContext
+
+	const var_value = formData.get(formData_varName)
+	if (!var_value || var_value === '') {
+		return ""
+	}
+
+	return `The ${varLabel} is ${var_value} . `;
 }
 
 async function  getAssistantReply(messageText: string, authToken: string) {

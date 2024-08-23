@@ -15,7 +15,7 @@
 	// export let data;
 	export let searchPageUrl = "/";
 	export let btnLabels = { "submitLbl": "Submit", "clearLbl": "Clear", "backLbl": "Back" };
-	export let additionalLLMContext = "";
+	export let additionalLLMContext: {filename: string, docDetail_key: string};
 
 	let element: HTMLDivElement;
 	let submitChatButton: HTMLButtonElement;
@@ -45,7 +45,10 @@ let chatMessages: MessageSchemaType[] = [];
 				{ messageText: '...', role: RoleEnum.enum.assistant, time: getLocalTime(), status: StatusEnum.enum.sent, name: AssistName, userId: '456' },
 			];
 			tempMessage = "";
-			formData.set('additionalLLMContext', additionalLLMContext);
+			if (additionalLLMContext) {
+				formData.set('filename', String(additionalLLMContext.filename));
+				formData.set('docDetail_key', String(additionalLLMContext.docDetail_key))
+			}
 		},
 		onUpdate: ({ result }) => {
 

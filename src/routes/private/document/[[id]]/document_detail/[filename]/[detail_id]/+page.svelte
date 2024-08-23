@@ -4,7 +4,7 @@
 	import { superForm } from 'sveltekit-superforms';
 
 	import { InternalURLs } from '$lib/utils/urls';
-	import curFilename from '$lib/stores/curFilename';
+	import curDocInfo from '$lib/stores/curDocInfo';
 
 	import TextField from '$lib/components/form/TextField.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
@@ -22,7 +22,7 @@
 		}
 	);
 
-	$curFilename = $form.filename || ""
+	$curDocInfo = {filename: $form.filename || "", docDetail_key: $form._key};
 
 	const searchPageUrl: string = ''.concat(InternalURLs.document,"/", $form.docMain_key);
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document version "};
