@@ -4,7 +4,7 @@
 	import { superForm } from 'sveltekit-superforms';
 
 	import { InternalURLs } from '$lib/utils/urls';
-	import curFilename from '$lib/stores/curFilename';
+	import curDocInfo from '$lib/stores/curDocInfo';
 
 	import TextField from '$lib/components/form/TextField.svelte';
 	import SelectField from '$lib/components/form/SelectField.svelte';
@@ -27,7 +27,7 @@
 		}
 	);
 
-	$curFilename = $form.filename
+	$curDocInfo = {filename: $form.filename, docDetail_key: ""};
 
 	const bookTypes: string[] = ['book', 'article', 'other'];
 	const ageGroups:string[] = ['Toddler', 'Early Reader', 'Young Reader', 'Young Adult'];

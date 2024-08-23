@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ChatUI from '$lib/components/chat/ChatUI.svelte';
-	import curFilename from '$lib/stores/curFilename';
+	import curDocInfo from '$lib/stores/curDocInfo';
 	import { InternalURLs } from '$lib/utils/urls';
 
 	const searchPageUrl: string = InternalURLs.documents;
@@ -22,7 +22,7 @@
 
 		<div class="w-1/5 bg-base-200">
 		<!-- Chat Interface -->
-			<ChatUI {searchPageUrl} {btnLabels} additionalLLMContext={$curFilename}/>
+			<ChatUI {searchPageUrl} {btnLabels} additionalLLMContext={$curDocInfo}/>
 		</div>
 
 	</div>
