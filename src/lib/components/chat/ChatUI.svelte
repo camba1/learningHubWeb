@@ -2,7 +2,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import ChatBubble from '$lib/components/chat/ChatBubble.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
-	import FormButtons from '$lib/components/form/FormButtons.svelte';
+	import ChatButtons from '$lib/components/chat/ChatButtons.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 	import { afterUpdate } from 'svelte';
 	import { RoleEnum, StatusEnum, AssistName } from '$lib/schemas/message';
@@ -13,7 +13,7 @@
 
 	// export let data;
 	export let searchPageUrl = "/";
-	export let btnLabels = { "submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? " };
+	export let btnLabels = { "submitLbl": "Submit", "clearLbl": "Clear", "backLbl": "Back" };
 	export let additionalLLMContext = "";
 
 	let element: HTMLDivElement;
@@ -43,11 +43,6 @@ let chatMessages: MessageSchemaType[] = [];
 			tempMessage = "";
 			formData.set('additionalLLMContext', additionalLLMContext);
 		},
-		// onResult: ({ result }) => {
-		// 	if (result.type === 'success') {
-		// 		console.log(result);
-		// 	}
-		// },
 		onUpdate: ({ result }) => {
 
 			if (result.type === 'success') {
@@ -61,12 +56,8 @@ let chatMessages: MessageSchemaType[] = [];
 				tempMessage = "";
 			}
 		},
-		// onUpdated: ({ form }) => {
-		// 		console.log(form);
-		// }
 	});
 
-	// let mymessages: MessageSchemaType[];
 
 	// Prevent Superforms from overwriting the form element value on form action return.
 	let tempMessage = $form.messageText;
@@ -84,6 +75,10 @@ let chatMessages: MessageSchemaType[] = [];
 		scrollToBottom(element);
 	}
 
+	function resetUI() {
+		chatMessages = [];
+		tempMessage = '';
+	}
 </script>
 
 <SubmitToast message={$message} page_status={$page.status} />
@@ -111,14 +106,14 @@ let chatMessages: MessageSchemaType[] = [];
 			errors={$errors.messageText}
 			constraints={$constraints.messageText}
 		/>
-		<FormButtons
+
+		<ChatButtons
 			submitLbl={btnLabels.submitLbl}
-			deleteLbl={btnLabels.deleteLbl}
+			clearLbl={btnLabels.clearLbl}
 			backLbl={btnLabels.backLbl}
 			delayed={$delayed}
-			objectId='chat'
-			confirmationDelMsg={btnLabels.confirmationDelMsg}
 			backUrl={searchPageUrl}
+			on:dispatchResetButtonClick={() => resetUI()}
 		/>
 	</form>
 </div>
