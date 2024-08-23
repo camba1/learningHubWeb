@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
 	import ChatBubble from '$lib/components/chat/ChatBubble.svelte';
-	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
+	import ChatTextAreaField from '$lib/components/chat/ChatTextAreaField.svelte';
 	import ChatButtons from '$lib/components/chat/ChatButtons.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, tick } from 'svelte';
 	import { RoleEnum, StatusEnum, AssistName } from '$lib/schemas/message';
 	import { getLocalTime } from '$lib/utils/timeUtils';
 	import { page } from '$app/stores';
+	import { InternalURLs } from '$lib/utils/urls';
 
 	import type { MessageSchemaType} from '$lib/schemas/message';
 
@@ -17,8 +18,11 @@
 	export let additionalLLMContext = "";
 
 	let element: HTMLDivElement;
+	let submitChatButton: HTMLButtonElement;
 	const userBubbleColor = "chat-bubble-info";
 	const botBubbleColor = "";
+	const textAreaPlaceholder = "Use 'Ctrl + Enter' or submit button to send message.";
+
 
 const initial_data: MessageSchemaType = {
 	messageText: "",
@@ -79,6 +83,12 @@ let chatMessages: MessageSchemaType[] = [];
 		chatMessages = [];
 		tempMessage = '';
 	}
+
+	async function keyboardSubmitForm() {
+		await tick(); // Wait for Svelte reactivity to update the DOM
+		submitChatButton.click();
+	}
+
 </script>
 
 <SubmitToast message={$message} page_status={$page.status} />
@@ -99,12 +109,14 @@ let chatMessages: MessageSchemaType[] = [];
 			{/if}
 	</div>
 
-	<form method="POST" use:enhance class="m-5 p-2" action="/private/chat">
-		<TextAreaField
+	<form method="POST" use:enhance class="m-5 p-2" action={InternalURLs.chat}>
+		<ChatTextAreaField
 			id="messageText"
 			bind:value={tempMessage}
 			errors={$errors.messageText}
 			constraints={$constraints.messageText}
+			placeholder={textAreaPlaceholder}
+			on:submitKeyPress={keyboardSubmitForm}
 		/>
 
 		<ChatButtons
@@ -114,6 +126,7 @@ let chatMessages: MessageSchemaType[] = [];
 			delayed={$delayed}
 			backUrl={searchPageUrl}
 			on:dispatchResetButtonClick={() => resetUI()}
+			bind:chatSubmitButton={submitChatButton}
 		/>
 	</form>
 </div>

@@ -1,12 +1,12 @@
 <script lang="ts">
 	/**
 	 * @param delayed Whether the form is in a delayed state.
-	 * @param objectId The ID of the object being edited.
 	 * @param submitLbl The label for the save button.
-	 * @param deleteLbl The label for the delete button.
-	 * @param confirmationDelMsg The confirmation message for the delete button.
+	 * @param clearLbl The label for the delete button.
 	 * @param backLbl The label for the back button/link.
 	 * @param backUrl The URL to navigate back to when the back button/link is clicked.
+	 * @param chatSubmitButton Reference to the button that triggers the submitting chat message.
+	 * 												 This is used to trigger the form submit event on the parent during pagination.
 	 */
 
 	import { CircleArrowLeft, Save, Trash2 } from 'lucide-svelte';
@@ -17,6 +17,7 @@
 	export let clearLbl: string;
 	export let backLbl: string = "";
 	export let backUrl: string | undefined = undefined;
+	export let chatSubmitButton : HTMLButtonElement;
 
 
 	const dispatch = createEventDispatcher();
@@ -28,11 +29,13 @@
 A SvelteKit component representing a control panel with options to save, clear, and (optionally)navigate back.
 This component is intended to be used within a chat interface for object manipulation.
 It includes icons and labels for user interaction and provides visual feedback for ongoing operations.
+Provides a chatSubmitButton bind element bound to the submit button that can be used to trigger the form
+submit event on the parent event.
 -->
 
 
 <div class="p-3">
-	<button name="submit" id="submit" class="btn btn-xs"> <Save class="w-4 h-4"/> {submitLbl}</button>
+	<button name="submit" id="submit" class="btn btn-xs" bind:this={chatSubmitButton}> <Save class="w-4 h-4" /> {submitLbl}</button>
 	<button
 		name="clear" id="clear" type="button"
 		on:click|preventDefault={() =>  dispatch('dispatchResetButtonClick')}

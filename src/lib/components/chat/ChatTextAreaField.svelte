@@ -20,6 +20,7 @@
 	export let id: string
 	export let readOnly: boolean = false;
 	export let rows: number = 5;
+	export let placeholder: string = "";
 
 	const dispatch = createEventDispatcher();
 
@@ -54,6 +55,7 @@ a submitKeyPress event will be dispatched to the parent component.
 			rows={rows}
 			readonly={readOnly}
 			on:keypress={submitKeyPress}
+			placeholder={placeholder}
 		/>
 	{#if errors}<span class="invalid">{errors}</span>{/if}
 </span>
