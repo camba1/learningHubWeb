@@ -4,7 +4,7 @@
 	import { InternalURLs } from '$lib/utils/urls';
 
 	const searchPageUrl: string = InternalURLs.documents;
-	const btnLabels = {"submitLbl": "Submit", "clearLbl": "Clear", "backLbl": "Back"};
+	const btnLabels = {"submitLbl": "Submit", "clearLbl": "Clear", "backLbl": "Back to search"};
 
 
 	// let showChat = true;
