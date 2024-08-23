@@ -39,6 +39,22 @@ export const actions = {
 			};
 		}
 
+
+		if (!form.data.messageText || form.data.messageText === '') {
+			const llmMessage: MessageSchemaType = {
+				messageText: "Please provide a non empty message",
+				userId: userId,
+				role: RoleEnum.enum.assistant,
+				status: StatusEnum.enum.delivered,
+				name: AssistName,
+				time: getLocalTime()
+			}
+			return {
+				form,
+				AIMessage: llmMessage
+			};
+		}
+
 		const msgForLLM = getMessageTextForLLM(form.data.messageText, formData)
 		const llmReply: string = <string>await getAssistantReply(msgForLLM, 'secret-token')
 
