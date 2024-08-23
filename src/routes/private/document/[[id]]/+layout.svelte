@@ -4,9 +4,10 @@
 	// import { page } from '$app/stores';
 	// export let data: PageData;
 	import curFilename from '$lib/stores/curFilename';
+	import { InternalURLs } from '$lib/utils/urls';
 
-	const searchPageUrl: string = "/";
-	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Clear", "backLbl": "Back", "confirmationDelMsg": "Clear our chat history? "};
+	const searchPageUrl: string = InternalURLs.documents;
+	const btnLabels = {"submitLbl": "Submit", "clearLbl": "Clear", "backLbl": "Back"};
 
 
 	// let showChat = true;
