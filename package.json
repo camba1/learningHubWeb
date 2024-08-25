@@ -53,6 +53,7 @@
 		"isomorphic-dompurify": "^2.14.0",
 		"lucide-svelte": "^0.383.0",
 		"node-fetch": "^3.3.2",
+		"svelte-splitpanes": "^8.0.5",
 		"uuid": "^9.0.1"
 	}
 }
