@@ -15,7 +15,7 @@
 	// export let data;
 	export let searchPageUrl = "/";
 	export let btnLabels = { "submitLbl": "Submit", "clearLbl": "Clear", "backLbl": "Back" };
-	export let additionalLLMContext: {filename: string, docDetail_key: string};
+	export let additionalLLMContext: {filename: string, docDetail_key: string} | undefined = undefined;
 
 	let element: HTMLDivElement;
 	let submitChatButton: HTMLButtonElement;
