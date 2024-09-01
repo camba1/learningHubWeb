@@ -12,37 +12,37 @@ const DOCUMENT_DETAILS_URL = ExternalURLs.document_details_lookup;
 const documentClient = new APIClient<DocumentSchemaType>(DOCUMENTS_URL, DocumentSchema);
 
 
-export async function fetchDocument(id: string) {
+export async function fetchDocument(id: string, auth:string | undefined ) {
 
-	return await documentClient.fetchItem(id);
+	return await documentClient.fetchItem(id, auth);
 }
 
-export async function createDocument(data: DocumentSchemaType) {
+export async function createDocument(data: DocumentSchemaType, auth:string | undefined) {
 
-	return await documentClient.createItem(data)
+	return await documentClient.createItem(data, auth);
 }
 
-export async function updateDocument(id: string, data: DocumentSchemaType) {
+export async function updateDocument(id: string, data: DocumentSchemaType, auth:string | undefined) {
 
-	return await documentClient.updateItem(id, data);
+	return await documentClient.updateItem(id, data, auth);
 }
 
-export async function deleteDocument(id: string) {
+export async function deleteDocument(id: string, auth:string | undefined) {
 
-	return await documentClient.deleteItem(id);
+	return await documentClient.deleteItem(id, auth);
 }
 
-export async function fetchDocumentDetailsLookup(id: string, skip = DEFAULT_SKIP,
+export async function fetchDocumentDetailsLookup(id: string, auth:string | undefined, skip = DEFAULT_SKIP,
 																								 limit = DEFAULT_LIMIT,
 																								 sort_by: string = '', sort_order = 'asc',) {
 
 	const options: { [key: string]: string } = {}
 	if (sort_by) options['sort_by']= sort_by;
 	if (sort_order) options['sort_order'] = sort_order;
-	return await documentClient.fetchDetailLookup(id, DOCUMENT_DETAILS_URL, skip, limit, options);
+	return await documentClient.fetchDetailLookup(id, auth, DOCUMENT_DETAILS_URL, skip, limit, options);
 }
 
-export async function fetchDocuments( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+export async function fetchDocuments( auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 																			 sort_by: string = '', sort_order = 'asc',
 																			 title: string = '', age_group: string = '', type: string = '',
 																			 created_by: string = '', updated_by: string = '' ) {
@@ -56,6 +56,6 @@ export async function fetchDocuments( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT
 	if (created_by) options['created_by'] = created_by;
 	if (updated_by) options['updated_by'] = updated_by;
 
-	return await documentClient.fetchItems(skip, limit, options);
+	return await documentClient.fetchItems(auth, skip, limit, options);
 
 }

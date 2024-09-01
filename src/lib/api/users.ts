@@ -11,27 +11,27 @@ const USERS_URL = ExternalURLs.users;
 const userClient = new APIClient<UserSchemaType>(USERS_URL, UserSchema);
 
 
-export async function fetchUser(id: string) {
+export async function fetchUser(id: string, auth:string | undefined) {
 
-	return await userClient.fetchItem(id);
+	return await userClient.fetchItem(id, auth);
 }
 
-export async function createUser(data: UserSchemaType) {
+export async function createUser(data: UserSchemaType, auth:string | undefined) {
 
-	return await userClient.createItem(data)
+	return await userClient.createItem(data, auth);
 }
 
-export async function updateUser(id: string, data: UserSchemaType) {
+export async function updateUser(id: string, data: UserSchemaType, auth:string | undefined) {
 
-	return await userClient.updateItem(id, data);
+	return await userClient.updateItem(id, data, auth);
 }
 
-export async function deleteUser(id: string) {
+export async function deleteUser(id: string, auth:string | undefined) {
 
-	return await userClient.deleteItem(id);
+	return await userClient.deleteItem(id, auth);
 }
 
-export async function fetchUsers( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+export async function fetchUsers( auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 																	sort_by: string = '', sort_order = 'asc',
 																	emailAddress: string = '',
 																	created_by: string = '', updated_by: string = '' ) {
@@ -43,6 +43,6 @@ export async function fetchUsers( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 	if (created_by) options['created_by'] = created_by;
 	if (updated_by) options['updated_by'] = updated_by;
 
-	return await userClient.fetchItems(skip, limit, options);
+	return await userClient.fetchItems( auth, skip, limit, options);
 
 }

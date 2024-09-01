@@ -12,14 +12,14 @@ export class APIClient<T> {
 		this.schema = schema;
 	}
 
-	private getHeader() {
-		return getMainHeader('application/json');
-	}
+	// private getHeader() {
+	// 	return getMainHeader('application/json');
+	// }
 
-	private async fetchResource(url: string, method: string = 'GET', body:  T | null = null) {
+	private async fetchResource(url: string, auth:string | undefined, method: string = 'GET', body:  T | null = null) {
 		const options: RequestInit = {
 			method,
-			headers: this.getHeader(),
+			headers: getMainHeader(auth, 'application/json'),
 		};
 
 		if (body) {
@@ -35,22 +35,22 @@ export class APIClient<T> {
 		return  await response.json();
 	}
 
-	fetchItem(id: string): Promise<T> {
-		return this.fetchResource(`${this.baseURL}/${id}`);
+	fetchItem(id: string, auth:string | undefined,): Promise<T> {
+		return this.fetchResource(`${this.baseURL}/${id}`, auth);
 	}
 
-	createItem(data: T): Promise<T> {
-		return this.fetchResource(`${this.baseURL}`, 'POST', data);
+	createItem(data: T, auth:string | undefined,): Promise<T> {
+		return this.fetchResource(`${this.baseURL}`, auth, 'POST', data);
 	}
 
-	updateItem(id: string, data: T): Promise<T> {
-		return this.fetchResource(`${this.baseURL}/${id}`, 'PUT', data);
+	updateItem(id: string, data: T, auth:string | undefined,): Promise<T> {
+		return this.fetchResource(`${this.baseURL}/${id}`, auth, 'PUT', data);
 	}
 
-	async deleteItem(id: string): Promise<number> {
+	async deleteItem(id: string, auth:string | undefined,): Promise<number> {
 		const options: RequestInit = {
 			method: 'DELETE',
-			headers: this.getHeader()
+			headers: getMainHeader(auth, 'application/json'),
 		};
 
 		const response = await fetch(`${this.baseURL}/${id}`, options);
@@ -63,18 +63,18 @@ export class APIClient<T> {
 		return response.status;
 	}
 
-	fetchItems(skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT, options: { [key: string]: string } = {}) {
+	fetchItems(auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT, options: { [key: string]: string } = {}) {
 
 		const params = this.build_query_string(skip, limit, options);
 
-		return this.fetchResource(`${this.baseURL}?${params.toString()}`);
+		return this.fetchResource(`${this.baseURL}?${params.toString()}`, auth);
 	}
 
-	fetchDetailLookup(id: string, detailsURL: string, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT, options: { [key: string]: string } = {}) {
+	fetchDetailLookup(id: string, auth:string | undefined, detailsURL: string, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT, options: { [key: string]: string } = {}) {
 		const url = detailsURL.replace('{key}', id);
 		const params = this.build_query_string(skip, limit, options);
 
-		return this.fetchResource(`${url}?${params.toString()}`);
+		return this.fetchResource(`${url}?${params.toString()}`, auth);
 	}
 
 	private build_query_string(skip: number, limit: number, options: { [p: string]: string }) {

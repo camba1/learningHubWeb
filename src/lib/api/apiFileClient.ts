@@ -8,15 +8,15 @@ export class APIFileClient {
 		this.baseURL = baseURL;
 	}
 
-	private getHeader() {
-		return getMainHeader();
-	}
+	// private getHeader() {
+	// 	return getMainHeader();
+	// }
 
-	async upload_file( form_data:  FormData ) {
+	async upload_file( form_data:  FormData, auth:string | undefined ) {
 
 		const options: RequestInit = {
 			method: 'POST',
-			headers: this.getHeader(),
+			headers: getMainHeader(auth),
 			body: form_data
 		};
 		const response = await fetch(this.baseURL, options);
@@ -27,10 +27,10 @@ export class APIFileClient {
 		return await response.json();
 	}
 
-	async download_file( filename: string) {
+	async download_file( filename: string, auth:string | undefined) {
 
 		try {
-			const headers = this.getHeader();
+			const headers = getMainHeader(auth);
 			headers.append('accept',  'application/json')
 
 			const response = await fetch(`${this.baseURL}/${filename}`, {

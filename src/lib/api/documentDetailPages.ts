@@ -10,28 +10,28 @@ const DOCUMENT_DETAIL_PAGES_URL = ExternalURLs.document_detail_pages;
 const documentDetailPagesClient = new APIClient<DocumentDetailPagesSchemaType>(DOCUMENT_DETAIL_PAGES_URL, DocumentDetailPagesSchema);
 
 
-export async function fetchDocumentDetailPage(id: string) {
+export async function fetchDocumentDetailPage(id: string, auth:string | undefined) {
 
-	return await documentDetailPagesClient.fetchItem(id);
+	return await documentDetailPagesClient.fetchItem(id, auth);
 }
 
-// export async function createDocumentDetailPage(data: DocumentDetailPagesSchemaType) {
+// export async function createDocumentDetailPage(data: DocumentDetailPagesSchemaType, auth:string | undefined) {
 //
-// 	return await documentDetailPagesClient.createItem(data)
+// 	return await documentDetailPagesClient.createItem(data, auth);
 // }
 
-// export async function updateDocumentDetailPage(id: string, data: DocumentDetailPagesSchemaType) {
+// export async function updateDocumentDetailPage(id: string, data: DocumentDetailPagesSchemaType, auth:string | undefined) {
 //
-// 	return await documentDetailPagesClient.updateItem(id, data);
+// 	return await documentDetailPagesClient.updateItem(id, auth, data);
 // }
 
-export async function deleteDocumentDetailPage(id: string) {
+export async function deleteDocumentDetailPage(id: string, auth:string | undefined) {
 
-	return await documentDetailPagesClient.deleteItem(id);
+	return await documentDetailPagesClient.deleteItem(id, auth);
 }
 
 
-export async function fetchDocumentDetailPages( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+export async function fetchDocumentDetailPages(auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 																						sort_by: string = '', sort_order = 'asc', document_detail_key: string = '',
 																						created_by: string = '', updated_by: string = '' ) {
 
@@ -42,6 +42,6 @@ export async function fetchDocumentDetailPages( skip = DEFAULT_SKIP, limit = DEF
 	if (created_by) options['created_by'] = created_by;
 	if (updated_by) options['updated_by'] = updated_by;
 
-	return await documentDetailPagesClient.fetchItems(skip, limit, options);
+	return await documentDetailPagesClient.fetchItems(auth, skip, limit, options);
 
 }

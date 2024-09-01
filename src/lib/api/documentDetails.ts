@@ -10,28 +10,28 @@ const DOCUMENT_DETAILS_URL = ExternalURLs.document_details;
 const documentDetailClient = new APIClient<DocumentDetailSchemaType>(DOCUMENT_DETAILS_URL, DocumentDetailSchema);
 
 
-export async function fetchDocumentDetail(id: string) {
+export async function fetchDocumentDetail(id: string, auth:string | undefined) {
 
-	return await documentDetailClient.fetchItem(id);
+	return await documentDetailClient.fetchItem(id, auth);
 }
 
-export async function createDocumentDetail(data: DocumentDetailSchemaType) {
+export async function createDocumentDetail(data: DocumentDetailSchemaType, auth:string | undefined) {
 
-	return await documentDetailClient.createItem(data)
+	return await documentDetailClient.createItem(data, auth);
 }
 
-export async function updateDocumentDetail(id: string, data: DocumentDetailSchemaType) {
+export async function updateDocumentDetail(id: string, data: DocumentDetailSchemaType, auth:string | undefined) {
 
-	return await documentDetailClient.updateItem(id, data);
+	return await documentDetailClient.updateItem(id, data, auth);
 }
 
-export async function deleteDocumentDetail(id: string) {
+export async function deleteDocumentDetail(id: string, auth:string | undefined) {
 
-	return await documentDetailClient.deleteItem(id);
+	return await documentDetailClient.deleteItem(id, auth);
 }
 
 
-export async function fetchDocumentDetails( skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+export async function fetchDocumentDetails( auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 																			 sort_by: string = '', sort_order = 'asc', document_key: string = '', filename: string = '',
 																			 created_by: string = '', updated_by: string = '' ) {
 
@@ -44,6 +44,6 @@ export async function fetchDocumentDetails( skip = DEFAULT_SKIP, limit = DEFAULT
 	if (updated_by) options['updated_by'] = updated_by;
 
 
-	return await documentDetailClient.fetchItems(skip, limit, options);
+	return await documentDetailClient.fetchItems( auth, skip, limit, options);
 
 }
