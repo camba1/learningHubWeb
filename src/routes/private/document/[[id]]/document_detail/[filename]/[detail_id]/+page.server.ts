@@ -6,6 +6,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetails";
 import { fetchDocumentDetailPages } from '$lib/api/documentDetailPages';
 import type { PageSchemaType } from '$lib/schemas/documentDetailPages';
+import { getAuthToken } from "$lib/server/utils/headers";
 
 const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	id: DocumentDetailSchema.shape._key.optional(),
@@ -13,14 +14,14 @@ const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	filename: DocumentDetailSchema.shape.filePath.optional(),
 });
 
-export async function load({ params }) {
+export async function load({ params, cookies }) {
 
 	let docDetailPages = null;
 	let docDetails = null;
 
 	[docDetails, docDetailPages] = await Promise.all([
-		fetchDocumentDetail(params.detail_id),
-		 fetchDocumentDetailPages(0, 10, "created_at", "desc", params.detail_id),
+		fetchDocumentDetail(params.detail_id, getAuthToken(cookies)),
+		 fetchDocumentDetailPages(getAuthToken(cookies),0, 10, "created_at", "desc", params.detail_id),
 	]);
 
 	if (params.detail_id && !docDetails) throw error(404, 'Document details not found.');
@@ -43,7 +44,7 @@ export async function load({ params }) {
 
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(updateDocumentProcessedSchema));
@@ -64,7 +65,7 @@ export const actions = {
 
 			} else {
 
-				const docDetail = await updateDocumentDetail(form.data._key, form.data);
+				const docDetail = await updateDocumentDetail(form.data._key, form.data, getAuthToken(cookies));
 				const updatedForm = await superValidate(docDetail, zod(DocumentDetailSchema));
 				if (!updatedForm.valid) return fail(400, { updatedForm });
 				return message(updatedForm, 'Saved');
