@@ -1,10 +1,13 @@
 import { env } from '$env/dynamic/private'
 
-// export const DEFAULT_SKIP = 0;
-// export const DEFAULT_LIMIT = 25;
-
+/**
+ * The URL of the backend server, retrieved from environment variables.
+ */
 const backendUrl:string= env.BACKEND_URL
 
+/**
+ * A collection of external URLs related to the different backend APIs.
+ */
 export const ExternalURLs = {
 	backendUrl: backendUrl,
 	documents: backendUrl.concat("/documents"),
