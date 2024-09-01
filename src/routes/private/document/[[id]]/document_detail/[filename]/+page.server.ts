@@ -1,13 +1,14 @@
+import { z } from 'zod';
+import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { fail, type Actions, error } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
+
 import { ExternalURLs } from '$lib/server/utils/externalUrls';
+import { getMainHeader, getAuthToken } from "$lib/server/utils/headers";
 import { InternalURLs } from '$lib/utils/urls';
 import { type DocumentDetailsFromDocSchemaType } from '$lib/schemas/documentDetails';
 import { DocumentDetailsFromDocSchema } from '$lib/schemas/documentDetails';
-import { z } from 'zod';
-import { zod } from 'sveltekit-superforms/adapters';
-import { getMainHeader } from "$lib/server/utils/headers";
 
 type DocumentDetailsFromDoc = z.infer<typeof DocumentDetailsFromDocSchema>;
 
@@ -33,7 +34,7 @@ export async function load({ params }) {
 }
 
 export const actions: Actions = {
-	default: async ({ request, params }) => {
+	default: async ({ request, params, cookies }) => {
 
 		if (!params.filename) throw error(404, 'Filename not found.');
 
@@ -49,7 +50,7 @@ export const actions: Actions = {
 
 		const url =  encodeURI(ExternalURLs.document_details_from_doc.replace('{key}', post_data.document_key));  //detailsURL.replace('{key}', id);
 
-		const new_detail_info = await post_version(url, post_data);
+		const new_detail_info = await post_version(url, post_data, getAuthToken(cookies));
 
 		const newUrl = `${InternalURLs.document}/${params.id}/document_detail/${encodeURIComponent(params.filename)}/${new_detail_info._key}`;
 		throw redirect(303, newUrl);
@@ -57,11 +58,10 @@ export const actions: Actions = {
 };
 
 
-async function post_version(url: string, body: DocumentDetailsFromDocSchemaType){
+async function post_version(url: string, body: DocumentDetailsFromDocSchemaType, authToken: string | undefined) {
 	const options: RequestInit = {
 		method: 'POST',
-		// headers: getHeader(),
-		headers: getMainHeader('application/json'),
+		headers: getMainHeader(authToken,'application/json'),
 		body: JSON.stringify(body)
 	};
 	const response = await fetch(url, options);

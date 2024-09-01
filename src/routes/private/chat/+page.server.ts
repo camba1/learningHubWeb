@@ -5,11 +5,13 @@ import { AssistName, type MessageSchemaType, MessageSchema, RoleEnum, StatusEnum
 import { getLocalTime } from '$lib/utils/timeUtils';
 import { RemoteRunnable } from '@langchain/core/runnables/remote';
 import { ExternalURLs } from '$lib/server/utils/externalUrls';
+import { getMainHeaderAsPlainObject, getAuthToken } from "$lib/server/utils/headers";
 
 export const load = async (event) => {
 
 	// @ts-expect-error session is injected by clerk
 	const userId: string = event.locals.session.userId
+	// console.log("SESSION COOKIES: ", getAuthToken(event))
 
 	const form: MessageSchemaType = {messageText: '', userId: userId, role: RoleEnum.enum.assistant, status: StatusEnum.enum.delivered, name: AssistName, time: getLocalTime()}
 	return {
@@ -19,7 +21,7 @@ export const load = async (event) => {
 };
 
 export const actions = {
-	default: async ( { request,locals }) => {
+	default: async ( { request,locals, cookies }) => {
 
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(MessageSchema));
@@ -57,7 +59,8 @@ export const actions = {
 
 		const msgForLLM = getMessageTextForLLM(form.data.messageText, formData)
 		// console.log(msgForLLM)
-		const llmReply: string = <string>await getAssistantReply(msgForLLM, 'secret-token')
+
+		const llmReply: string = <string>await getAssistantReply(msgForLLM, getAuthToken(cookies))
 
 		const llmMessage: MessageSchemaType = {
 			messageText: llmReply,
@@ -75,7 +78,13 @@ export const actions = {
 	}
 };
 
-
+/**
+ * Constructs the message text to be sent to the LLM by appending additional context from the form data.
+ *
+ * @param formMsgText - The message text from the form.
+ * @param formData - The form data containing additional context.
+ * @returns The constructed message text for the LLM.
+ */
 function getMessageTextForLLM(formMsgText: string, formData: FormData) {
 	let tmpMsg = ""
 
@@ -87,6 +96,14 @@ function getMessageTextForLLM(formMsgText: string, formData: FormData) {
 	return formMsgText + "\n Additional context to be used only if calling a function: " + tmpMsg
 }
 
+/**
+ * Retrieves additional context message from the form data for the LLM.
+ *
+ * @param formData - The form data containing additional context.
+ * @param formData_varName - The name of the variable in the form data.
+ * @param varLabel - The label for the variable.
+ * @returns The additional context message.
+ */
 function get_additional_LLM_context_message(formData: FormData, formData_varName:string, varLabel:string ) {
 
 	if (!formData.has(formData_varName)) {
@@ -101,14 +118,22 @@ function get_additional_LLM_context_message(formData: FormData, formData_varName
 	return `The ${varLabel} is ${var_value} . `;
 }
 
-async function  getAssistantReply(messageText: string, authToken: string) {
+
+/**
+ * Retrieves the assistant's reply for the given message text using a remote runnable.
+ *
+ * @param messageText - The message text to be sent to the assistant.
+ * @param authToken - The authentication token for the request.
+ * @returns The assistant's reply.
+ * @throws An error if the response from the assistant is invalid.
+ */
+async function  getAssistantReply(messageText: string, authToken: string | undefined) {
+	const headers =  getMainHeaderAsPlainObject(authToken, 'application/json')
 	const remoteChain = new RemoteRunnable({
 		url: ExternalURLs.agent,
 		options: {
 			timeout: 300000, // 5 minutes
-			headers: {
-				'x-token': authToken,
-			},
+			headers: headers,
 		},
 	});
 

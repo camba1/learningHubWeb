@@ -5,6 +5,7 @@ import { APIFileClient} from '$lib/api/apiFileClient';
 import { ExternalURLs } from '$lib/server/utils/externalUrls';
 import { redirect } from '@sveltejs/kit';
 import { InternalURLs } from '$lib/utils/urls';
+import { getAuthToken } from "$lib/server/utils/headers";
 
 
 
@@ -16,7 +17,7 @@ export const load = async () => {
 };
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 
 		const form = await superValidate(request, zod(FileSchema));
 
@@ -30,7 +31,7 @@ export const actions = {
 
 		const api_client = new APIFileClient(ExternalURLs.upload_file);
 
-		const response = await api_client.upload_file(formData);
+		const response = await api_client.upload_file(formData, getAuthToken(cookies));
 		console.log(response._key)
 		if (response._key) {
 			redirect(307, InternalURLs.document + '/' + response._key);

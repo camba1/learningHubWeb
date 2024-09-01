@@ -1,10 +1,12 @@
-import { DocumentSchema } from '$lib/schemas/documents';
+import { z } from 'zod';
 import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
-import { InternalURLs } from '$lib/utils/urls';
+
+import { DocumentSchema } from '$lib/schemas/documents';
 import { fetchDocument, fetchDocumentDetailsLookup, createDocument, updateDocument, deleteDocument } from '$lib/api/documents';
-import { z } from 'zod';
+import { InternalURLs } from '$lib/utils/urls';
+import { getAuthToken } from "$lib/server/utils/headers";
 
 type Document = z.infer<typeof DocumentSchema>;
 
@@ -15,7 +17,7 @@ const crudDocumentSchema = DocumentSchema.extend({
 	fileName: DocumentSchema.shape.filename.optional()
 });
 
-export const load = async ({ params }) => {
+export const load = async ({ params, cookies }) => {
 	// Fetch document and lookup for associated details
 	let docProcessedLookups = null;
 	let doc = null
@@ -26,8 +28,8 @@ export const load = async ({ params }) => {
 	}
 
 	[doc, docProcessedLookups] = await Promise.all([
-		fetchDocument(params.id),
-		fetchDocumentDetailsLookup(params.id)
+		fetchDocument(params.id, getAuthToken(cookies)),
+		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies))
 	]);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
@@ -40,7 +42,7 @@ export const load = async ({ params }) => {
 
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(crudDocumentSchema));
 
@@ -50,7 +52,7 @@ export const actions = {
 			// CREATE Document
 
 			const doc: Document = { ...form.data } as Document;
-			const response = await createDocument(doc);
+			const response = await createDocument(doc, getAuthToken(cookies));
 
 			// return message(form, 'Document created');
 			throw redirect(303, InternalURLs.document.concat('/',response._key));
@@ -61,13 +63,13 @@ export const actions = {
 			if (formData.has('delete')) {
 				// DELETE document
 
-				await deleteDocument(form.data._key);
+				await deleteDocument(form.data._key, getAuthToken(cookies));
 				throw redirect(303, InternalURLs.documents);
 			} else {
 
 				// UPDATE document
 				const doc2: Document = { ...form.data} as Document;
-				await updateDocument(form.data._key, doc2);
+				await updateDocument(form.data._key, doc2, getAuthToken(cookies));
 				return message(form, 'Saved');
 			}
 		}

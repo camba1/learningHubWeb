@@ -1,11 +1,13 @@
+import { fail } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
+import { superValidate } from 'sveltekit-superforms/server';
+import { zod } from 'sveltekit-superforms/adapters';
 import type { DocumentSchemaType } from '$lib/schemas/documents';
 import {DocumentSortByEnum, DocumentSearchSchema} from '$lib/schemas/documents';
 import { fetchDocuments } from '$lib/api/documents';
-import { fail } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
 import { DEFAULT_LIMIT, DEFAULT_SKIP } from '$lib/utils/urls';
-import { error } from '@sveltejs/kit';
+import { getAuthToken } from "$lib/server/utils/headers";
+
 
 
 
@@ -17,9 +19,9 @@ function getSearchParams(searchParams: URLSearchParams, paramName: string, altVa
 }
 
 
-export const load = async (params) => {
+export const load = async ({ cookies, url}) => {
 
-	const searchParams = params.url.searchParams;
+	const searchParams = url.searchParams;
 
 	const searchObj = DocumentSearchSchema.safeParse({
 		skip: getSearchParams(searchParams, "skip", DEFAULT_SKIP),
@@ -38,7 +40,7 @@ export const load = async (params) => {
 
 	if (!form.valid) return fail(400, { form });
 
-	const docs: DocumentSchemaType[] = await fetchDocuments(form.data.skip, form.data.limit,
+	const docs: DocumentSchemaType[] = await fetchDocuments(getAuthToken(cookies), form.data.skip, form.data.limit,
 		form.data.sort_by , form.data.sort_order,
 		form.data.title, form.data.ageGroup,
 		form.data.type);
