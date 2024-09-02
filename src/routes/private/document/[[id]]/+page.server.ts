@@ -14,7 +14,7 @@ type Document = z.infer<typeof DocumentSchema>;
 const crudDocumentSchema = DocumentSchema.extend({
 	id: DocumentSchema.shape._key.optional(),
 	filePath: DocumentSchema.shape.filePath.optional(),
-	fileName: DocumentSchema.shape.filename.optional()
+	filename: DocumentSchema.shape.filename.optional()
 });
 
 export const load = async ({ params, cookies }) => {
