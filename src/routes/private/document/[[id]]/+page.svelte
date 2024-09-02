@@ -67,22 +67,23 @@
 <SubmitToast message={$message} page_status={$page.status}/>
 
 <div class="container mx-auto p-6">
-
-	<div class="flex justify-between items-center">
-		<div>
-			<h1 class="text-2xl font-bold">{$form.title}</h1>
-			<p class="text-gray-500 mt-1">File: {$form.filename} - {$form.pageCount} pages</p>
-			<div class="mt-3 flex flex-wrap">
-				{#each data.docProcessedLookups as lookup}
-					<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_additional_class="btn-outline btn-primary" />
-				{/each}
-				<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
+	{#if $form._key}
+		<div class="flex justify-between items-center">
+			<div>
+				<h1 class="text-2xl font-bold">{$form.title}</h1>
+				<p class="text-gray-500 mt-1">File: {$form.filename} - {$form.pageCount} pages</p>
+				<div class="mt-3 flex flex-wrap">
+					{#each data.docProcessedLookups as lookup}
+						<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_additional_class="btn-outline btn-primary" />
+					{/each}
+					<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
+				</div>
 			</div>
+			{#if data.image_filename}
+				<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document" img_class="w-28 h-28 object-cover"/>
+			{/if}
 		</div>
-		{#if data.image_filename}
-			<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document" img_class="w-28 h-28 object-cover"/>
-		{/if}
-	</div>
+	{/if}
 
 	<form method="POST" use:enhance >
 
