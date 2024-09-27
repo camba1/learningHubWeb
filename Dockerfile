@@ -1,5 +1,5 @@
 # ===== Build Stage =====
-FROM node:22-alpine as build
+FROM node:22-alpine AS build
 LABEL authors="jperedo"
 
 # Create and change to the app directory
