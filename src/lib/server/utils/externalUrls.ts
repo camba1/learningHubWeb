@@ -3,7 +3,7 @@ import { env } from '$env/dynamic/private'
 /**
  * The URL of the backend server, retrieved from environment variables.
  */
-const backendUrl:string= env.BACKEND_URL
+const backendUrl:string= env.BACKEND_URL || "http://127.0.0.1:8000/private"
 
 /**
  * A collection of external URLs related to the different backend APIs.
