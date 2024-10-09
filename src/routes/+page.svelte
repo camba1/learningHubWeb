@@ -30,10 +30,12 @@
 		<h2 class="text-3xl font-bold mb-8">Features</h2>
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-			<BasicCard title="PDF & MS Word" description="Process PDF and MS Word versions of the books easily with our platform."/>
-			<BasicCard title="Translation" description="Translate books to Spanish or French, making them accessible to more readers."/>
+			<BasicCard title="Book upload" description="Upload PDF and MS Word versions of your books easily to our platform."/>
+			<BasicCard title="Track book information with ease" description="Build a library of your books. Automatically create book summaries and main character lists"/>
+			<BasicCard title="Translation" description="Translate books to multiple languages, making them accessible to readers around the world."/>
 			<BasicCard title="Audio" description="Create audio versions of the books for listening on the go or in the car."/>
-			<BasicCard title="RAG-based Chat" description="Enable chat with books via RAG, so kids can interact with their favorite characters."/>
+			<BasicCard title="Chat with your books" description="Easily search your books for important bits of information and ask questions."/>
+			<BasicCard title="Bring characters to life" description="Generate images for your books and your protagonists"/>
 		</div>
 
 		<div class="flex flex-wrap items-center mt-12">
