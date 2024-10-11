@@ -5,6 +5,11 @@ import { env } from '$env/dynamic/private'
  */
 const backendUrl:string= env.BACKEND_URL || "http://127.0.0.1:8000/private"
 
+/*
+ * The token used to authenticate with the backend server. This is needed in addition to the user jwt.
+ */
+export const backendXToken = env.BL_BACKEND_API_KEY || "secret-token"
+
 /**
  * A collection of external URLs related to the different backend APIs.
  */

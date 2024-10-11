@@ -1,4 +1,5 @@
 import type { Cookies, RequestEvent } from '@sveltejs/kit';
+import { backendXToken } from '$lib/server/utils/externalUrls';
 type AuthInput = RequestEvent | Cookies;
 
 
@@ -18,7 +19,7 @@ export function getMainHeader(auth: string | undefined, content_type: string | n
 	if (content_type) {
 		headers.append('Content-Type', content_type);
 	}
-	headers.append('x-token', 'secret-token');
+	headers.append('x-token', backendXToken);
 	headers.append('Authorization', `Bearer ${auth}`);
 	return headers;
 }
