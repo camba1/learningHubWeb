@@ -3,7 +3,7 @@ runWeb:
 	npm run dev
 
 docBuildWeb:
-	docker build -t bblearnweb .
+	docker build --build-arg ORIGIN=http://localhost:3000 -t bblearnweb .
 
 docRunWeb:
 	docker run --rm --name bblearnwebcont --env-file .env.local -p 3000:3000 bblearnweb

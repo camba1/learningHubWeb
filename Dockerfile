@@ -47,4 +47,6 @@ HEALTHCHECK CMD wget --no-verbose --tries=1  http://127.0.0.1:3000/healthcheck |
 
 # Start the application
 #CMD ["node", "build"]
-CMD  BODY_SIZE_LIMIT=20000000 ORIGIN=http://localhost:3000  node build
+#CMD  BODY_SIZE_LIMIT=20000000 ORIGIN=http://localhost:3000  node build
+ARG ORIGIN
+CMD  BODY_SIZE_LIMIT=20000000 ORIGIN=$ORIGIN  node build
