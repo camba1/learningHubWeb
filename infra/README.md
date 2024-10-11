@@ -7,7 +7,7 @@ Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2
 Login to AWS ECR:
 
 ```bash 
-aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 998349575078.dkr.ecr.us-east-2.amazonaws.com
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <accountRepoAddress>
 ```
 
 install copilot if not already installed
@@ -73,24 +73,12 @@ secrets:                      # Pass secrets from AWS Systems Manager (SSM) Para
   PUBLIC_CLERK_PUBLISHABLE_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/public_clerk_publishable_key
   CLERK_SECRET_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/clerk_secret_key
   BACKEND_URL: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/backend_url
-```
-
-Update the amount of memory and cpu used by container. If the default 512 MiB is not enough to run the container it
-throws an out of memory error in ECS Fargate.
-
-```yaml
-cpu: 512       # Number of CPU units for the task.
-memory: 1024    # Amount of memory in MiB used by the task.
+  #  BL_BACKEND_API_KEY is created by the backend service deployment. We just need to reference it here.
+  BL_BACKEND_API_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/bl-backend-api-key
 ```
 
 Additionally, by default copilot will build your image as an X64 image. If you would like to build an ARM image,
 update the following line in the manifest:
-
-```yaml
-platform: linux/x86_64  # See https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#platform
-```
-
-to be instead:
 
 ```yaml
 platform: linux/arm64  # See https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#platform
@@ -104,8 +92,32 @@ hitting the correct route (Copilot should default this properly from the healthc
     healthcheck: '/healthcheck'
 ```
 
-Deploy the backend service
+We need to put the **DNS name of the load balancer** in the `ORIGIN` arg and environment variable on the manifest.
+If we forget to do this, you will get an error when trying to do any POST request to the
+backend service (`Cross-site POST form submissions are forbidden`).
+
+#### Deploying the service
 
 ```bash
 copilot svc deploy --env dev --name frontend-service
+```
+
+#### Trouble shooting
+To troubleshoot the deployment in case something goes wrong, check the logs using:
+
+```bash
+copilot svc logs --name frontend-service --env dev
+```
+
+Login to the frontend service container using:
+
+```bash
+copilot svc exec --app bb-learning --env dev --name frontend-service 
+```
+
+Installing curl on container
+
+```bash
+apt-get update
+apt-get install curl
 ```
