@@ -55,7 +55,7 @@ copilot secret init --name backend_url --overwrite --values dev=<value>
 
 #### Frontend service
 
-Initialize the backend service. When asked if you would like to deploy an environment, say no as we will need to update
+Initialize the frontend service. When asked if you would like to deploy an environment, say no as we will need to update
 the generated manifest:
 
 ```bash
@@ -92,15 +92,22 @@ hitting the correct route (Copilot should default this properly from the healthc
     healthcheck: '/healthcheck'
 ```
 
-We need to put the **DNS name of the load balancer** in the `ORIGIN` arg and environment variable on the manifest.
-If we forget to do this, you will get an error when trying to do any POST request to the
-backend service (`Cross-site POST form submissions are forbidden`).
-
 #### Deploying the service
 
 ```bash
 copilot svc deploy --env dev --name frontend-service
 ```
+
+Once the service is deployed, we need to put the **DNS name of the load balancer** in the `ORIGIN` arg and environment 
+variable on the manifest. If we forget to do this, you will get an error when trying to do any POST request to the
+backend service (`Cross-site POST form submissions are forbidden`). Once the DNS name is in the manifest, we must 
+redeploy the service in order to apply the changes.
+
+```bash
+copilot svc deploy --env dev --name frontend-service
+```
+
+
 
 #### Trouble shooting
 To troubleshoot the deployment in case something goes wrong, check the logs using:
