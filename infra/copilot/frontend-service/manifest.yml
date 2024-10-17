@@ -20,8 +20,8 @@ image:
   build:
     dockerfile: ../Dockerfile
     args:
-      ORIGIN: <PublicLoadBalancerDNSAddress>
-  # Port exposed through your container to route traffic to it.
+#      ORIGIN: http://<ELBPublicDNS>
+      ORIGIN: http://localhost:3000
   port: 3000
 
 cpu: 256       # Number of CPU units for the task.
@@ -32,13 +32,9 @@ exec: true     # Enable running commands in your container.
 network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
 
-# storage:
-  # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
-
-# Optional fields for more advanced use-cases.
-#
 variables:                    # Pass environment variables as key value pairs.
-  ORIGIN: <PublicLoadBalancerDNSAddress>
+#  ORIGIN: http://<ELBPublicDNS>
+  ORIGIN: http://localhost:3000
   BODY_SIZE_LIMIT: 20000000
 
 secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
