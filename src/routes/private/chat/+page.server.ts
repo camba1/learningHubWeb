@@ -140,6 +140,7 @@ async function  getAssistantReply(messageText: string, authToken: string | undef
 	const response = await remoteChain.invoke({
 		messages: [messageText]
 	})
+	// @ts-expect-error response is injected by the remote chain
 	const AIResponse = response["messages"]?.pop()?.content
 	if (!AIResponse) {
 		throw new Error(`Failed to get response from ${AssistName}`);
