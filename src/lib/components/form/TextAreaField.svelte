@@ -34,7 +34,7 @@ A SvelteKit component representing a textarea field for a form.
 			aria-invalid={errors ? 'true' : undefined}
 			bind:value={value}
 			{...constraints}
-			class="textarea textarea-bordered resize w-full"
+			class="textarea textarea-bordered resize-y w-full"
 			rows={rows}
 			readonly={readOnly}
 		/>
