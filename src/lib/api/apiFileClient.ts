@@ -27,13 +27,13 @@ export class APIFileClient {
 		return await response.json();
 	}
 
-	async download_file( filename: string, auth:string | undefined) {
+	async download_file( filename: string, auth:string | undefined, file_category: string = 'document' ) {
 
 		try {
 			const headers = getMainHeader(auth);
 			headers.append('accept',  'application/json')
 
-			const response = await fetch(`${this.baseURL}/${filename}`, {
+			const response = await fetch(`${this.baseURL}/${file_category}/${filename}`, {
 				headers: headers
 			});
 

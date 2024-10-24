@@ -2,6 +2,7 @@
 
 	export let encodedFilename: string ;
 	export let alt: string = '';
+	export let file_category: string = 'document';
 	export let img_class: string = "h-auto max-w-full"
 
 	const preload = async (url: string) => {
@@ -20,7 +21,7 @@
 	};
 </script>
 
-{#await preload(`/private/fileProxy?filename=${encodedFilename}`)}
+{#await preload(`/private/fileProxy?filename=${encodedFilename}&file_category=${file_category}`)}
 	Loading....
 {:then objUrl}
 	<img src="{String(objUrl)}" alt={alt} class={img_class}/>
