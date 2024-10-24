@@ -26,7 +26,7 @@
 A SvelteKit component representing an input field with an embedded button for a form.
 -->
 
-	<label class=" input input-bordered items-center p-1.5 mx-0.5" >
+	<label class="items-center input input-bordered p-1.5 mx-0.5" >
 		<input
 			name={id}
 			id={id}
@@ -37,5 +37,7 @@ A SvelteKit component representing an input field with an embedded button for a 
 			readonly={readOnly}
 		/>
 		{#if errors}<span class="invalid">{errors}</span>{/if}
-		<button class="btn btn-xs btn-circle" type="button" on:click={() => dispatch('removeItemOnce', value)  }> <X  class="w-3 h-3" /> </button>
+		<button class="btn btn-xs btn-circle ml-2" type="button" on:click={() => dispatch('removeItemOnce', value)  }>
+			<X  class="w-3 h-3" />
+		</button>
 	</label>
