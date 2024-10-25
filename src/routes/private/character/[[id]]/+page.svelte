@@ -11,11 +11,11 @@
 	import { SquarePlus, ImagePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
-	import type { CharacterDocumentSchemaType } from '$lib/schemas/character'
+	import type { CharacterDocumentSchemaType } from '$lib/schemas/characters'
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 
 	export let data: PageData;
-	const searchPageUrl: string = InternalURLs.documents
+	const searchPageUrl: string = InternalURLs.characters
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
 	const file_category: string = "character";
 
@@ -30,22 +30,25 @@
 
 	function addDocument() {
 		// TODO: Ww need a document lookup here
-		let value:CharacterDocumentSchemaType = {"docMain_key": "", "name": "Add Document"};
-		if ($form.documents) {
-			$form.documents = [...$form.documents, value];
-		} else {
-			$form.documents = [value];
-		}
+		alert(" Not implemented... yet");
+	// 	let value:CharacterDocumentSchemaType = {"docMain_key": "", "name": "Add Document"};
+	// 	if ($form.documents) {
+	// 		$form.documents = [...$form.documents, value];
+	// 	} else {
+	// 		$form.documents = [value];
+	// 	}
 	}
 
 	function removeDocumentOnce(value:CharacterDocumentSchemaType) {
-		if ($form.documents) {
-			$form.documents = $form.documents.filter( (item: CharacterDocumentSchemaType) => item !== value);
-		}
+		console.log(value);
+		alert(" Not implemented... yet");
+		// if ($form.documents) {
+		// 	$form.documents = $form.documents.filter( (item: CharacterDocumentSchemaType) => item !== value);
+		// }
 	}
 
 	function regenerateImage() {
-		alert("TODO: Regenerate Image");
+		alert("Not implemented... yet");
 	}
 
 </script>
@@ -73,7 +76,7 @@
 				<div class="mb-2">
 					<span class="inline-flex items-center py-0.5">
 							<FieldLabel id="prompt" label="Prompt"/>
-							<DispatchButton icon={ImagePlus} label="Regenerate Image"  on:dispatchButtonClick={() => regenerateImage()}/>
+							<DispatchButton icon={ImagePlus} label="Create character sheet"  on:dispatchButtonClick={() => regenerateImage()}/>
 					</span>
 				</div>
 				<TextAreaField id="prompt" bind:value={$form.prompt}

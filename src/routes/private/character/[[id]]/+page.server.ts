@@ -2,7 +2,7 @@ import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
 
-import { CharacterSchema, type CharacterSchemaType } from '$lib/schemas/character';
+import { CharacterSchema, type CharacterSchemaType } from '$lib/schemas/characters';
 import { fetchCharacter, createCharacter, updateCharacter, deleteCharacter } from '$lib/api/characters';
 import { InternalURLs } from '$lib/utils/urls';
 import { getAuthToken } from "$lib/server/utils/headers";
@@ -46,7 +46,7 @@ export const actions = {
 				// DELETE character
 
 				await deleteCharacter(form.data._key, getAuthToken(cookies));
-				throw redirect(303, InternalURLs.documents);
+				throw redirect(303, InternalURLs.characters);
 			} else {
 
 				// UPDATE character
