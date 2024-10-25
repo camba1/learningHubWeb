@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { createGenericSearchParams } from '$lib/schemas/genericSearchParams';
+import { DocumentSchema } from '$lib/schemas/documents';
 
 export const CharacterDocumentSchema = z.object({
 	docMain_key: z.string(),
@@ -20,3 +22,12 @@ export const CharacterSchema = z.object({
 
 export type CharacterSchemaType = z.infer<typeof CharacterSchema>;
 export type CharacterDocumentSchemaType = z.infer<typeof CharacterDocumentSchema>;
+
+export const CharacterSortByEnum = z.enum(['name']);
+const genericSearchParams = createGenericSearchParams(CharacterSortByEnum);
+
+export const CharacterSearchSchema = CharacterSchema.pick({
+	name: true
+}).partial().merge(genericSearchParams);
+
+export type CharacterSearchSchemaType = z.infer<typeof CharacterSearchSchema>;

@@ -2,8 +2,8 @@ import { ExternalURLs } from '$lib/server/utils/externalUrls';
 import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/utils/urls';
 import { APIClient } from './apiClient';
 
-import { type CharacterSchemaType } from '$lib/schemas/character';
-import { CharacterSchema } from '$lib/schemas/character';
+import { type CharacterSchemaType } from '$lib/schemas/characters';
+import { CharacterSchema } from '$lib/schemas/characters';
 
 const CHARACTERS_URL = ExternalURLs.characters;
 
