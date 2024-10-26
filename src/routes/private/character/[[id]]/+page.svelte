@@ -89,7 +89,7 @@
 					{#if $form.documents}
 						{#each $form.documents as document, i}
 							<TextFieldWithDelete id="documents" bind:value={document.name}
-																	 errors={$errors.documents?.[i]?.name} constraints={$constraints?.dcouments}
+																	 errors={$errors.documents?.[i]?.name} constraints={$constraints?.documents}
 																	 on:removeItemOnce={() => removeDocumentOnce(document)}/>
 						{/each}
 					{/if}

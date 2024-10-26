@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { createGenericSearchParams } from '$lib/schemas/genericSearchParams';
-import { DocumentSchema } from '$lib/schemas/documents';
+
 
 export const CharacterDocumentSchema = z.object({
 	docMain_key: z.string(),
