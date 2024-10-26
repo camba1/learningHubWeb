@@ -8,10 +8,6 @@ export class APIFileClient {
 		this.baseURL = baseURL;
 	}
 
-	// private getHeader() {
-	// 	return getMainHeader();
-	// }
-
 	async upload_file( form_data:  FormData, auth:string | undefined ) {
 
 		const options: RequestInit = {
@@ -27,13 +23,18 @@ export class APIFileClient {
 		return await response.json();
 	}
 
-	async download_file( filename: string, auth:string | undefined, file_category: string = 'document' ) {
+	async download_file( filename: string, auth:string | undefined, file_category: string = 'document', parent_filename: string = '' ) {
 
 		try {
 			const headers = getMainHeader(auth);
 			headers.append('accept',  'application/json')
 
-			const response = await fetch(`${this.baseURL}/${file_category}/${filename}`, {
+			let url = `${this.baseURL}/${file_category}/${filename}`
+
+			if (parent_filename) {
+				url = `${this.baseURL}/${file_category}/${filename}?parent_filename=${parent_filename}`
+			}
+			const response = await fetch(url, {
 				headers: headers
 			});
 
@@ -53,7 +54,6 @@ export class APIFileClient {
 				}
 			});
 		} catch (error) {
-			console.error('Error proxying file:', error);
 			return json({ error: 'Failed to load file.' }, { status: 500 });
 		}
 	}

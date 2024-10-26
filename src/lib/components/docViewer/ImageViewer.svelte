@@ -1,10 +1,18 @@
 <script lang="ts">
 
+	import { InternalURLs } from '$lib/utils/urls';
+
 	export let encodedFilename: string ;
 	export let alt: string = '';
 	export let file_category: string = 'document';
 	export let img_class: string = "h-auto max-w-full"
+	export let encodedParentFilename: string = '';
 
+	let url = `${InternalURLs.fileProxy}?filename=${encodedFilename}&file_category=${file_category}`
+	if (encodedParentFilename) {
+		url =`${url}&parent_filename=${encodedParentFilename}`
+	}
+	console.log(url);
 	const preload = async (url: string) => {
 		const resp = await fetch(url);
 
@@ -21,7 +29,7 @@
 	};
 </script>
 
-{#await preload(`/private/fileProxy?filename=${encodedFilename}&file_category=${file_category}`)}
+{#await preload(url)}
 	Loading....
 {:then objUrl}
 	<img src="{String(objUrl)}" alt={alt} class={img_class}/>
