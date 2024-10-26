@@ -16,6 +16,8 @@ export const backendXToken = env.BL_BACKEND_API_KEY || "secret-token"
 export const ExternalURLs = {
 	backendUrl: backendUrl,
 	documents: backendUrl.concat("/documents"),
+	document_characters: backendUrl.concat("/document_characters"),
+	document_character_lookup: backendUrl.concat("/documents/{key}/document_character_lookup"),
 	document_details_lookup: backendUrl.concat("/documents/{key}/document_details_lookup"),
 	document_details: backendUrl.concat("/document_details"),
 	document_detail_pages: backendUrl.concat("/document_details_page"),
