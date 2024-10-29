@@ -8,11 +8,12 @@
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 	import TextField from '$lib/components/form/TextField.svelte';
-	import { SquarePlus, ImagePlus } from 'lucide-svelte';
+	import { ImagePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
-	import type { CharacterDocumentSchemaType } from '$lib/schemas/characters'
-	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
+
+
+	// import SuperDebug from 'sveltekit-superforms';
 
 	export let data: PageData;
 	const searchPageUrl: string = InternalURLs.characters
@@ -27,25 +28,6 @@
 		}
 	);
 
-
-	function addDocument() {
-		// TODO: Ww need a document lookup here
-		alert(" Not implemented... yet");
-	// 	let value:CharacterDocumentSchemaType = {"docMain_key": "", "name": "Add Document"};
-	// 	if ($form.documents) {
-	// 		$form.documents = [...$form.documents, value];
-	// 	} else {
-	// 		$form.documents = [value];
-	// 	}
-	}
-
-	function removeDocumentOnce(value:CharacterDocumentSchemaType) {
-		console.log(value);
-		alert(" Not implemented... yet");
-		// if ($form.documents) {
-		// 	$form.documents = $form.documents.filter( (item: CharacterDocumentSchemaType) => item !== value);
-		// }
-	}
 
 	function regenerateImage() {
 		alert("Not implemented... yet");
@@ -76,23 +58,12 @@
 				<div class="mb-2">
 					<span class="inline-flex items-center py-0.5">
 							<FieldLabel id="prompt" label="Prompt"/>
-							<DispatchButton icon={ImagePlus} label="Create character sheet"  on:dispatchButtonClick={() => regenerateImage()}/>
+							<DispatchButton icon={ImagePlus} label="Generate image"  on:dispatchButtonClick={() => regenerateImage()}/>
 					</span>
 				</div>
 				<TextAreaField id="prompt" bind:value={$form.prompt}
 											 errors={$errors.prompt} constraints={$constraints.prompt} />
-				<span class="inline-flex items-center py-0.5">
-						<FieldLabel id="documents" label="Documents"/>
-						<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addDocument()}/>
-				</span>
 				<div>
-					{#if $form.documents}
-						{#each $form.documents as document, i}
-							<TextFieldWithDelete id="documents" bind:value={document.name}
-																	 errors={$errors.documents?.[i]?.name} constraints={$constraints?.documents}
-																	 on:removeItemOnce={() => removeDocumentOnce(document)}/>
-						{/each}
-					{/if}
 					<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 											 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg,
 											 $form.name.toString(), "?")}
@@ -102,3 +73,5 @@
 		</div>
 	</div>
 </div>
+
+<!--<SuperDebug data={$form} />-->
