@@ -33,16 +33,17 @@ export async function deleteDocumentCharacter(id: string, auth:string | undefine
 
 export async function fetchDocumentCharacters( auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
 																							 sort_by: string = '', sort_order = 'asc',
-																							 name: string = '', doc_main_key: string = '',
-																							 char_main_key: string = '',
+																							 character_name: string = '', doc_main_key: string = '',
+																							 char_main_key: string = '', document_title: string = '',
 																							 created_by: string = '', updated_by: string = '' ) {
 
 	const options: { [key: string]: string } = {}
 	if (sort_by) options['sort_by']= sort_by;
 	if (sort_order) options['sort_order'] = sort_order;
-	if (name) options['name'] = name;
+	if (character_name) options['character_name'] = character_name;
 	if (doc_main_key) options['doc_main_key'] = doc_main_key;
 	if (char_main_key) options['char_main_key'] = char_main_key;
+	if (document_title) options['document_title'] = document_title;
 	if (created_by) options['created_by'] = created_by;
 	if (updated_by) options['updated_by'] = updated_by;
 
