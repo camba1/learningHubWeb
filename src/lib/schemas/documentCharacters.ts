@@ -6,7 +6,8 @@ export const DocumentCharacterSchema = z.object({
 	_key: z.string(), // Unique key for the document character
 	docMain_key: z.string(), // Unique  identification for parent document
 	charMain_key: z.string(), // Unique  identification for parent character
-	name: z.string(),
+	character_name: z.string(),
+	document_title: z.string(),
 	imageFilename: z.string().optional(),
 	prompt: z.string(),
 	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date
@@ -21,7 +22,8 @@ export const DocumentCharacterSortByEnum = z.enum(['name']);
 const genericSearchParams = createGenericSearchParams(DocumentCharacterSortByEnum);
 
 export const DocumentCharacterSearchSchema = DocumentCharacterSchema.pick({
-	name: true,
+	character_name: true,
+	document_title: true,
 	docMain_key: true,
 	charMain_key: true
 }).partial().merge(genericSearchParams);
