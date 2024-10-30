@@ -4,7 +4,7 @@
 	import { tick } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import type { SuperValidated } from 'sveltekit-superforms/server';
-	import type { CharacterSchemaType, CharacterSearchSchemaType } from '$lib/schemas/characters';
+	import type { DocumentsByCharacterSchemaType, CharacterSearchSchemaType } from '$lib/schemas/characters';
 	import { sortOrderEnum } from '$lib/schemas/genericSearchParams';
 	import { InternalURLs } from '$lib/utils/urls';
 
@@ -19,7 +19,7 @@
 
 	interface PageData {
 		form: SuperValidated<CharacterSearchSchemaType, never>;
-		characters: CharacterSchemaType[];
+		characters: DocumentsByCharacterSchemaType[];
 		sortByEnum: string[];
 	}
 
@@ -76,6 +76,8 @@
 				<input type="hidden" id="limit" name="limit" bind:value={$form.limit} />
 				<TextField label="Name" id="name" bind:value={$form.name}
 									 errors={$errors.name} constraints={$constraints.name} />
+				<TextField label="Book title" id="document_title" bind:value={$form.document_title}
+									 errors={$errors.document_title} constraints={$constraints.document_title} />
 				<SelectField label="Sort By" id="sort_by" bind:value={$form.sort_by}
 										 errors={$errors.sort_by} constraints={$constraints.sort_by}
 										 optionValues={data.sortByEnum} />
@@ -111,7 +113,7 @@
 							<td>
 								{#each char.documents as doc}
 									<div>
-										{doc.name}
+										{doc}
 									</div>
 								{/each}
 							</td>

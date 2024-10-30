@@ -2,9 +2,9 @@ import { fail } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
-import type { CharacterSchemaType } from '$lib/schemas/characters';
+import type { DocumentsByCharacterSchemaType } from '$lib/schemas/characters';
 import {CharacterSortByEnum, CharacterSearchSchema} from '$lib/schemas/characters';
-import { fetchCharacters } from '$lib/api/characters';
+import { fetchCharactersDocuments } from '$lib/api/characters';
 import { DEFAULT_LIMIT, DEFAULT_SKIP } from '$lib/utils/urls';
 import { getAuthToken } from "$lib/server/utils/headers";
 
@@ -28,7 +28,8 @@ export const load = async ({ cookies, url}) => {
 		limit: getSearchParams(searchParams, "limit", DEFAULT_LIMIT),
 		sort_by: getSearchParams(searchParams, "sort_by", "name"),
 		sort_order: getSearchParams(searchParams, "sort_order", "asc"),
-		name: getSearchParams(searchParams, "name")
+		name: getSearchParams(searchParams, "name"),
+		document_title: getSearchParams(searchParams, "document_title")
 	})
 	if (!searchObj.success ) {
 		throw error(400, { message: JSON.stringify(searchObj.error.flatten().fieldErrors) }  );
@@ -38,9 +39,8 @@ export const load = async ({ cookies, url}) => {
 
 	if (!form.valid) return fail(400, { form });
 
-	const chars: CharacterSchemaType[] = await fetchCharacters(getAuthToken(cookies), form.data.skip, form.data.limit,
-		form.data.sort_by , form.data.sort_order,
-		form.data.name);
+	const chars: DocumentsByCharacterSchemaType[] = await fetchCharactersDocuments(getAuthToken(cookies), form.data.skip, form.data.limit,
+		form.data.sort_by , form.data.sort_order, form.data.name, form.data.document_title);
 
 	return {
 		form: form,
