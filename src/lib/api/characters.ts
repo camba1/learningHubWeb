@@ -46,3 +46,23 @@ export async function fetchCharacters( auth:string | undefined, skip = DEFAULT_S
 	return await characterClient.fetchItems( auth, skip, limit, options);
 
 }
+
+
+export async function fetchCharactersDocuments( auth:string | undefined,
+																								skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+																								sort_by: string = '', sort_order = 'asc',
+																								name: string = '',
+																								document_title: string = '',
+																								created_by: string = '', updated_by: string = '' ) {
+
+	const options: { [key: string]: string } = {}
+	if (sort_by) options['sort_by']= sort_by;
+	if (sort_order) options['sort_order'] = sort_order;
+	if (name) options['character_name'] = name;
+	if (document_title) options['document_title'] = document_title;
+	if (created_by) options['created_by'] = created_by;
+	if (updated_by) options['updated_by'] = updated_by;
+
+	return await characterClient.fetchDetailLookup( "", auth, ExternalURLs.characters_documents, skip, limit, options);
+
+}
