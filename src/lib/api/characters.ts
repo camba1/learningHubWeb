@@ -7,6 +7,7 @@ import { CharacterSchema } from '$lib/schemas/characters';
 import { get_standard_options } from '$lib/server/utils/fetchUtils';
 
 const CHARACTERS_URL = ExternalURLs.characters;
+const DOCUMENTS_BY_CHARACTER_URL = ExternalURLs.characters_documents_by_character;
 
 
 const characterClient = new APIClient<CharacterSchemaType>(CHARACTERS_URL, CharacterSchema);
@@ -67,8 +68,5 @@ export async function fetchDocumentsByCharacter( auth:string | undefined, id: st
 																								created_by: string = '', updated_by: string = '' ) {
 
 	const options: { [key: string]: string } = get_standard_options(sort_by, sort_order, created_by, updated_by);
-
-	const url = ExternalURLs.characters_documents_by_character.replace('{key}', id);
-
-	return await characterClient.fetchDetailLookup("", auth, url, skip, limit, options);
+	return await characterClient.fetchDetailLookup(id, auth, DOCUMENTS_BY_CHARACTER_URL, skip, limit, options);
 }
