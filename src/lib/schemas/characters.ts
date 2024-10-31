@@ -16,21 +16,24 @@ export const CharacterSchema = z.object({
 
 export type CharacterSchemaType = z.infer<typeof CharacterSchema>;
 
+
+
 export const DocumentsByCharacterSchema = z.object({
 	_key: z.string(), // Unique key for the character
-	name: z.string(), // name of the character
-	documents: z.string().optional().array()  // list of documents associated with the character
+	document_title: z.string(), // name of the character
+	documentFilename: z.string(), // name of the original parent document file
+	imageFilename: z.string().nullable().optional(),
+	docMain_key: z.string() // Unique  identification for parent document
+
 })
 
 export type DocumentsByCharacterSchemaType = z.infer<typeof DocumentsByCharacterSchema>;
 
 
+
 export const CharacterSortByEnum = z.enum(['name', 'books']);
 const genericSearchParams = createGenericSearchParams(CharacterSortByEnum);
 
-// export const CharacterSearchSchema = CharacterSchema.pick({
-// 	name: true
-// }).partial().merge(genericSearchParams);
 
 export const CharacterSearchSchema = z.object({
 	name: z.string(),

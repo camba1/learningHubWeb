@@ -4,6 +4,7 @@ import { APIClient } from './apiClient';
 
 import { type CharacterSchemaType } from '$lib/schemas/characters';
 import { CharacterSchema } from '$lib/schemas/characters';
+import { get_standard_options } from '$lib/server/utils/fetchUtils';
 
 const CHARACTERS_URL = ExternalURLs.characters;
 
@@ -32,16 +33,13 @@ export async function deleteCharacter(id: string, auth:string | undefined) {
 }
 
 export async function fetchCharacters( auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
-																	sort_by: string = '', sort_order = 'asc',
-																	name: string = '',
-																	created_by: string = '', updated_by: string = '' ) {
+																			sort_by: string = '', sort_order = 'asc',
+																			name: string = '',
+																			created_by: string = '', updated_by: string = '' ) {
 
-	const options: { [key: string]: string } = {}
-	if (sort_by) options['sort_by']= sort_by;
-	if (sort_order) options['sort_order'] = sort_order;
+	const options: { [key: string]: string } = get_standard_options(sort_by, sort_order, created_by, updated_by);
+
 	if (name) options['name'] = name;
-	if (created_by) options['created_by'] = created_by;
-	if (updated_by) options['updated_by'] = updated_by;
 
 	return await characterClient.fetchItems( auth, skip, limit, options);
 
@@ -55,14 +53,22 @@ export async function fetchCharactersDocuments( auth:string | undefined,
 																								document_title: string = '',
 																								created_by: string = '', updated_by: string = '' ) {
 
-	const options: { [key: string]: string } = {}
-	if (sort_by) options['sort_by']= sort_by;
-	if (sort_order) options['sort_order'] = sort_order;
+	const options: { [key: string]: string } = get_standard_options(sort_by, sort_order, created_by, updated_by);
 	if (name) options['character_name'] = name;
 	if (document_title) options['document_title'] = document_title;
-	if (created_by) options['created_by'] = created_by;
-	if (updated_by) options['updated_by'] = updated_by;
 
 	return await characterClient.fetchDetailLookup( "", auth, ExternalURLs.characters_documents, skip, limit, options);
 
+}
+
+export async function fetchDocumentsByCharacter( auth:string | undefined, id: string,
+																								skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+																								sort_by: string = '', sort_order = 'asc',
+																								created_by: string = '', updated_by: string = '' ) {
+
+	const options: { [key: string]: string } = get_standard_options(sort_by, sort_order, created_by, updated_by);
+
+	const url = ExternalURLs.characters_documents_by_character.replace('{key}', id);
+
+	return await characterClient.fetchDetailLookup("", auth, url, skip, limit, options);
 }
