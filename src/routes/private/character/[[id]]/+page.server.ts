@@ -3,25 +3,31 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
 
 import { CharacterSchema, type CharacterSchemaType } from '$lib/schemas/characters';
-import { fetchCharacter, createCharacter, updateCharacter, deleteCharacter } from '$lib/api/characters';
+import { fetchCharacter, createCharacter, updateCharacter, deleteCharacter, fetchDocumentsByCharacter } from '$lib/api/characters';
 import { InternalURLs } from '$lib/utils/urls';
 import { getAuthToken } from "$lib/server/utils/headers";
 
 
 export const load = async ({ params, cookies }) => {
+	let docs = null;
+	let character = null
 
 	if (!params.id) {
 		const form = await superValidate(null, zod(CharacterSchema));
 		return { form};
 	}
 
-	const character: CharacterSchemaType = await fetchCharacter(params.id, getAuthToken(cookies));
+	// const character: CharacterSchemaType = await fetchCharacter(params.id, getAuthToken(cookies));
+	[character, docs] = await Promise.all([
+		fetchCharacter(params.id, getAuthToken(cookies)),
+		fetchDocumentsByCharacter(getAuthToken(cookies), params.id, 0, 100, "document_title", "asc")
+	]);
 
 	if (params.id && !character) throw error(404, 'Character not found.');
-
 	const form = await superValidate(character, zod(CharacterSchema));
-	return { form };
+	return { form, docs };
 };
+
 
 export const actions = {
 	default: async ({ request, cookies }) => {

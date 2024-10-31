@@ -11,6 +11,7 @@
 	import { ImagePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
+	import  { type DocumentsByCharacterSchemaType } from '$lib/schemas/characters';
 
 
 	// import SuperDebug from 'sveltekit-superforms';
@@ -34,15 +35,11 @@
 		alert("Not implemented... yet");
 	}
 
-	let bookTitles = [
-		{ id: 1, title: 'Book One', imageFilename: 'Masterji.png', parentFilename: 'Croak.pdf', document_key: '1734621', document_character_key: "1824878" },
-		{ id: 2, title: 'Book Two', imageFilename: 'Rani.png', parentFilename: 'Croak.pdf', document_key: '1734621', document_character_key: "1824878" },
-		// Add more book data as needed
-	];
+	let bookTitles = data.docs;
 
-	let selectedBook = null;
+	let selectedBook:DocumentsByCharacterSchemaType | null = null;
 
-	function selectBook(book) {
+	function selectBook(book: DocumentsByCharacterSchemaType) {
 		selectedBook = book;
 	}
 
@@ -90,7 +87,7 @@
 							</form>
 						</div>
 					</div>
-					<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Book Images"  />
+					<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Images"  />
 					<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 						<!-- Books Display -->
 						<div class="flex">
@@ -98,7 +95,7 @@
 							<div class="w-1/3 space-y-2">
 								{#each bookTitles as book}
 									<div>
-										<button class="btn btn-ghost" on:click|preventDefault={() => selectBook(book)}>{book.title}</button>
+										<button class="btn btn-ghost" on:click|preventDefault={() => selectBook(book)}>{book.document_title}</button>
 									</div>
 								{/each}
 							</div>
@@ -108,13 +105,17 @@
 								{#if selectedBook}
 									<div class="card shadow-lg">
 										<figure>
-										<ImageViewer encodedFilename={selectedBook.imageFilename} file_category={doc_file_category}
-																 encodedParentFilename={selectedBook.parentFilename}
-																 alt="Image generated for book {selectedBook.title}" img_class="w-full h-auto object-cover"/>
+										{#if selectedBook.imageFilename}
+											<ImageViewer encodedFilename={selectedBook.imageFilename} file_category={doc_file_category}
+																	 encodedParentFilename={selectedBook.documentFilename}
+																	 alt="Image generated for book {selectedBook.document_title}" img_class="w-full h-auto object-cover"/>
+										{:else}
+											<span>No Image<br>available</span>
+										{/if}
 										</figure>
 										<div class="card-body items-center text-center">
-											<a href={InternalURLs.document +"/" + selectedBook.document_key +  "/document_character/" + selectedBook.parentFilename + "/" + selectedBook.document_character_key} class="link link-primary">{$form.name}</a> in
-											<a href={InternalURLs.document +"/" + selectedBook.document_key} class="link link-primary">{selectedBook.title}</a>
+											<a href={InternalURLs.document +"/" + selectedBook.docMain_key +  "/document_character/" + selectedBook.documentFilename + "/" + selectedBook._key} class="link link-primary">{$form.name}</a> in
+											<a href={InternalURLs.document +"/" + selectedBook.docMain_key} class="link link-primary">{selectedBook.document_title}</a>
 										</div>
 									</div>
 								{:else}
