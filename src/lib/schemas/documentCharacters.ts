@@ -9,7 +9,7 @@ export const DocumentCharacterSchema = z.object({
 	character_name: z.string(),
 	document_title: z.string(),
 	imageFilename: z.string().optional(),
-	prompt: z.string(),
+	prompt: z.string().nullable().optional(),
 	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date
 	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Updated date
 	usrMain_key_Create: z.string().optional(),
