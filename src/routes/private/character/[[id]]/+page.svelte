@@ -93,11 +93,13 @@
 						<div class="flex">
 							<!-- Book Titles -->
 							<div class="w-1/3 space-y-2">
-								{#each bookTitles as book}
-									<div>
-										<button class="btn btn-ghost" on:click|preventDefault={() => selectBook(book)}>{book.document_title}</button>
-									</div>
-								{/each}
+								{#if bookTitles}
+									{#each bookTitles as book}
+										<div>
+											<button class="btn btn-ghost" on:click|preventDefault={() => selectBook(book)}>{book.document_title}</button>
+										</div>
+									{/each}
+								{/if}
 							</div>
 							<div class="divider divider-horizontal"/>
 							<!-- Selected Book -->
