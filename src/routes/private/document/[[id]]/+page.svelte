@@ -13,11 +13,12 @@
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
+	import LinkField from '$lib/components/genericControls/LinkField.svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
-	import { SquarePlus } from 'lucide-svelte';
+	import { SquarePlus, FileSymlink } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -40,18 +41,15 @@
 		}
 	}
 
-	function removeCharacterOnce(value:string) {
-		if ($form.characters) {
-			$form.characters = $form.characters.filter( (item) => item !== value);
-		}
-	}
 
-	function addCharacter(value:string) {
-		if ($form.characters) {
-			$form.characters = [...$form.characters, value];
-		} else {
-			$form.characters = [value];
-		}
+	function linkCharacter(value:string) {
+		alert("Not implemented yet... ")
+		console.log(value)
+		// if ($form.characters) {
+		// 	$form.characters = [...$form.characters, value];
+		// } else {
+		// 	$form.characters = [value];
+		// }
 	}
 
 	function addTag(value:string) {
@@ -61,6 +59,11 @@
 			$form.tags = [value];
 		}
 	}
+
+	// Function to split links into two roughly equal arrays for two columns
+	let halfLength = Math.ceil(data.docCharacterLookup.length / 2);
+	let firstColumnLinks = data.docCharacterLookup.slice(0, halfLength);
+	let secondColumnLinks = data.docCharacterLookup.slice(halfLength);
 
 </script>
 
@@ -115,18 +118,31 @@
 
 			<span class="inline-flex items-center py-0.5">
 				<FieldLabel id="characters" label="Main characters"/>
-				<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addCharacter("Add Character")}/>
+				<LinkButton  label="Add new" icon={FileSymlink} href={encodeURI(`${InternalURLs.character}`)} btn_additional_class="btn mx-2" />
+				<DispatchButton icon={SquarePlus} label="Link existing"  on:dispatchButtonClick={() => linkCharacter("Link existing")}/>
 			</span>
 			<div>
-				{#if $form.characters}
-					{#each $form.characters as character, i}
-						<TextFieldWithDelete id="characters" bind:value={character}
-																 errors={$errors.characters?.[i]} constraints={$constraints?.characters}
-																 on:removeItemOnce={() => removeCharacterOnce(character)}/>
+				<div class="flex flex-wrap -mx-2">
+				{#if firstColumnLinks}
+					{#each firstColumnLinks as character}
+							<div class="w-full md:w-1/2 px-1 space-y-1">
+								<span class="block px-4 border border-gray-200 hover:bg-gray-100">
+									<LinkField id={character.charMain_key} value={character.character_name} url={encodeURI(`${InternalURLs.document}/${$form._key}/document_character/${$form.filename}/${character._key}`)}/>
+								</span>
+							</div>
 					{/each}
 				{/if}
+				{#if secondColumnLinks}
+					{#each secondColumnLinks as character}
+							<div class="w-full md:w-1/2 px-1 space-y-1">
+								<span class="block px-4 border border-gray-200 hover:bg-gray-100">
+									<LinkField id={character.charMain_key} value={character.character_name} url={encodeURI(`${InternalURLs.document}/${$form._key}/document_character/${$form.filename}/${character._key}`)}/>
+								</span>
+							</div>
+						{/each}
+					{/if}
+				</div>
 			</div>
-
 			<span class="inline-flex items-center py-0.5">
 				<FieldLabel id="tags" label="Tags"/>
 				<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addTag("Add Tag")}/>

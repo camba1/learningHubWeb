@@ -4,7 +4,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
 
 import { DocumentSchema } from '$lib/schemas/documents';
-import { fetchDocument, fetchDocumentDetailsLookup, createDocument, updateDocument, deleteDocument } from '$lib/api/documents';
+import { fetchDocument, fetchDocumentDetailsLookup, createDocument, updateDocument, deleteDocument, fetchDocumentCharacterLookup } from '$lib/api/documents';
 import { InternalURLs } from '$lib/utils/urls';
 import { getAuthToken } from "$lib/server/utils/headers";
 
@@ -20,6 +20,7 @@ const crudDocumentSchema = DocumentSchema.extend({
 export const load = async ({ params, cookies }) => {
 	// Fetch document and lookup for associated details
 	let docProcessedLookups = null;
+	let docCharacterLookup = null
 	let doc = null
 
 	if (!params.id) {
@@ -27,9 +28,10 @@ export const load = async ({ params, cookies }) => {
 		return { form, docProcessedLookups };
 	}
 
-	[doc, docProcessedLookups] = await Promise.all([
+	[doc, docProcessedLookups, docCharacterLookup] = await Promise.all([
 		fetchDocument(params.id, getAuthToken(cookies)),
-		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies))
+		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies), 0,100, "target_language"),
+		fetchDocumentCharacterLookup(params.id, getAuthToken(cookies),0,100, "character_name")
 	]);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
@@ -37,7 +39,7 @@ export const load = async ({ params, cookies }) => {
 	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
 	const image_filename = changeFileExtension(doc?.filename || '')
-	return { form, docProcessedLookups, image_filename };
+	return { form, docProcessedLookups, image_filename, docCharacterLookup };
 };
 
 
