@@ -26,6 +26,7 @@ export const ExternalURLs = {
 	organizations: backendUrl.concat("/organizations"),
 	characters: backendUrl.concat("/characters"),
 	characters_documents: backendUrl.concat("/characters/characters_documents/"),
+	characters_documents_by_character: backendUrl.concat("/characters/{key}/documents_by_character_lookup/"),
 	agent: backendUrl.concat("/agent"),
 	chat: backendUrl.concat("/chat"),
 	upload_file: backendUrl.concat("/upload_file"),
