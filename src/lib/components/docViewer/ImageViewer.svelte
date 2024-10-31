@@ -12,7 +12,6 @@
 		url = `${url}&parent_filename=${encodedParentFilename}`;
 	}
 
-	// let objUrl: string | null | unknown = null;
 	let objUrl: string = "";
 	let error: Error | null = null;
 
