@@ -5,7 +5,7 @@ import { env } from '$env/dynamic/private'
 
 export const handle: Handle = sequence(
 	handleClerk(env.CLERK_SECRET_KEY, {
-		debug: true,
+		debug: false,
 		protectedPaths: ['/private'],
 		signInUrl: '/sign-in',
 	})
