@@ -7,6 +7,8 @@ import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetai
 import { fetchDocumentDetailPages } from '$lib/api/documentDetailPages';
 import type { PageSchemaType } from '$lib/schemas/documentDetailPages';
 import { getAuthToken } from "$lib/server/utils/headers";
+import { deleteDocumentDetail } from '$lib/api/documentDetails';
+import { InternalURLs } from '$lib/utils/urls';
 
 const updateDocumentProcessedSchema = DocumentDetailSchema.extend({
 	id: DocumentDetailSchema.shape._key.optional(),
@@ -56,12 +58,11 @@ export const actions = {
 
 		} else {
 			// Modify docDetails
-			const index = documentDetails.findIndex((d) => d._key == form.data._key);
 
 			if (formData.has('delete')) {
-				const parentDocumentId = documentDetails[index].docMain_key
-				documentDetails.splice(index, 1);
-				throw redirect(303, '/document/'.concat(parentDocumentId));
+
+				await deleteDocumentDetail(form.data._key, getAuthToken(cookies));
+				throw redirect(303, InternalURLs.document.concat('/',form.data.docMain_key));
 
 			} else {
 
