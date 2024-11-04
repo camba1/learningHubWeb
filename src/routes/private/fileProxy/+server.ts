@@ -13,7 +13,7 @@ export const GET = async ({ request,cookies }) => {
 	const encodedFilename = _stringToEncoded(filename)
 	const encodedFileCategory = _stringToEncoded(file_category)
 	const api_client = new APIFileClient(ExternalURLs.download_file);
-	console.log("parent_filename: ", parent_filename)
+	// console.log("parent_filename: ", parent_filename)
 	return api_client.download_file(encodedFilename, getAuthToken(cookies), encodedFileCategory, parent_filename);
 };
 
