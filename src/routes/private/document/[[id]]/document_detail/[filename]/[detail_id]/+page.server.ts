@@ -1,6 +1,5 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import { DocumentDetailSchema } from '$lib/schemas/documentDetails';
-import { documentDetails } from '$lib/schemas/documentDetails';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { fetchDocumentDetail, updateDocumentDetail} from "$lib/api/documentDetails";
