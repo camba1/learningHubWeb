@@ -9,3 +9,12 @@ export function get_standard_options( sort_by: string = '', sort_order = 'asc',
 	return options
 }
 
+export function stringToEncoded(str: string) {
+	const urlEncodedRegex = /%[0-9A-Fa-f]{2}/;
+
+	if(urlEncodedRegex.test(str)){
+		return str;
+	} else {
+		return encodeURIComponent(str);
+	}
+}
