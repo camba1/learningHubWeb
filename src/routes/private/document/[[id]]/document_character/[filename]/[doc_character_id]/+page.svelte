@@ -18,7 +18,7 @@
 
 	export let data: PageData;
 
-	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete document "};
+	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete character "};
 	const file_category: string = "document_character";
 
 	const { form, errors, constraints, enhance, delayed, message } = superForm(
