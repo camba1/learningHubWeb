@@ -51,7 +51,7 @@
 						<TextField label="Filename" id="filename" bind:value={$form.filename}
 											 errors={$errors.filename} constraints={$constraints.filename}
 											 readOnly={true}/>
-						<TextAreaField label="Summary:" id="docText" bind:value={$form.docText}
+						<TextAreaField label="Summary" id="docText" bind:value={$form.docText}
 													 errors={$errors.docText} constraints={$constraints.docText} />
 						<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 												 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg, $form.language.toString(), "?")}
@@ -64,7 +64,7 @@
 			<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
 				<div class="p-4">
 					{#if data.availableFiles}
-						<AudioFilesViewer availableFiles={data.availableFiles} label="Select a Page:" />
+						<AudioFilesViewer availableFiles={data.availableFiles} label="Select a Page" />
 					{/if}
 				</div>
 			</div>
