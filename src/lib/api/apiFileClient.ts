@@ -1,5 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { getMainHeader } from '$lib/server/utils/headers';
+import { type UpdateFileSchemaType } from '$lib/schemas/files'
 
 export class APIFileClient {
 	baseURL: string;
@@ -23,7 +24,8 @@ export class APIFileClient {
 		return await response.json();
 	}
 
-	async download_file( filename: string, auth:string | undefined, file_category: string = 'document', parent_filename: string = '' ) {
+	async download_file( filename: string, auth:string | undefined,
+											 file_category: string = 'document', parent_filename: string = '' ) {
 
 		try {
 			const headers = getMainHeader(auth);
@@ -57,7 +59,21 @@ export class APIFileClient {
 			return json({ error: 'Failed to load file.' }, { status: 500 });
 		}
 	}
+	async update_file( filename: string, update_file_info:  UpdateFileSchemaType,
+										 auth:string | undefined ) {
 
+		const options: RequestInit = {
+			method: 'POST',
+			headers: getMainHeader(auth, 'application/json'),
+			body: JSON.stringify(update_file_info)
+		};
+		const response = await fetch(`${this.baseURL}/${filename}`, options);
+
+		if (!response.ok) {
+			throw error(response.status, await response.text());
+		}
+
+		// return await response.json()
+		return response;
+	}
 }
-
-
