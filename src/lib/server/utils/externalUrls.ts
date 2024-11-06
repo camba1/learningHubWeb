@@ -15,6 +15,11 @@ export const backendXToken = env.BL_BACKEND_API_KEY || "secret-token"
  */
 export const ExternalURLs = {
 	backendUrl: backendUrl,
+	agent: backendUrl.concat("/agent"),
+	characters: backendUrl.concat("/characters"),
+	characters_documents: backendUrl.concat("/characters/characters_documents/"),
+	characters_documents_by_character: backendUrl.concat("/characters/{key}/documents_by_character_lookup/"),
+	chat: backendUrl.concat("/chat"),
 	documents: backendUrl.concat("/documents"),
 	document_characters: backendUrl.concat("/document_characters"),
 	document_character_lookup: backendUrl.concat("/documents/{key}/document_character_lookup"),
@@ -22,13 +27,9 @@ export const ExternalURLs = {
 	document_details: backendUrl.concat("/document_details"),
 	document_detail_pages: backendUrl.concat("/document_details_page"),
 	document_details_from_doc: backendUrl.concat("/documents/{key}/document_details_from_doc"),
-	users: backendUrl.concat("/users"),
+	download_file: backendUrl.concat("/download_file"),
 	organizations: backendUrl.concat("/organizations"),
-	characters: backendUrl.concat("/characters"),
-	characters_documents: backendUrl.concat("/characters/characters_documents/"),
-	characters_documents_by_character: backendUrl.concat("/characters/{key}/documents_by_character_lookup/"),
-	agent: backendUrl.concat("/agent"),
-	chat: backendUrl.concat("/chat"),
 	upload_file: backendUrl.concat("/upload_file"),
-	download_file: backendUrl.concat("/download_file")
+	users: backendUrl.concat("/users"),
+	update_file: backendUrl.concat("/update_file"),
 }

@@ -9,7 +9,8 @@ export const InternalURLs = {
 	signIn: "/sign-in",
 	signUp: "/sign-up",
 	home: "/",
-	chat: "/private/chat"
+	chat: "/private/chat",
+	updateFile: "/private/updateFile"
 }
 
 export const DEFAULT_SKIP = 0;
