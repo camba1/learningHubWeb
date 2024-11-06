@@ -3,10 +3,12 @@
 </script>
 
 <script lang="ts">
+	import FileLabel from '$lib/components/form/FieldLabel.svelte';
 	export let src: string;
 	export let title: string;
 	export let artist: string;
 	export let audioType: string = "audio/mpeg"
+
 
 	let paused: boolean  = true;
 	let srcUrl = '';
@@ -28,8 +30,10 @@
 <!--		</button>-->
 
 <div>
-		<strong>{title}</strong> /
-		<span>{artist}</span>
+		<FileLabel id="file-select" label={title} />
+	{#if artist}
+		<FileLabel id="file-select" label={" / " +artist} />
+	{/if}
 </div>
 		<audio bind:this={player} controls class="mt-2 w-full"
 					 bind:paused
