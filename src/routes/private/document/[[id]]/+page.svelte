@@ -18,7 +18,7 @@
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
-	import { SquarePlus, FileSymlink } from 'lucide-svelte';
+	import { SquarePlus, FileSymlink, RotateCcw } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -60,6 +60,15 @@
 		}
 	}
 
+	function reloadPage() {
+		location.reload();
+		// window.location.href = `${InternalURLs.document}/${$form._key}`
+		// alert('$page.url.pathname')
+		// const url = `${InternalURLs.fileProxy}?filename=${data.image_filename}&file_category=document`
+		// invalidate(url);
+		// goto($page.url.pathname)
+	}
+
 	// Function to split links into two roughly equal arrays for two columns
 	let halfLength = Math.ceil(data.docCharacterLookup.length / 2);
 	let firstColumnLinks = data.docCharacterLookup.slice(0, halfLength);
@@ -80,6 +89,7 @@
 						<LinkButton  label={lookup.language} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}/${lookup._key}`)} btn_additional_class="btn-outline btn-primary" />
 					{/each}
 					<LinkButton icon={SquarePlus} label="New Version" href={encodeURI(`${InternalURLs.document}/${$form._key}/document_detail/${$form.filename}`)}/>
+					<DispatchButton icon={RotateCcw} label="Refresh"  on:dispatchButtonClick={() => reloadPage()}/>
 				</div>
 			</div>
 			{#if data.image_filename}
