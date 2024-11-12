@@ -61,6 +61,7 @@
 				<input type="hidden" id="imageFilename" name="imageFilename" bind:value={$form.imageFilename} />
 				<input type="hidden" id="character_name" name="character_name" bind:value={$form.character_name} />
 				<input type="hidden" id="document_title" name="document_title" bind:value={$form.document_title} />
+				<input type="hidden" id="documentFilename" name="documentFilename" bind:value={$form.documentFilename} />
 				<LinkField id="character_name" url={characterUrl} label="Character" value={$form.character_name} />
 				<LinkField id="document_title" url={searchPageUrl} label="Document" value={$form.document_title} />
 
