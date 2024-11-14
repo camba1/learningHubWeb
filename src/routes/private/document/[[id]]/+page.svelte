@@ -13,11 +13,11 @@
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import ImageViwer from '$lib/components/docViewer/ImageViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
-	import LinkField from '$lib/components/genericControls/LinkField.svelte';
 	import PageSection from '$lib/components/genericControls/PageSection.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
+	import LinksInTwoColumns from '$lib/components/genericControls/LinksInTwoColumns.svelte';
 	import { SquarePlus, FileSymlink, RotateCcw } from 'lucide-svelte';
 
 	export let data: PageData;
@@ -68,11 +68,6 @@
 		// invalidate(url);
 		// goto($page.url.pathname)
 	}
-
-	// Function to split links into two roughly equal arrays for two columns
-	let halfLength = Math.ceil(data.docCharacterLookup.length / 2);
-	let firstColumnLinks = data.docCharacterLookup.slice(0, halfLength);
-	let secondColumnLinks = data.docCharacterLookup.slice(halfLength);
 
 </script>
 
@@ -131,28 +126,17 @@
 				<LinkButton  label="Add new" icon={FileSymlink} href={encodeURI(`${InternalURLs.character}`)} btn_additional_class="btn mx-2" />
 				<DispatchButton icon={SquarePlus} label="Link existing"  on:dispatchButtonClick={() => linkCharacter("Link existing")}/>
 			</span>
-			<div>
-				<div class="flex flex-wrap -mx-2">
-				{#if firstColumnLinks}
-					{#each firstColumnLinks as character}
-							<div class="w-full md:w-1/2 px-1 space-y-1">
-								<span class="block px-4 border border-gray-200 hover:bg-gray-100">
-									<LinkField id={character.charMain_key} value={character.character_name} url={encodeURI(`${InternalURLs.document}/${$form._key}/document_character/${$form.filename}/${character._key}`)}/>
-								</span>
-							</div>
-					{/each}
-				{/if}
-				{#if secondColumnLinks}
-					{#each secondColumnLinks as character}
-							<div class="w-full md:w-1/2 px-1 space-y-1">
-								<span class="block px-4 border border-gray-200 hover:bg-gray-100">
-									<LinkField id={character.charMain_key} value={character.character_name} url={encodeURI(`${InternalURLs.document}/${$form._key}/document_character/${$form.filename}/${character._key}`)}/>
-								</span>
-							</div>
-						{/each}
-					{/if}
-				</div>
-			</div>
+			{#if data.characters}
+				<LinksInTwoColumns linksList={data.characters} baseUrl={`${InternalURLs.document}/${$form._key}/document_character/${$form.filename}`}></LinksInTwoColumns>
+			{/if}
+			<span class="inline-flex items-center py-0.5">
+				<FieldLabel id="locations" label="Main locations"/>
+				<LinkButton  label="Add new" icon={FileSymlink} href={encodeURI(`${InternalURLs.document}/${$form._key}/document_location/${$form.filename}`)} btn_additional_class="btn mx-2" />
+<!--				<DispatchButton icon={SquarePlus} label="Link existing"  on:dispatchButtonClick={() => linkCharacter("Link existing")}/>-->
+			</span>
+			{#if data.locations}
+				<LinksInTwoColumns linksList={data.locations} baseUrl={`${InternalURLs.document}/${$form._key}/document_location/${$form.filename}`}></LinksInTwoColumns>
+			{/if}
 			<span class="inline-flex items-center py-0.5">
 				<FieldLabel id="tags" label="Tags"/>
 				<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addTag("Add Tag")}/>

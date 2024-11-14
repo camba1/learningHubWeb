@@ -3,10 +3,14 @@ import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { error, fail, redirect } from '@sveltejs/kit';
 
-import { DocumentSchema } from '$lib/schemas/documents';
-import { fetchDocument, fetchDocumentDetailsLookup, createDocument, updateDocument, deleteDocument, fetchDocumentCharacterLookup } from '$lib/api/documents';
+import { DocumentSchema, type DocumentCharacterLookupType, type DocumentLocationLookupType  } from '$lib/schemas/documents';
+import { fetchDocument, fetchDocumentDetailsLookup, createDocument,
+				updateDocument, deleteDocument, fetchDocumentCharacterLookup,
+				fetchDocumentLocationLookup } from '$lib/api/documents';
 import { InternalURLs } from '$lib/utils/urls';
 import { getAuthToken } from "$lib/server/utils/headers";
+import { LinkColumnsComponentSchema,  type LinkColumnsComponentSchemaType } from '$lib/schemas/LinkColumnsComponentSchema';
+// import { DocumentLocationSchema, type DocumentLocationSchemaType } from '$lib/schemas/documentLocations';
 
 type Document = z.infer<typeof DocumentSchema>;
 
@@ -22,16 +26,18 @@ export const load = async ({ params, cookies }) => {
 	let docProcessedLookups = null;
 	let docCharacterLookup = null
 	let doc = null
+	let docLocationLookup = null
 
 	if (!params.id) {
 		const form = await superValidate(null, zod(crudDocumentSchema));
 		return { form, docProcessedLookups };
 	}
 
-	[doc, docProcessedLookups, docCharacterLookup] = await Promise.all([
+	[doc, docProcessedLookups, docCharacterLookup, docLocationLookup] = await Promise.all([
 		fetchDocument(params.id, getAuthToken(cookies)),
 		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies), 0,100, "target_language"),
-		fetchDocumentCharacterLookup(params.id, getAuthToken(cookies),0,100, "character_name")
+		fetchDocumentCharacterLookup(params.id, getAuthToken(cookies),0,100, "character_name"),
+		fetchDocumentLocationLookup(params.id, getAuthToken(cookies),0,100, "name")
 	]);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
@@ -39,7 +45,9 @@ export const load = async ({ params, cookies }) => {
 	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
 	const image_filename = changeFileExtension(doc?.filename || '')
-	return { form, docProcessedLookups, image_filename, docCharacterLookup };
+	const locations : LinkColumnsComponentSchemaType[] = convertLocationToLinksList(docLocationLookup)
+	const characters : LinkColumnsComponentSchemaType[] = convertCharacterToLinksList(docCharacterLookup)
+	return { form, docProcessedLookups, image_filename, characters, locations };
 };
 
 
@@ -88,4 +96,24 @@ function changeFileExtension(filename: string, new_extension: string = "png"): s
 		return filename + '.' + new_extension;
 	}
 	return filename.substring(0, lastDotIndex) + '.' + new_extension;
+}
+
+function convertLocationToLinksList(locations: DocumentLocationLookupType[]): LinkColumnsComponentSchemaType[] {
+	return locations.map(location =>
+		LinkColumnsComponentSchema.parse({
+			_key: location._key,
+			id: location._key,
+			value: location.name
+		})
+	);
+}
+
+function convertCharacterToLinksList(characters: DocumentCharacterLookupType[]): LinkColumnsComponentSchemaType[] {
+	return characters.map(character =>
+		LinkColumnsComponentSchema.parse({
+			_key: character._key,
+			id: character.charMain_key,
+			value: character.character_name
+		})
+	);
 }
