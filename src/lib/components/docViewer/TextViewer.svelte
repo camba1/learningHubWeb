@@ -35,7 +35,6 @@
 
 	// Dispatch an event with the necessary data
 	function btnClick() {
-		alert('btnClick')
 		dispatch('txtViewerBtnClick', { filename: encodedFilename, content: textContent });
 	}
 

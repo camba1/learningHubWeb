@@ -16,8 +16,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			fileCategory,
 			parentFilename
 		}
-		console.log("UPDATE BODY: ", update_body)
-		console.log("FILENAME: ", filename)
 
 		return await api_client.update_file(stringToEncoded(filename), update_body, getAuthToken(cookies));
 	} catch (err) {
