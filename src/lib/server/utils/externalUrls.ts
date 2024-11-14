@@ -27,6 +27,8 @@ export const ExternalURLs = {
 	document_details: backendUrl.concat("/document_details"),
 	document_detail_pages: backendUrl.concat("/document_details_page"),
 	document_details_from_doc: backendUrl.concat("/documents/{key}/document_details_from_doc"),
+	document_locations: backendUrl.concat("/document_locations"),
+	document_location_lookup: backendUrl.concat("/documents/{key}/document_location_lookup"),
 	download_file: backendUrl.concat("/download_file"),
 	organizations: backendUrl.concat("/organizations"),
 	upload_file: backendUrl.concat("/upload_file"),
