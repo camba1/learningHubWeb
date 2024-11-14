@@ -43,6 +43,25 @@ export const DocumentSearchSchema = DocumentSchema.pick({
 export type DocumentSearchSchemaType = z.infer<typeof DocumentSearchSchema>;
 
 
+export const DocumentLocationLookup = z.object({
+	_key: z.string(), // Unique key for the document character
+	docMain_key: z.string(), // Unique  identification for parent document
+	name: z.string(),
+});
+
+export type DocumentLocationLookupType = z.infer<typeof DocumentLocationLookup>;
+
+
+export const DocumentCharacterLookup = z.object({
+	_key: z.string(), // Unique key for the document character
+	docMain_key: z.string(), // Unique  identification for parent document
+	charMain_key: z.string(), // Unique  identification for parent character
+	character_name: z.string(),
+});
+
+export type DocumentCharacterLookupType = z.infer<typeof DocumentCharacterLookup>;
+
+
 // A simple document "database"
 export const documents: DocumentSchemaType[] = [
 	{
