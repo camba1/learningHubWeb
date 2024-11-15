@@ -44,7 +44,7 @@
 
 	function linkCharacter(value:string) {
 		alert("Not implemented yet... ")
-		console.log(value)
+		// console.log(value)
 		// if ($form.characters) {
 		// 	$form.characters = [...$form.characters, value];
 		// } else {

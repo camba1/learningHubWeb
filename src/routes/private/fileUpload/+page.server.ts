@@ -32,7 +32,7 @@ export const actions = {
 		const api_client = new APIFileClient(ExternalURLs.upload_file);
 
 		const response = await api_client.upload_file(formData, getAuthToken(cookies));
-		console.log(response._key)
+		// console.log(response._key)
 		if (response._key) {
 			redirect(307, InternalURLs.document + '/' + response._key);
 		}
