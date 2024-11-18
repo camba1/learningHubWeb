@@ -12,7 +12,9 @@ export const load = async ({ params, cookies }) => {
 
 	if (!params.doc_location_id) {
 		const form = await superValidate(null, zod(DocumentLocationSchema));
-		return { form};
+		return { form,
+			document_id: params.id
+		};
 	}
 
 	const location: DocumentLocationSchemaType = await fetchDocumentLocation(params.doc_location_id, getAuthToken(cookies));
