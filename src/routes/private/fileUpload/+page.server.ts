@@ -20,7 +20,6 @@ export const actions = {
 	default: async ({ request, cookies }) => {
 
 		const form = await superValidate(request, zod(FileSchema));
-
 		if (!form.valid) {
 			return fail(400, { form });
 		}
@@ -28,8 +27,10 @@ export const actions = {
 		const file = form.data.file;
 		const formData = new FormData();
 		formData.append('file', file);
+		const url = new URL(ExternalURLs.upload_file);
+		url.searchParams.set('remove_header_and_footer', form.data.removeHeaderFooter.toString());
 
-		const api_client = new APIFileClient(ExternalURLs.upload_file);
+		const api_client = new APIFileClient(url.toString());
 
 		const response = await api_client.upload_file(formData, getAuthToken(cookies));
 		// console.log(response._key)

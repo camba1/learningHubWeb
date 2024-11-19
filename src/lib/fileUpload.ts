@@ -15,5 +15,6 @@ export const FileSchema = z.object({
 	file: z
 		.instanceof(File, { message: 'Please upload a file.'})
 		.refine((f) => f.size < MAX_FILE_SIZE, 'Max 10 MB upload size.')
-		.refine((f ) => checkFileType(f), `Only ${allowedFileTypes.join()} formats are supported.`)
+		.refine((f ) => checkFileType(f), `Only ${allowedFileTypes.join()} formats are supported.`),
+	removeHeaderFooter:  z.boolean().default(false)
 });

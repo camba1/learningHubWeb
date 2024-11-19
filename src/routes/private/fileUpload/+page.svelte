@@ -31,8 +31,18 @@
 
 	<form method="POST" enctype="multipart/form-data" use:enhance>
 		<FileUpload {form} {errors} id="file" />
-		<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
-								 delayed={$delayed} objectId={undefined} confirmationDelMsg={btnLabels.confirmationDelMsg}
-								 backUrl={searchPageUrl}/>
+		<div class="form-control mt-3 border-gray-200 border rounded-lg">
+			<label class="label cursor-pointer">
+				<span class="label-text">Remove header and footer <br/> (adds processing time) </span>
+				<input id="removeHeaderFooter" name="removeHeaderFooter"
+							 bind:checked={$form.removeHeaderFooter} type="checkbox"
+							 class="checkbox checkbox-xs" />
+			</label>
+		</div>
+		<div class="flex justify-center space-x-2 mt-4">
+			<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
+									 delayed={$delayed} objectId={undefined} confirmationDelMsg={btnLabels.confirmationDelMsg}
+									 backUrl={searchPageUrl}/>
+		</div>
 	</form>
 </div>
