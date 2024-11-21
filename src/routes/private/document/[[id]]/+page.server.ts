@@ -6,11 +6,11 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { DocumentSchema, type DocumentCharacterLookupType, type DocumentLocationLookupType  } from '$lib/schemas/documents';
 import { fetchDocument, fetchDocumentDetailsLookup, createDocument,
 				updateDocument, deleteDocument, fetchDocumentCharacterLookup,
-				fetchDocumentLocationLookup } from '$lib/api/documents';
+				fetchDocumentLocationLookup, fetchDocumentImageLookup } from '$lib/api/documents';
 import { InternalURLs } from '$lib/utils/urls';
 import { getAuthToken } from "$lib/server/utils/headers";
 import { LinkColumnsComponentSchema,  type LinkColumnsComponentSchemaType } from '$lib/schemas/LinkColumnsComponentSchema';
-// import { DocumentLocationSchema, type DocumentLocationSchemaType } from '$lib/schemas/documentLocations';
+
 
 type Document = z.infer<typeof DocumentSchema>;
 
@@ -27,27 +27,31 @@ export const load = async ({ params, cookies }) => {
 	let docCharacterLookup = null
 	let doc = null
 	let docLocationLookup = null
+	let docImageLookup = null
 
 	if (!params.id) {
 		const form = await superValidate(null, zod(crudDocumentSchema));
 		return { form, docProcessedLookups };
 	}
 
-	[doc, docProcessedLookups, docCharacterLookup, docLocationLookup] = await Promise.all([
+	[doc, docProcessedLookups, docCharacterLookup, docLocationLookup, docImageLookup] = await Promise.all([
 		fetchDocument(params.id, getAuthToken(cookies)),
 		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies), 0,100, "target_language"),
 		fetchDocumentCharacterLookup(params.id, getAuthToken(cookies),0,100, "character_name"),
-		fetchDocumentLocationLookup(params.id, getAuthToken(cookies),0,100, "name")
+		fetchDocumentLocationLookup(params.id, getAuthToken(cookies),0,100, "name"),
+		fetchDocumentImageLookup(params.id, getAuthToken(cookies),0,0, 1, "page_number")
 	]);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
 
 	// If document is null, default values for the schema will be returned.
 	const form = await superValidate(doc, zod(crudDocumentSchema));
-	const image_filename = changeFileExtension(doc?.filename || '')
+	// const image_filename = changeFileExtension(doc?.filename || '')
 	const locations : LinkColumnsComponentSchemaType[] = convertLocationToLinksList(docLocationLookup)
 	const characters : LinkColumnsComponentSchemaType[] = convertCharacterToLinksList(docCharacterLookup)
-	return { form, docProcessedLookups, image_filename, characters, locations };
+	// console.log(docImageLookup)
+	const docImage = (docImageLookup && docImageLookup.length > 0) ? docImageLookup[0] : {}
+	return { form, docProcessedLookups, docImage, characters, locations };
 };
 
 
@@ -87,16 +91,16 @@ export const actions = {
 	}
 };
 
-function changeFileExtension(filename: string, new_extension: string = "png"): string {
-	if (filename === undefined || filename === null || filename === '') {
-		return "";
-	}
-	const lastDotIndex = filename.lastIndexOf('.');
-	if (lastDotIndex === -1) {
-		return filename + '.' + new_extension;
-	}
-	return filename.substring(0, lastDotIndex) + '.' + new_extension;
-}
+// function changeFileExtension(filename: string, new_extension: string = "png"): string {
+// 	if (filename === undefined || filename === null || filename === '') {
+// 		return "";
+// 	}
+// 	const lastDotIndex = filename.lastIndexOf('.');
+// 	if (lastDotIndex === -1) {
+// 		return filename + '.' + new_extension;
+// 	}
+// 	return filename.substring(0, lastDotIndex) + '.' + new_extension;
+// }
 
 function convertLocationToLinksList(locations: DocumentLocationLookupType[]): LinkColumnsComponentSchemaType[] {
 	return locations.map(location =>

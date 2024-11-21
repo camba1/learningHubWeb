@@ -68,7 +68,6 @@
 		// invalidate(url);
 		// goto($page.url.pathname)
 	}
-
 </script>
 
 <SubmitToast message={$message} page_status={$page.status}/>
@@ -87,8 +86,14 @@
 					<DispatchButton icon={RotateCcw} label="Refresh"  on:dispatchButtonClick={() => reloadPage()}/>
 				</div>
 			</div>
-			{#if data.image_filename}
-				<ImageViwer encodedFilename={data.image_filename} alt="Image generated for this document" img_class="w-28 h-28 object-cover"/>
+			{#if data.docImage && data.docImage.imageFilename}
+				<ImageViwer encodedFilename={data.docImage.imageFilename}
+										alt="Image generated for this document"
+										img_class="w-28 h-28 object-cover"
+										pageUrl={encodeURI(`${InternalURLs.document}/${$form._key}/document_image/${$form.filename}/${data.docImage._key}`)}
+				/>
+				{:else}
+				<span>No image<br>available</span>
 			{/if}
 		</div>
 	{/if}
