@@ -41,11 +41,11 @@
 	<h1 class="text-2xl font-bold mb-4">{$form.name}</h1>
 	<div class="flex">
 		<!-- Display the Image -->
-		<div class="w-1/3 pr-4 border-gray-200 border">
+		<div class="w-1/3 p-1.5 border-gray-200 border">
 			{#if $form.imageFilename}
 				<ImageViewer encodedFilename={$form.imageFilename} file_category={file_category}
 										 encodedParentFilename={data.parentFilename}
-										 alt="Image generated for this {file_category}" img_class="w-full h-auto object-cover"/>
+										 alt="Image generated for this {file_category}" img_class="w-full h-auto object-contain"/>
 			{:else}
 				<span>No Image<br>available</span>
 			{/if}
