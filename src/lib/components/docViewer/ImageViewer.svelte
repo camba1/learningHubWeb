@@ -6,6 +6,7 @@
 	export let file_category: string = 'document';
 	export let img_class: string = "h-auto max-w-full";
 	export let encodedParentFilename: string = '';
+	export let pageUrl: string | null = null;
 
 	$: url = `${InternalURLs.fileProxy}?filename=${encodedFilename}&file_category=${file_category}`;
 	$: if (encodedParentFilename) {
@@ -43,9 +44,16 @@
 </script>
 
 {#if error}
-	<span>No Image<br>available</span>
+	<span>No image<br>available</span>
 {:else if objUrl}
-	<img src={objUrl} alt={alt} class={img_class} />
+<!--	<img src={objUrl} alt={alt} class={img_class} />-->
+	{#if pageUrl}
+		<a href={pageUrl}>
+			<img src={objUrl} alt={alt} class={img_class} />
+		</a>
+	{:else}
+		<img src={objUrl} alt={alt} class={img_class} />
+	{/if}
 {:else}
 	Loading....
 {/if}
