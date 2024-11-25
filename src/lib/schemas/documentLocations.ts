@@ -7,6 +7,7 @@ export const DocumentLocationSchema = z.object({
 	docMain_key: z.string(), // Unique  identification for parent document
 	name: z.string(),
 	description: z.string(),
+	documentFilename: z.string(),
 	imageFilename: z.string().optional(),
 	pagesInDocument: z.array(z.number().int().nonnegative()).optional(),
 	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date

@@ -42,7 +42,6 @@ export const actions = {
 			const response = await createDocumentLocation(location, getAuthToken(cookies));
 
 			// return message(form, 'Document created');
-			//TODO: Update the url with the document filename
 			throw redirect(303, InternalURLs.document.concat('/', form.data.docMain_key, 'document_location',  '/', params.filename, '/', response._key));
 
 		} else {

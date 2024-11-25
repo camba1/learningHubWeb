@@ -58,7 +58,7 @@
 				<input type="hidden" id="name" name="name" bind:value={$form.name} />
 				<input type="hidden" id="docMain_key" name="docMain_key" bind:value={$form.docMain_key} />
 				<input type="hidden" id="imageFilename" name="imageFilename" bind:value={$form.imageFilename} />
-<!--				<input type="hidden" id="documentFilename" name="documentFilename" bind:value={$form.documentFilename} />-->
+				<input type="hidden" id="documentFilename" name="documentFilename" bind:value={$form.documentFilename} />
 
 				<div class="mb-2">
 					<span class="inline-flex items-center py-0.5">
