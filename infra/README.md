@@ -107,9 +107,17 @@ redeploy the service in order to apply the changes.
 copilot svc deploy --env dev --name frontend-service
 ```
 
+### Deleting the service
 
+To delete the frontend service, run:
 
-#### Trouble shooting
+```bash
+copilot svc delete --env dev --name frontend-service
+```
+
+Refer to the backend service documentation on how to delete the complete application (frontend, backend and databases).
+
+#### Troubleshooting
 To troubleshoot the deployment in case something goes wrong, check the logs using:
 
 ```bash
