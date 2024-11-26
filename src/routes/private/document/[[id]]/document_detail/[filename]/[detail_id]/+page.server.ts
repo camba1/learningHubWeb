@@ -31,6 +31,7 @@ export async function load({ params, cookies }) {
 	let availableFiles: PageSchemaType[] = [];
 	if (docDetails && docDetailPages.length == 1) {
 		availableFiles = docDetailPages[0].pages
+		availableFiles.sort((a, b) => a.number - b.number);
 	}
 
 	const form = await superValidate(docDetails, zod(DocumentDetailSchema));
