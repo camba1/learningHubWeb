@@ -31,6 +31,7 @@
 
 	function submitKeyPress(event: KeyboardEvent) {
 		if (isCtrlEnterKeysPressed(event)) {
+			event.preventDefault();
 			dispatch('submitKeyPress');
 		}
 	}
