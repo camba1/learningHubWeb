@@ -13,6 +13,8 @@
 	import MarkdownViewer from '$lib/components/docViewer/MarkdownViewer.svelte';
 	import AudioFilesViewer from '$lib/components/docViewer/AudioFilesViewer.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
+	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
+	import { Sparkles } from 'lucide-svelte';
 
 	export let data: PageData;
 
@@ -58,6 +60,9 @@
 												 backUrl={searchPageUrl}/>
 					</form>
 				</div>
+				<LinkButton label="Show in Preview" icon={Sparkles}
+										href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_viewer/${$page.params.filename}/${$form._key}`)}
+										btn_additional_class="w-full btn-outline btn-primary"	/>
 			</div>
 
 			<input type="radio" name="docDetailsTabsGroup" role="tab" class="tab" aria-label="Audio"  />
