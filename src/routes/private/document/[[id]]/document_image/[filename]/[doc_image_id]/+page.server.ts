@@ -18,11 +18,16 @@ export const load = async ({ params, cookies }) => {
 	const image: DocumentImageSchemaType = await fetchDocumentImage(params.doc_image_id, getAuthToken(cookies));
 
 	if (params.doc_image_id && !image) throw error(404, 'Image not found.');
+	let file_category = 'document';
+	if (image.pageNumber != 0) {
+		file_category = 'document_image';
+	}
 
 	const form = await superValidate(image, zod(DocumentImageSchema));
 	return { form,
 		parentFilename: params.filename,
-		document_id: params.id
+		document_id: params.id,
+		file_category: file_category
 	};
 };
 
