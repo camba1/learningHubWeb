@@ -73,7 +73,7 @@
 						<!-- Conditional Edit Button -->
 						{#if data.editable}
 							<div class="flex flex-row items-center justify-center space-x-4">
-								<LinkButton label="Edit Audio" icon={Headphones} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_detail/${data.parentFilename}/${$page.params.detail_id}`)}  />
+								<LinkButton label="Edit Audio" icon={Headphones} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_audio/${data.parentFilename}/${$page.params.detail_id}?page=${currentPage.number}`)}  />
 								<LinkButton label="Edit Image" icon={Image} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_image/${data.parentFilename}/${currentImage?._key ?? ''}`)} />
 								<LinkButton label="Back" icon={CircleArrowLeft} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_detail/${data.parentFilename}/${$page.params.detail_id}`)} />
 							</div>
