@@ -16,7 +16,7 @@
 
 <div class="navbar bg-base-200 sticky top-0 z-10">
 	<div class="flex-1">
-		<a href={InternalURLs.home} class="btn btn-ghost text-xl">Bolbeck Learning</a>
+		<a href={InternalURLs.home} class="btn btn-ghost text-xl">Bolbeck Imagine</a>
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1">
