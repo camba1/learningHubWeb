@@ -61,7 +61,7 @@
 					</form>
 				</div>
 				<LinkButton label="Show in Preview" icon={Sparkles}
-										href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_viewer/${$page.params.filename}/${$form._key}`)}
+										href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_viewer/${$page.params.filename}/${$form._key}?edit=true`)}
 										btn_additional_class="w-full btn-outline btn-primary"	/>
 			</div>
 
