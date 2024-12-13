@@ -6,10 +6,18 @@ import { getAuthToken } from "$lib/server/utils/headers";
 import { fetchDocumentImageLookup } from '$lib/api/documents';
 
 
-export async function load({ params, cookies }) {
+export async function load({ params, cookies, url }) {
 
 	let docDetailPages = null;
 	let docImages = null;
+
+	let editable: boolean = false;
+	if ((url.searchParams.has("edit")) && url.searchParams.get("edit")) {
+		const edit_param = url.searchParams.get("edit") ?? "false";
+		if (edit_param === "true") {
+			editable = true;
+		}
+	}
 
 	if (params.id) {
 		[docDetailPages, docImages] = await Promise.all([
@@ -34,7 +42,7 @@ export async function load({ params, cookies }) {
 	}
 
 	return {
-		editable: true,
+		editable: editable,
 		parentFilename: params.filename,
 		number_of_pages: number_of_pages,
 		availableFiles: availableFiles,
