@@ -21,7 +21,6 @@
 	// Key for forcing transition
 	let imageKey = currentImage?.imageFilename || 'initial';
 
-
 	function set_image_file_type(){
 		image_file_category = "document_image";
 		if (currentPageNumber === 0) {
@@ -40,17 +39,24 @@
 
 </script>
 
-<div class="w-full h-full flex flex-col p-10">
+<div class="w-full h-full flex flex-col p-10 relative">
 	{#if !data.availableFiles}
 		<p class="text-center text-error p-4">No data found...</p>
 	{:else}
+		<!-- LinkButton at the top right corner -->
+		{#if !data.editable}
+			<div class="absolute top-0 right-0 mt-2 mr-2 z-10">
+				<LinkButton label="X" href="{InternalURLs.documents}" btn_additional_class="btn-outline btn-success"/>
+			</div>
+		{/if}
+
 		<div class="flex-1 flex flex-col overflow-hidden">
-			<div class="card w-full h-full flex flex-col  shadow-xl overflow-hidden card-bordered border-gray-200">
+			<div class="card w-full h-full flex flex-col shadow-xl overflow-hidden card-bordered border-gray-200">
 				<!-- Image at the top of the card (fixed height) -->
-				<figure class="px-4 pt-4 h-[60%] min-h-0">
+				<figure class="px-2 pt-4 pb-1 h-[63%] min-h-0">
 					{#if currentImage && currentImage.imageFilename}
 						{#key imageKey}
-							<div in:fade="{{ duration: 300}}"  class="w-full h-full">
+							<div in:fade="{{ duration: 300}}" class="w-full h-full">
 								<ImageViewer
 									encodedFilename={currentImage.imageFilename}
 									file_category={image_file_category}
@@ -68,7 +74,7 @@
 				</figure>
 
 				<!-- Content at the bottom of the card (flexible height) -->
-				<div class="card-body flex-1 overflow-auto p-4 pt-2">
+				<div class="card-body flex-1 overflow-auto p-2 pt-2">
 					<div class="flex flex-col items-center">
 						<!-- Conditional Edit Button -->
 						{#if data.editable}

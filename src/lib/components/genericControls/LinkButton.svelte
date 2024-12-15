@@ -8,14 +8,21 @@
 
 	import type { ComponentType } from 'svelte';
 	export let icon: ComponentType | null = null;
-	export let label: string;
+	export let label: string = "";
 	export let href: string;
 	export let btn_additional_class: string = "";
+
 </script>
 
 	<button class="btn btn-xs mx-0.5 {btn_additional_class}">
-		{#if icon}
-			<svelte:component this={icon} class="w-4 h-4" />
+		{#if label}
+			{#if icon}
+				<svelte:component this={icon} class="w-4 h-4" />
+			{/if}
+			<a href={href}>{label}</a>
+		{:else if icon}
+			<a href={href}><svelte:component this={icon} class="w-4 h-4" /></a>
+		{:else}
+			<a href={href}>I need a label</a>
 		{/if}
-		<a href={href}>{label}</a>
 	</button>
