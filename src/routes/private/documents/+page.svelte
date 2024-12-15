@@ -98,7 +98,7 @@
 	<!-- Main content -->
 	<div class="flex-1 overflow-y-auto p-4">
 		<div class="flex justify-between items-center mb-4">
-			<h2 class="text-xl font-bold">Documents</h2>
+			<h2 class="text-xl font-bold">Books</h2>
 			<div>
 				<LinkButton icon={SquarePlus} label="New" href={InternalURLs.document} btn_additional_class="btn-primary btn-outline"/>
 				<LinkButton icon={FilePlus} label="New from file" href={InternalURLs.fileUpload} btn_additional_class="btn-primary btn-outline" />
