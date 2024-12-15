@@ -39,7 +39,7 @@
 
 </script>
 
-<div class="mb-6 flex justify-end">
+<div class="mb-3 mt-1 flex justify-end">
 	<span class="text-sm font-semibold text-[#4F9796] mr-2">{label}</span>
 	<select id="file-select" bind:value={selectedFile}  on:change={handleSelectChange} class="border border-accent text-[#4F9796] rounded px-2 py-1" >
 		{#each availableFiles as file}
@@ -53,7 +53,7 @@
 </div>
 
 {#if selectedFile}
-	<div class="m-8 p-4">
+	<div class="m-4 p-4">
 		{#if selectedFile.filename}
 			<TextROViewer encodedFilename={selectedFile.filename} />
 		{/if}
