@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { createGenericSearchParams } from '$lib/schemas/genericSearchParams';
 
-const LanguagesEnum = z.enum(['english', 'spanish', 'french', 'german', 'italian', 'Chinese', 'japanese', 'korean', 'arabic', 'portuguese']);
+export const LanguagesEnum = z.enum(['english', 'spanish', 'french', 'german', 'italian', 'Chinese', 'japanese', 'korean', 'arabic', 'portuguese']);
 
 export const DocumentDetailSchema = z.object({
 	_key: z.string(), // Unique key for the document
@@ -31,6 +32,22 @@ export type DocumentDetailLookupSchemaType = z.infer<typeof DocumentDetailLookup
 export type DocumentDetailsFromDocSchemaType = z.infer<typeof DocumentDetailsFromDocSchema>;
 
 export type DocumentDetailSchemaType = z.infer<typeof DocumentDetailSchema>;
+
+
+// Document Detail search schema for selection screens
+
+export const DocumentDetailSortByEnum = z.enum(['filename', 'language']);
+const genericSearchParams = createGenericSearchParams(DocumentDetailSortByEnum);
+
+export const DocumentDetailSearchSchema = DocumentDetailSchema.pick({
+	filename: true,
+	language: true
+}).partial().merge(genericSearchParams);
+
+export type DocumentDetailSearchSchemaType = z.infer<typeof DocumentDetailSearchSchema>;
+
+
+
 
 // A simple user 'database'
 export const documentDetails: DocumentDetailSchemaType[] = [
