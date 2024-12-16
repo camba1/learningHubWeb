@@ -3,7 +3,7 @@ import { DEFAULT_SKIP, DEFAULT_LIMIT } from '$lib/utils/urls';
 import { APIClient } from './apiClient';
 
 import { type DocumentDetailSchemaType } from '$lib/schemas/documentDetails';
-import { DocumentDetailSchema } from '$lib/schemas/documentDetails';
+import { DocumentDetailSchema, LanguagesEnum } from '$lib/schemas/documentDetails';
 
 const DOCUMENT_DETAILS_URL = ExternalURLs.document_details;
 
@@ -31,15 +31,21 @@ export async function deleteDocumentDetail(id: string, auth:string | undefined) 
 }
 
 
-export async function fetchDocumentDetails( auth:string | undefined, skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
-																			 sort_by: string = '', sort_order = 'asc', document_key: string = '', filename: string = '',
-																			 created_by: string = '', updated_by: string = '' ) {
+export async function fetchDocumentDetails( auth:string | undefined,
+																						skip = DEFAULT_SKIP, limit = DEFAULT_LIMIT,
+																			 			sort_by: string = '', sort_order = 'asc',
+																						document_key: string = '', filename: string = '', language: string = '',
+																			 			created_by: string = '', updated_by: string = '' ) {
 
+	if (language && !LanguagesEnum.safeParse(language).success) {
+		throw new Error("Invalid language");
+	}
 	const options: { [key: string]: string } = {}
 	if (sort_by) options['sort_by']= sort_by;
 	if (sort_order) options['sort_order'] = sort_order;
 	if (document_key) options['document_key'] = document_key;
 	if (filename) options['filename'] = filename;
+	if (language) options['language'] = language;
 	if (created_by) options['created_by'] = created_by;
 	if (updated_by) options['updated_by'] = updated_by;
 
