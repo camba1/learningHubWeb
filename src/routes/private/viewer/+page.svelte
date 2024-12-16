@@ -96,18 +96,12 @@
 	{/if}
 	<!-- Main content -->
 	<div class="flex-1 overflow-y-auto p-4">
-		<div class="flex justify-between items-center mb-4">
-			<h2 class="text-xl font-bold">Books</h2>
-			<div>
-				<LinkButton icon={SquarePlus} label="New" href={InternalURLs.document} btn_additional_class="btn-primary btn-outline"/>
-				<LinkButton icon={FilePlus} label="New from file" href={InternalURLs.fileUpload} btn_additional_class="btn-primary btn-outline" />
-			</div>
-		</div>
+		<h2 class="text-xl font-bold pb-6">Experiences</h2>
 		<div class="overflow-x-auto">
 			<table class="table table-sm table-pin-rows table-pin-cols">
 				<thead>
 				<tr>
-<!--					<th>Title</th>-->
+					<th>Title</th>
 					<td>Language</td>
 					<td>Filename</td>
 				</tr>
@@ -117,10 +111,10 @@
 					{#each data.documents as doc}
 						<tr>
 <!--							<th><a href="{InternalURLs.document}/{doc._key}">{doc.title}</a></th>-->
-<!--							http://localhost:5173/private/document/2526351/document_viewer/croak.pdf/2526359-->
+							<th><a href="{InternalURLs.viewer}/{doc.docMain_key}/{doc.filename}/{doc._key}">{doc.filename}</a></th>
 							<td>{doc.language}</td>
-							<th><a href="{InternalURLs.document}/{doc.docMain_key}/document_viewer/{doc.filename}/{doc._key}">{doc.filename}</a></th>
-<!--							<td>{doc.filename}</td>-->
+<!--							<th><a href="{InternalURLs.viewer}/{doc.docMain_key}/{doc.filename}/{doc._key}">{doc.filename}</a></th>-->
+							<td>{doc.filename}</td>
 						</tr>
 					{/each}
 					{/if}
