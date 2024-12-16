@@ -5,6 +5,7 @@ export const InternalURLs = {
 	fileProxy: "/private/fileProxy",
 	characters: "/private/characters",
 	character: "/private/character",
+	viewer: "/private/viewer",
 	about: "/about",
 	signIn: "/sign-in",
 	signUp: "/sign-up",
