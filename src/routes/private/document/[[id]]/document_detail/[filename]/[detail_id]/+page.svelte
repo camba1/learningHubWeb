@@ -50,6 +50,9 @@
 						<TextField label="Language" id="language" bind:value={$form.language}
 											 errors={$errors.language} constraints={$constraints.language}
 											 readOnly={true}/>
+						<TextField label="Title" id="title" bind:value={$form.title}
+											 errors={$errors.title} constraints={$constraints.title}
+											 readOnly={true}/>
 						<TextField label="Filename" id="filename" bind:value={$form.filename}
 											 errors={$errors.filename} constraints={$constraints.filename}
 											 readOnly={true}/>

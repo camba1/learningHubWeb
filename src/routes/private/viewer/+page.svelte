@@ -9,9 +9,6 @@
 	import { sortOrderEnum } from '$lib/schemas/genericSearchParams';
 	import { InternalURLs } from '$lib/utils/urls';
 
-	import { SquarePlus } from 'lucide-svelte';
-	import { FilePlus } from 'lucide-svelte';
-	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
 	import FormSearchButtons from '$lib/components/form/FormSearchButtons.svelte';
 	import TextField from '$lib/components/form/TextField.svelte';
 	import SelectField from '$lib/components/form/SelectField.svelte';
@@ -76,8 +73,8 @@
 			<form method="GET" >
 				<input type="hidden" id="skip" name="skip" bind:value={$form.skip} />
 				<input type="hidden" id="limit" name="limit" bind:value={$form.limit} />
-<!--				<TextField label="Title" id="title" bind:value={$form.title}-->
-<!--									 errors={$errors.title} constraints={$constraints.title} />-->
+				<TextField label="Title" id="title" bind:value={$form.title}
+									 errors={$errors.title} constraints={$constraints.title} />
 				<SelectField label="Language" id="language" bind:value={$form.language}
 										 errors={$errors.language} constraints={$constraints.language}
 										 optionValues={LanguagesEnum.options} />
@@ -110,8 +107,7 @@
 				{#if data.documents}
 					{#each data.documents as doc}
 						<tr>
-<!--							<th><a href="{InternalURLs.document}/{doc._key}">{doc.title}</a></th>-->
-							<th><a href="{InternalURLs.viewer}/{doc.docMain_key}/{doc.filename}/{doc._key}">{doc.filename}</a></th>
+							<th><a href="{InternalURLs.viewer}/{doc.docMain_key}/{doc.filename}/{doc._key}">{doc.title}</a></th>
 							<td>{doc.language}</td>
 <!--							<th><a href="{InternalURLs.viewer}/{doc.docMain_key}/{doc.filename}/{doc._key}">{doc.filename}</a></th>-->
 							<td>{doc.filename}</td>

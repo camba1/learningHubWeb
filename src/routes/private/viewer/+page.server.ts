@@ -28,7 +28,7 @@ export const load = async ({ cookies, url}) => {
 		limit: getSearchParams(searchParams, "limit", DEFAULT_LIMIT),
 		sort_by: getSearchParams(searchParams, "sort_by", "filename"),
 		sort_order: getSearchParams(searchParams, "sort_order", "asc"),
-		// title: getSearchParams(searchParams, "title"),
+		title: getSearchParams(searchParams, "title"),
 		language: getSearchParams(searchParams, "language"),
 		filename: getSearchParams(searchParams, "filename")
 	})
@@ -43,10 +43,10 @@ export const load = async ({ cookies, url}) => {
 
 	const docs: DocumentDetailSchemaType[] = await fetchDocumentDetails(getAuthToken(cookies), form.data.skip, form.data.limit,
 		form.data.sort_by , form.data.sort_order,
-		// form.data.title,
 		'',
 		form.data.filename,
-		form.data.language);
+		form.data.language,
+		form.data.title);
 
 	return {
 		form: form,
