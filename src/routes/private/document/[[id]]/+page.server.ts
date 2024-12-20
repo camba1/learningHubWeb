@@ -36,10 +36,10 @@ export const load = async ({ params, cookies }) => {
 
 	[doc, docProcessedLookups, docCharacterLookup, docLocationLookup, docImageLookup] = await Promise.all([
 		fetchDocument(params.id, getAuthToken(cookies)),
-		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies), 0,100, "target_language"),
+		fetchDocumentDetailsLookup(params.id, getAuthToken(cookies), 0,100, "language"),
 		fetchDocumentCharacterLookup(params.id, getAuthToken(cookies),0,100, "character_name"),
 		fetchDocumentLocationLookup(params.id, getAuthToken(cookies),0,100, "name"),
-		fetchDocumentImageLookup(params.id, getAuthToken(cookies),0,0, 1, "page_number")
+		fetchDocumentImageLookup(params.id, getAuthToken(cookies),0,0, 1, "pageNumber")
 	]);
 
 	if (params.id && !doc) throw error(404, 'Document not found.');
