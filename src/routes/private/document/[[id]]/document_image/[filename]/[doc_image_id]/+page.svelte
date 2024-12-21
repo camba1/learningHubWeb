@@ -11,6 +11,7 @@
 	import { ImagePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
+	import TextField from '$lib/components/form/TextField.svelte';
 
 	// import SuperDebug from 'sveltekit-superforms';
 
@@ -58,9 +59,15 @@
 				<input type="hidden" id="imageFilename" name="imageFilename" bind:value={$form.imageFilename} />
 				<input type="hidden" id="documentFilename" name="documentFilename" bind:value={$form.documentFilename} />
 				<input type="hidden" id="pageNumber" name="pageNumber" bind:value={$form.pageNumber} />
-				<input type="hidden" id="pageFriendlyName" name="pageFriendlyName" bind:value={$form.pageFriendlyName} />
+<!--				<input type="hidden" id="pageFriendlyName" name="pageFriendlyName" bind:value={$form.pageFriendlyName} />-->
 
-				<div class="mb-2">
+				<div class="my-3">
+				<TextField label="Image for" id="pageFriendlyName" bind:value={$form.pageFriendlyName}
+									 errors={$errors.pageFriendlyName} constraints={$constraints.pageFriendlyName}
+									 readOnly={true}/>
+				</div>
+
+				<div class="mb-3">
 					<span class="inline-flex items-center py-0.5">
 							<FieldLabel id="prompt" label="Prompt"/>
 							<DispatchButton icon={ImagePlus} label="Generate image"  on:dispatchButtonClick={() => regenerateImage()}/>
