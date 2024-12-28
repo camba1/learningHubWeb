@@ -11,11 +11,12 @@
 	import { createEventDispatcher } from 'svelte';
 	import { X } from 'lucide-svelte';
 
-	export let value: string;
+	export let value: string | number;
 	export let errors: string[] | undefined = undefined;
 	export let constraints: InputConstraint | undefined = undefined;
 	export let id: string;
 	export let readOnly: boolean = false;
+	export let inputClass: string | undefined = "grow input input-sm w-full max-w-xs "
 
 	const dispatch = createEventDispatcher();
 
@@ -33,7 +34,7 @@ A SvelteKit component representing an input field with an embedded button for a 
 			aria-invalid={errors ? 'true' : undefined}
 			bind:value={value}
 			{...constraints}
-			class="grow input input-sm w-full max-w-xs "
+			class={inputClass}
 			readonly={readOnly}
 		/>
 		{#if errors}<span class="invalid">{errors}</span>{/if}
