@@ -8,9 +8,11 @@
 	import ImageViewer from '$lib/components/docViewer/ImageViewer.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
-	import { ImagePlus } from 'lucide-svelte';
+	import { ImagePlus, SquarePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
+	// import TextField from '$lib/components/form/TextField.svelte';
+	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
 	// import LinkField from '$lib/components/genericControls/LinkField.svelte';
 
 	// import SuperDebug from 'sveltekit-superforms';
@@ -31,6 +33,21 @@
 
 	function regenerateImage() {
 		alert("Not implemented yet, but you can ask Clio to: generate an image for location [location name]");
+	}
+
+	function removePage(value:number) {
+		console.log(value)
+		if ($form.pagesInDocument) {
+			$form.pagesInDocument = $form.pagesInDocument.filter( (item) => item !== value);
+		}
+	}
+
+	function addPage(value:number) {
+		if ($form.pagesInDocument) {
+			$form.pagesInDocument = [...$form.pagesInDocument, Number(value)];
+		} else {
+			$form.pagesInDocument = [Number(value)];
+		}
 	}
 
 </script>
@@ -68,6 +85,20 @@
 				</div>
 				<TextAreaField id="description" bind:value={$form.description}
 											 errors={$errors.description} constraints={$constraints.description} />
+				<span class="inline-flex items-center py-0.5">
+					<FieldLabel id="pagesInDoc" label="Document pages"/>
+					<DispatchButton icon={SquarePlus} label="Add"  on:dispatchButtonClick={() => addPage(0)}/>
+				</span>
+				<div>
+					{#if $form.pagesInDocument}
+						{#each $form.pagesInDocument as page, i}
+							<TextFieldWithDelete id="pagesInDocument" bind:value={page}
+																	 errors={$errors.pagesInDocument?.[i]} constraints={$constraints?.pagesInDocument}
+																	 on:removeItemOnce={() => removePage(page)} inputClass="input input-sm w-10"/>
+						{/each}
+					{/if}
+				</div>
+
 				<div>
 					<FormButtons submitLbl={btnLabels.submitLbl} deleteLbl={btnLabels.deleteLbl} backLbl={btnLabels.backLbl}
 											 delayed={$delayed} objectId={$form._key} confirmationDelMsg={''.concat(btnLabels.confirmationDelMsg,
