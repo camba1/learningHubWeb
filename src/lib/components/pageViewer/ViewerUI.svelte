@@ -9,12 +9,15 @@
 	import { InternalURLs } from '$lib/utils/urls.js';
 	import type { PageSchemaType } from '$lib/schemas/documentDetailPages';
 	import type { DocumentImageSchemaType } from '$lib/schemas/documentImages';
+	import curDocInfo from '$lib/stores/curDocInfo';
 
 	// export let data: PageData;
 	export let availableFiles: PageSchemaType[]
 	export let availableImages: DocumentImageSchemaType[]
 	export let editable: boolean
 	export let parentFilename: string
+	export let filename: string
+	export let docDetail_key: string
 	// export let number_of_pages: number
 
 	let currentPageNumber = 0;
@@ -23,6 +26,8 @@
 	let image_file_category: string = "document";
 
 	let imageKey = currentImage?.imageFilename || 'initial';
+
+	$curDocInfo = {filename: filename || "", docDetail_key: docDetail_key};
 
 	function set_image_file_type() {
 		image_file_category = "document_image";
