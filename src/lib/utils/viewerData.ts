@@ -1,4 +1,5 @@
 import { fetchDocumentDetailPages } from '$lib/api/documentDetailPages';
+import { fetchDocumentDetail } from '$lib/api/documentDetails';
 import { getAuthToken } from '$lib/server/utils/headers';
 import { fetchDocumentImageLookup } from '$lib/api/documents';
 import { type Cookies, error } from '@sveltejs/kit';
@@ -9,14 +10,16 @@ export async function getViewerData(editable: boolean = false, document_key: str
 																		docDetail_key: string, parentFilename: string, cookies: Cookies) {
 	let docDetailPages = null;
 	let docImages = null;
-
+	let docDetail = null;
 
 	if (document_key) {
-		[docDetailPages, docImages] = await Promise.all([
+		[docDetail, docDetailPages, docImages] = await Promise.all([
+			fetchDocumentDetail(docDetail_key, getAuthToken(cookies)),
 			fetchDocumentDetailPages(getAuthToken(cookies),0, 10, "created_at", "desc", docDetail_key),
 			fetchDocumentImageLookup(document_key, getAuthToken(cookies),0,0, 1000, "pageNumber")
 		]);
 	}
+	if (!docDetail || !docDetail.filename) throw error(404, 'Document details not found.');
 	if (docDetailPages && docDetailPages.length > 1) throw error(404, 'Found more than one pages detail record');
 
 	let availableFiles: PageSchemaType[] = [];
@@ -37,6 +40,7 @@ export async function getViewerData(editable: boolean = false, document_key: str
 		parentFilename: parentFilename,
 		number_of_pages: number_of_pages,
 		availableFiles: availableFiles,
-		availableImages: availableImages
+		availableImages: availableImages,
+		filename:docDetail.filename
 	};
 }
