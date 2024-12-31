@@ -26,8 +26,9 @@
 			resetForm: false
 		}
 	);
-
-	const searchPageUrl: string = `${InternalURLs.document}/${data.document_id}`
+	const docDetail_id = $page.url.searchParams.get("detail")
+	const viewerUrl = `${InternalURLs.document}/${$page.params.id}/document_viewer/${$page.params.filename}/${docDetail_id}`
+	const searchPageUrl: string = docDetail_id ? viewerUrl : `${InternalURLs.document}/${data.document_id}`
 
 	function regenerateImage() {
 		alert("Not implemented yet, but you can ask Clio to: generate image");
