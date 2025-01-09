@@ -3,6 +3,7 @@
 	import { Image } from 'lucide-svelte';
 	import { Headphones, CircleArrowLeft } from 'lucide-svelte';
 	import ImageViewer from '$lib/components/docViewer/ImageViewer.svelte';
+	import VideoPlayer from '$lib/components/docViewer/VideoPlayer.svelte';
 	import AudioFilesROViewer from '$lib/components/pageViewer/AudioFilesROViewer.svelte';
 	import LinkButton from '$lib/components/genericControls/LinkButton.svelte';
 	import { page } from '$app/stores';
@@ -27,6 +28,10 @@
 
 	let imageKey = currentImage?.imageFilename || 'initial';
 
+	// Video player state
+	let videoElement: HTMLVideoElement;
+	let isPlaying = false;
+
 	$curDocInfo = {filename: filename || "", docDetail_key: docDetail_key};
 
 	function set_image_file_type() {
@@ -42,6 +47,26 @@
 		currentImage = availableImages.find(image => image.pageNumber === currentPage.number);
 		set_image_file_type();
 		imageKey = currentImage?.imageFilename || 'changed';
+	}
+
+	// Video control functions
+	function toggleVideoPlayPause() {
+		if (videoElement) {
+			if (isPlaying) {
+				videoElement.pause();
+			} else {
+				videoElement.play();
+			}
+			isPlaying = !isPlaying;
+		}
+	}
+
+	function restartVideo() {
+		if (videoElement) {
+			videoElement.currentTime = 0;
+			videoElement.play();
+			isPlaying = true;
+		}
 	}
 </script>
 
@@ -61,14 +86,31 @@
 					{#if currentImage && currentImage.imageFilename}
 						{#key imageKey}
 							<div in:fade={{ duration: 300 }} class="w-full h-full">
-								<ImageViewer
-									encodedFilename={currentImage.imageFilename}
-									file_category={image_file_category}
-									encodedParentFilename={parentFilename}
-									alt="Image generated for page {currentPage.number}"
-									img_class="rounded-xl w-full h-full object-contain"
-								/>
+
+								{#if currentImage.animationFilename}
+										<VideoPlayer
+											encodedFilename={currentImage.animationFilename}
+											encodedParentFilename={parentFilename}
+											bind:videoElement
+											controls={false}
+											videoClass="rounded-xl w-full h-full object-contain"
+										/>
+								{:else}
+									<ImageViewer
+										encodedFilename={currentImage.imageFilename}
+										file_category={image_file_category}
+										encodedParentFilename={parentFilename}
+										alt="Image generated for page {currentPage.number}"
+										img_class="rounded-xl w-full h-full object-contain"
+									/>
+								{/if}
 							</div>
+							<button on:click={toggleVideoPlayPause} class="btn btn-sm btn-primary">
+								{isPlaying ? 'Pause' : 'Play'}
+							</button>
+							<button on:click={restartVideo} class="btn btn-sm btn-secondary">
+								Restart
+							</button>
 						{/key}
 					{:else}
 						<div class="text-center text-neutral-content flex items-center justify-center w-full h-full">
