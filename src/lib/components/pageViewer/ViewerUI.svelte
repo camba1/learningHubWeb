@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { Image } from 'lucide-svelte';
 	import { Headphones, CircleArrowLeft } from 'lucide-svelte';
@@ -30,7 +31,7 @@
 
 	// Video player state
 	let videoElement: HTMLVideoElement;
-	let isPlaying = false;
+	let isAnimationPlaying = false;
 
 	$curDocInfo = {filename: filename || "", docDetail_key: docDetail_key};
 
@@ -52,22 +53,37 @@
 	// Video control functions
 	function toggleVideoPlayPause() {
 		if (videoElement) {
-			if (isPlaying) {
+			if (isAnimationPlaying) {
 				videoElement.pause();
 			} else {
 				videoElement.play();
 			}
-			isPlaying = !isPlaying;
+			isAnimationPlaying = !isAnimationPlaying;
 		}
 	}
 
-	function restartVideo() {
-		if (videoElement) {
-			videoElement.currentTime = 0;
-			videoElement.play();
-			isPlaying = true;
-		}
+	function handleVideoEnded() {
+		isAnimationPlaying = false; // Reset the play/pause state
 	}
+
+	// Ensure the event listener is added when the video element is available
+	$: if (videoElement) {
+		videoElement.addEventListener('ended', handleVideoEnded);
+
+		// Cleanup the event listener when the component is destroyed
+		onDestroy(() => {
+			videoElement.removeEventListener('ended', handleVideoEnded);
+		});
+	}
+
+	// function restartVideo() {
+	// 	if (videoElement) {
+	// 		videoElement.currentTime = 0;
+	// 		videoElement.play();
+	// 		isPlaying = true;
+	// 	}
+	// }
+
 </script>
 
 <div class="w-full h-full flex flex-col p-10 relative">
@@ -105,12 +121,6 @@
 									/>
 								{/if}
 							</div>
-							<button on:click={toggleVideoPlayPause} class="btn btn-sm btn-primary">
-								{isPlaying ? 'Pause' : 'Play'}
-							</button>
-							<button on:click={restartVideo} class="btn btn-sm btn-secondary">
-								Restart
-							</button>
 						{/key}
 					{:else}
 						<div class="text-center text-neutral-content flex items-center justify-center w-full h-full">
@@ -132,7 +142,10 @@
 							{#if availableFiles}
 								<AudioFilesROViewer
 									availableFiles={availableFiles}
+									animationFilename={currentImage?.animationFilename}
+									isAnimationPlaying={isAnimationPlaying}
 									label="Jump to Page:"
+									on:playAnimation={() => toggleVideoPlayPause()}
 									on:fileIndexChange={changeCurrentFileIndex}
 								/>
 							{/if}

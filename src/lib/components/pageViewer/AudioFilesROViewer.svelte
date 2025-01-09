@@ -3,12 +3,14 @@
 	import TextROViewer from '$lib/components/pageViewer/TextROViewer.svelte';
 	import AudioROPlayer from '$lib/components/pageViewer/AudioROPlayer.svelte';
 	import type { PageSchemaType } from '$lib/schemas/documentDetailPages';
-	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight, Pause, Video } from 'lucide-svelte';
 
 	let selectedFile: PageSchemaType;
 
 	export let availableFiles: PageSchemaType[];
 	export let label: string;
+	export let animationFilename: string | undefined = undefined;
+	export let isAnimationPlaying: boolean = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -35,6 +37,10 @@
 	const handleSelectChange = () => {
 		const currentIndex = getSelectedIndex();
 		dispatch('fileIndexChange', { index: currentIndex });
+	};
+
+	const handlePlayAnimation = () => {
+		dispatch('playAnimation');
 	};
 
 </script>
@@ -67,6 +73,15 @@
 		<div>
 			{#if selectedFile && selectedFile.audioFilename}
 				<AudioROPlayer src={selectedFile.audioFilename} disabled={!selectedFile.audioFilename}/>
+			{/if}
+			{#if animationFilename}
+				<button on:click={handlePlayAnimation} class="btn btn-circle btn-outline btn-accent btn-sm mx-1">
+					{#if isAnimationPlaying}
+						<Pause color="#3e9392" />
+					{:else}
+						<Video size={22}  color="#3e9392"/>
+					{/if}
+				</button>
 			{/if}
 		</div>
 		<button on:click={goToNextFile} class="btn btn-circle btn-outline btn-accent btn-sm mx-1">
