@@ -10,6 +10,8 @@ export const DocumentImageSchema = z.object({
 	prompt: z.string().optional(),
 	pageNumber: z.number().int().nonnegative(),
 	pageFriendlyName: z.string(),
+	animationFilename: z.string().optional(),
+	animationPrompt: z.string().optional().nullish(),
 	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date
 	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Updated date
 	usrMain_key_Create: z.string().optional(),
