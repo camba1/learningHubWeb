@@ -4,6 +4,9 @@
 	export let encodedFilename: string;
 	export let file_category: string = 'document_animation';
 	export let encodedParentFilename: string = '';
+	export let controls: boolean = true; // Add controls prop
+	export let videoElement: HTMLVideoElement; // Add videoElement prop
+	export let videoClass : string = "w-full h-auto";
 
 	$: url = `${InternalURLs.fileProxy}?filename=${encodedFilename}&file_category=${file_category}`;
 	$: if (encodedParentFilename) {
@@ -43,7 +46,7 @@
 {#if error}
 	<span>No video<br>available</span>
 {:else if objUrl}
-	<video controls class="w-full h-auto">
+	<video bind:this={videoElement} controls={controls} class={videoClass}>
 		<source src={objUrl} type="video/mp4">
 		<track kind="captions" src="" label="English" srclang="en" default />
 		Your browser does not support the video tag.
