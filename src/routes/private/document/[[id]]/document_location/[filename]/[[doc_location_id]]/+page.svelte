@@ -36,7 +36,7 @@
 	}
 
 	function removePage(value:number) {
-		console.log(value)
+
 		if ($form.pagesInDocument) {
 			$form.pagesInDocument = $form.pagesInDocument.filter( (item) => item !== value);
 		}
