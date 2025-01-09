@@ -11,6 +11,7 @@ export const DocumentCharacterSchema = z.object({
 	imageFilename: z.string().optional(),
 	documentFilename: z.string().optional(),
 	prompt: z.string().nullable().optional(),
+	pagesInDocument: z.array(z.number().int().nonnegative()).optional(),
 	createdAt: z.coerce.date().default(() => new Date()).optional(), // Creation date
 	updatedAt: z.coerce.date().default(() => new Date()).optional(), //  Updated date
 	usrMain_key_Create: z.string().optional(),
