@@ -18,6 +18,7 @@
 
 
 	export let data: PageData;
+	let videoElement: HTMLVideoElement | null = null;
 
 	const btnLabels = {"submitLbl": "Submit", "deleteLbl": "Delete", "backLbl": "Back", "confirmationDelMsg": "Delete image "};
 	const file_category: string | undefined = data.file_category;
@@ -60,7 +61,9 @@
 			<div class="pt-10">
 				{#if $form.animationFilename}
 					<VideoPlayer encodedFilename={$form.animationFilename}
-											 encodedParentFilename={data.parentFilename} />
+											 encodedParentFilename={data.parentFilename}
+											 videoElement={videoElement}
+					/>
 				{/if}
 			</div>
 		</div>
