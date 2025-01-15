@@ -12,9 +12,7 @@
 	import { ImagePlus, SquarePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
 	import FieldLabel from '$lib/components/form/FieldLabel.svelte';
-	// import TextField from '$lib/components/form/TextField.svelte';
 	import TextFieldWithDelete from '$lib/components/form/TextFieldWithDelete.svelte';
-	// import LinkField from '$lib/components/genericControls/LinkField.svelte';
 
 	// import SuperDebug from 'sveltekit-superforms';
 
