@@ -5,7 +5,7 @@
 	export let file_category: string = 'document_animation';
 	export let encodedParentFilename: string = '';
 	export let controls: boolean = true; // Add controls prop
-	export let videoElement: HTMLVideoElement; // Add videoElement prop
+	export let videoElement: HTMLVideoElement | null; // Add videoElement prop
 	export let videoClass : string = "w-full h-auto";
 
 	$: url = `${InternalURLs.fileProxy}?filename=${encodedFilename}&file_category=${file_category}`;

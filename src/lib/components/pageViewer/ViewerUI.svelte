@@ -30,7 +30,7 @@
 	let imageKey = currentImage?.imageFilename || 'initial';
 
 	// Video player state
-	let videoElement: HTMLVideoElement;
+	let videoElement: HTMLVideoElement | null = null;
 	let isAnimationPlaying = false;
 
 	$curDocInfo = {filename: filename || "", docDetail_key: docDetail_key};
@@ -48,6 +48,10 @@
 		currentImage = availableImages.find(image => image.pageNumber === currentPage.number);
 		set_image_file_type();
 		imageKey = currentImage?.imageFilename || 'changed';
+		// Reset videoElement when switching to an image
+		if (!currentImage?.animationFilename) {
+			videoElement = null;
+		}
 	}
 
 	// Video control functions
@@ -72,7 +76,9 @@
 
 		// Cleanup the event listener when the component is destroyed
 		onDestroy(() => {
-			videoElement.removeEventListener('ended', handleVideoEnded);
+			if (videoElement) {
+				videoElement.removeEventListener('ended', handleVideoEnded);
+			}
 		});
 	}
 
