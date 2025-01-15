@@ -41,6 +41,7 @@ export const actions = {
 			const location: DocumentLocationSchemaType = { ...form.data } as DocumentLocationSchemaType;
 			if (params.id) {
 				location.docMain_key = params.id
+				location.documentFilename = params.filename
 			} else {
 				throw error(404, 'Id of parent document not found.');
 			}
