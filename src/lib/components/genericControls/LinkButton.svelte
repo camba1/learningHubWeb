@@ -43,10 +43,11 @@
 	export let label: string = "";
 	export let href: string;
 	export let btn_additional_class: string = "";
+	export let disabled: boolean = false;
 </script>
 
-<button class="btn btn-xs mx-0.5 {btn_additional_class}">
-	<a href={href} class="flex items-center space-x-1">
+<button class="btn btn-xs mx-0.5 {btn_additional_class}"  disabled={disabled}>
+	<a href={href}  class="flex items-center space-x-1">
 		{#if icon}
 			<svelte:component this={icon} class="w-4 h-4" />
 		{/if}
