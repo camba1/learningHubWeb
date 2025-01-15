@@ -39,6 +39,12 @@ export const actions = {
 			// CREATE Location
 
 			const location: DocumentLocationSchemaType = { ...form.data } as DocumentLocationSchemaType;
+			if (params.id) {
+				location.docMain_key = params.id
+			} else {
+				throw error(404, 'Id of parent document not found.');
+			}
+			console.log(location)
 			const response = await createDocumentLocation(location, getAuthToken(cookies));
 
 			// return message(form, 'Document created');

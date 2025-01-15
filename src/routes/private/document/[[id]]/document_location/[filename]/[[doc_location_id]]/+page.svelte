@@ -7,6 +7,7 @@
 	import FormButtons from '$lib/components/form/FormButtons.svelte';
 	import ImageViewer from '$lib/components/docViewer/ImageViewer.svelte';
 	import TextAreaField from '$lib/components/form/TextAreaField.svelte';
+	import TextField from '$lib/components/form/TextField.svelte';
 	import SubmitToast from '$lib/components/form/SubmitToast.svelte';
 	import { ImagePlus, SquarePlus } from 'lucide-svelte';
 	import DispatchButton from '$lib/components/genericControls/DispatchButton.svelte';
@@ -72,12 +73,13 @@
 			<!-- Display the Prompt in a Textarea -->
 			<form method="POST" use:enhance>
 				<input type="hidden" id="_key" name="_key" bind:value={$form._key} />
-				<input type="hidden" id="name" name="name" bind:value={$form.name} />
 				<input type="hidden" id="docMain_key" name="docMain_key" bind:value={$form.docMain_key} />
 				<input type="hidden" id="imageFilename" name="imageFilename" bind:value={$form.imageFilename} />
 				<input type="hidden" id="documentFilename" name="documentFilename" bind:value={$form.documentFilename} />
 
-				<div class="mb-2">
+				<TextField label="Name" id="name" bind:value={$form.name}
+									 errors={$errors.name} constraints={$constraints.name} />
+				<div class="my-1">
 					<span class="inline-flex items-center py-0.5">
 							<FieldLabel id="prompt" label="Prompt"/>
 							<DispatchButton icon={ImagePlus} label="Generate image"  on:dispatchButtonClick={() => regenerateImage()}/>
