@@ -140,7 +140,9 @@
 						{#if editable}
 							<div class="flex flex-row items-center justify-center space-x-4">
 								<LinkButton label="Edit Audio" icon={Headphones} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_audio/${parentFilename}/${$page.params.detail_id}?page=${currentPage.number}`)} />
-								<LinkButton label="Edit Image" icon={Image} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_image/${parentFilename}/${currentImage?._key ?? ''}?detail=${docDetail_key}`)} />
+								<LinkButton label="Edit Image" icon={Image}
+														href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_image/${parentFilename}/${currentImage?._key ?? ''}?detail=${docDetail_key}`)}
+														disabled={!currentImage?._key}/>
 								<LinkButton label="Back" icon={CircleArrowLeft} href={encodeURI(`${InternalURLs.document}/${$page.params.id}/document_detail/${parentFilename}/${$page.params.detail_id}`)} />
 							</div>
 						{/if}
