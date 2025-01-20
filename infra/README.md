@@ -94,12 +94,31 @@ hitting the correct route (Copilot should default this properly from the healthc
 
 #### Deploying the service
 
+To deploy the frontend service, run:
 ```bash
 copilot svc deploy --env dev --name frontend-service
 ```
 
-Once the service is deployed, we need to put the **DNS name of the load balancer** in the `ORIGIN` arg and environment 
-variable on the manifest. If we forget to do this, you will get an error when trying to do any POST request to the
+Once the service is deployed we want to setup HTTPS. For dev, we will use a self-signed certificate. To create one and
+imported to AWS Certificate Manager, run:
+
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout privatekey.pem -out certificate.pem
+aws acm import-certificate --certificate fileb://certificate.crt --private-key fileb://private.key
+```
+
+Note that when creating the certificate, it will ask for a FQDN. This can be whatever you want but must look like a 
+domain name.
+
+Since AWS Copilot does not support self-signed certificates, we need to associate the certificate with the load balancer
+manually. Thus, in the AWS console go to the load balancer and add a new listener. Set the listener to listen on for
+HTTPS, port 443 and that forwards traffic to the target group that is listening on port 3000. We must then open port
+443 in the security group associated with the load balancer
+Finally, we need to modify all rules for the HTTP port 80 listener to redirect to HTTPS as a permanent redirect (301).
+
+
+Once the service is deployed and the HTTPS redirect is setup, set the **DNS name of the load balancer** in the `ORIGIN` **arg** and **environment 
+variable** on the manifest. If we forget to do this, you will get an error when trying to do any POST request to the
 backend service (`Cross-site POST form submissions are forbidden`). Once the DNS name is in the manifest, we must 
 redeploy the service in order to apply the changes.
 
