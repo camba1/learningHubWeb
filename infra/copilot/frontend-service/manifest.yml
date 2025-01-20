@@ -20,7 +20,7 @@ image:
   build:
     dockerfile: ../Dockerfile
     args:
-#      ORIGIN: http://<ELBPublicDNS>
+#      ORIGIN: https://<ELBPublicDNS>
       ORIGIN: http://localhost:3000
   port: 3000
 
@@ -33,7 +33,7 @@ network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
 
 variables:                    # Pass environment variables as key value pairs.
-#  ORIGIN: http://<ELBPublicDNS>
+#  ORIGIN: https://<ELBPublicDNS>
   ORIGIN: http://localhost:3000
   BODY_SIZE_LIMIT: 20000000
 
