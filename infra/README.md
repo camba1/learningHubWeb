@@ -128,7 +128,9 @@ copilot svc deploy --env dev --name frontend-service
 
 ### Deleting the service
 
-To delete the frontend service, run:
+To delete the frontend service we must first delete the manually created security group rules and the load balancer https
+listener
+Once that is done, we can delete the frontend service by running:
 
 ```bash
 copilot svc delete --env dev --name frontend-service
